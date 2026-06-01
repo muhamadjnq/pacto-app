@@ -203,17 +203,27 @@ const GRAD = "linear-gradient(135deg,#7367f0,#8b5cf6)";
 /* ─── API layer (real backend) ─── */
 const API_BASE = "https://adpacto.com/api/v1";
 let AUTH_TOKEN = null;
+// ذخیره/بازیابی توکن برای ورود خودکار دفعه‌ی بعد
+function saveToken(t) { AUTH_TOKEN = t; try { window.localStorage.setItem("pacto_token", t || ""); } catch (e) {} }
+function clearToken() { AUTH_TOKEN = null; try { window.localStorage.removeItem("pacto_token"); } catch (e) {} }
+function loadToken() { try { return window.localStorage.getItem("pacto_token") || null; } catch (e) { return null; } }
 async function api(path, { method = "GET", body, auth = true } = {}) {
   const headers = { "Accept": "application/json" };
   if (body) headers["Content-Type"] = "application/json";
   if (auth && AUTH_TOKEN) headers["Authorization"] = "Bearer " + AUTH_TOKEN;
-  const res = await fetch(API_BASE + path, {
-    method, headers, body: body ? JSON.stringify(body) : undefined,
-  });
+  let res;
+  try {
+    res = await fetch(API_BASE + path, {
+      method, headers, body: body ? JSON.stringify(body) : undefined,
+    });
+  } catch (netErr) {
+    // fetch قبل از دریافت پاسخ شکست خورد (شبکه/CORS)
+    throw new Error("ارتباط با سرور برقرار نشد (شبکه یا تنظیمات CORS سرور).");
+  }
   let data = null;
   try { data = await res.json(); } catch (e) { data = null; }
   if (!res.ok) {
-    const msg = (data && (data.message || (data.errors && Object.values(data.errors)[0][0]))) || "خطا در ارتباط با سرور";
+    const msg = (data && (data.message || (data.errors && Object.values(data.errors)[0][0]))) || ("خطای سرور (" + res.status + ")");
     throw new Error(msg);
   }
   return data;
@@ -246,7 +256,28 @@ function App() {
   const pop = () => setStack((s) => s.slice(0, -1));
   const goTab = (t) => { setStack([]); setTab(t); };
   const flash = (m) => { setToast(m); setTimeout(() => setToast(null), 2200); };
-  useEffect(() => { const t = setTimeout(() => setScreen("login"), 1700); return () => clearTimeout(t); }, []);
+  // هنگام باز شدن اپ: اگر توکن ذخیره‌شده داریم، خودکار وارد شو
+  useEffect(() => {
+    const saved = loadToken();
+    if (saved) {
+      AUTH_TOKEN = saved;
+      (async () => {
+        try {
+          const r = await api("/me");
+          applyUser(r.user);
+          setScreen("app");
+          loadCatalog(); loadOrders(); loadCampaigns();
+        } catch (e) {
+          // توکن منقضی یا نامعتبر → برو به ورود
+          clearToken();
+          setScreen("login");
+        }
+      })();
+    } else {
+      const t = setTimeout(() => setScreen("login"), 1700);
+      return () => clearTimeout(t);
+    }
+  }, []);
 
   // اعمال اطلاعات کاربر پس از ورود
   const applyUser = (u) => {
@@ -286,7 +317,7 @@ function App() {
   const loadCampaigns = async () => {
     try { const r = await api("/campaigns"); setCampaigns((r.campaigns || []).map((cp) => ({
       id: cp.id, name: cp.name, status: mapCampaignStatus(cp.status), budget: Number(cp.budget),
-      net: cp.social_network || "ig", imp: cp.impressions, clk: cp.clicks, conv: cp.conversions,
+      net: cp.social_network || "ig", imp: cp.impressions, clk: cp.clicks, conv: cp.conversions, is_paid: cp.is_paid,
       prog: cp.status === "completed" ? 100 : (cp.status === "active" ? 60 : 0),
     }))); } catch (e) {}
   };
@@ -380,7 +411,7 @@ function App() {
         const r = mode === "login"
           ? await api("/login", { method: "POST", auth: false, body: { email: f.email, password: f.password } })
           : await api("/register", { method: "POST", auth: false, body: { name: f.name, email: f.email, phone: f.phone, password: f.password } });
-        AUTH_TOKEN = r.token;
+        saveToken(r.token);
         applyUser(r.user);
         setScreen("app");
         loadCatalog();
@@ -518,39 +549,72 @@ function App() {
     );
   };
   const Checkout = () => {
-    const [code, setCode] = useState(""); const [applied, setApplied] = useState(false); const [fromWallet, setFromWallet] = useState(true);
+    const [code, setCode] = useState(""); const [disc, setDisc] = useState(0); const [discLabel, setDiscLabel] = useState(""); const [checking, setChecking] = useState(false); const [discErr, setDiscErr] = useState("");
+    const [fromWallet, setFromWallet] = useState(true);
     const [busy, setBusy] = useState(false);
-    if (!cart) return null; const base = cart.total; const disc = applied ? Math.round(base * 0.2) : 0; const total = base - disc;
+    if (!cart) return null;
+    const base = cart.total; const total = Math.max(0, base - disc);
+    const applyDiscount = async () => {
+      if (!code.trim()) return;
+      setChecking(true); setDiscErr("");
+      try {
+        const r = await api("/discount/check", { method: "POST", body: { code: code.trim(), amount: base } });
+        if (r.valid) { setDisc(Number(r.discount)); setDiscLabel(r.label || "تخفیف"); }
+      } catch (e) { setDisc(0); setDiscLabel(""); setDiscErr(e.message || "کد نامعتبر است"); }
+      finally { setChecking(false); }
+    };
     const placeOrder = async () => {
       setBusy(true);
       try {
-        const r = await api("/orders", { method: "POST", body: { product_id: cart.p.id, amount: cart.amount, pay_from_wallet: fromWallet } });
-        if (r.order) {
-          setOrders((o) => [{ id: r.order.id, code: r.order.reference_code, item: cart.p.name, qty: cart.qtyLabel, total: r.order.final_price, status: mapOrderStatus(r.order.status), date: r.order.created_at }, ...o]);
-        }
-        // بروزرسانی موجودی کیف پول از سرور
+        const r = await api("/orders", { method: "POST", body: { product_id: cart.p.id, amount: cart.amount, pay_from_wallet: fromWallet, discount_code: disc > 0 ? code.trim() : null } });
         try { const w = await api("/wallet/balance"); setWallet(Number(w.balance)); } catch (e) {}
-        setCart(null); setStack([]); flash("✅ سفارش با موفقیت ثبت شد");
-      } catch (e) {
-        flash(e.message);
-      } finally { setBusy(false); }
+        await loadOrders();
+        const oid = r.order && r.order.id;
+        setCart(null); setStack([]);
+        if (r.is_paid) { flash("✅ سفارش ثبت و پرداخت شد"); push("orders"); }
+        else if (oid) { flash("سفارش ثبت شد — حالا پرداخت کنید"); push("order", { o: { id: oid, code: r.order.reference_code, item: cart.p.name, qty: cart.qtyLabel, total: r.order.final_price, status: "pending", date: r.order.created_at } }); }
+        else { flash("سفارش ثبت شد"); push("orders"); }
+      } catch (e) { flash(e.message); } finally { setBusy(false); }
     };
     return (
       <div className="pb-32"><Header title="تکمیل سفارش" />
         <div className="px-5 flex flex-col gap-4">
           <Card style={{ padding: 16, display: "flex", gap: 12, alignItems: "center" }}><div style={{ width: 52, height: 52, borderRadius: 14, background: GRAD, display: "flex", alignItems: "center", justifyContent: "center" }}><Tag size={22} color="#fff" /></div><div className="flex-1"><div className="font-bold" style={{ fontSize: 14, color: c.text }}>{cart.p.name}</div><div style={{ fontSize: 12, color: c.dim }}>{cart.qtyLabel}</div></div></Card>
-          <Card style={{ padding: 16 }}><div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>کد تخفیف</div><div className="flex gap-2"><input value={code} onChange={(e) => setCode(e.target.value)} placeholder="مثلاً OFF20" style={{ flex: 1, background: c.bg2, border: `1px solid ${c.line}`, borderRadius: 12, padding: "12px 14px", color: c.text, fontSize: 14, outline: "none", fontFamily: "inherit" }} /><button onClick={() => setApplied(!!code)} className="font-bold" style={{ background: applied ? `${c.primary}22` : c.bg2, color: applied ? c.primary : c.text, borderRadius: 12, padding: "0 18px", fontSize: 14, border: `1px solid ${c.line}` }}>{applied ? "اعمال شد ✓" : "اعمال"}</button></div></Card>
+          <Card style={{ padding: 16 }}><div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>کد تخفیف</div><div className="flex gap-2"><input value={code} onChange={(e) => { setCode(e.target.value); setDisc(0); setDiscLabel(""); setDiscErr(""); }} placeholder="مثلاً OFF20" style={{ flex: 1, background: c.bg2, border: `1px solid ${disc > 0 ? c.success : c.line}`, borderRadius: 12, padding: "12px 14px", color: c.text, fontSize: 14, outline: "none", fontFamily: "inherit" }} /><button onClick={applyDiscount} disabled={checking} className="font-bold" style={{ background: disc > 0 ? `${c.success}22` : c.bg2, color: disc > 0 ? c.success : c.text, borderRadius: 12, padding: "0 18px", fontSize: 14, border: `1px solid ${c.line}` }}>{checking ? "..." : (disc > 0 ? "اعمال شد ✓" : "اعمال")}</button></div>{discErr && <div style={{ fontSize: 12, color: c.danger, marginTop: 6 }}>{discErr}</div>}{disc > 0 && <div style={{ fontSize: 12, color: c.success, marginTop: 6 }}>{discLabel} اعمال شد</div>}</Card>
           <Card style={{ padding: 16 }} onClick={() => setFromWallet(!fromWallet)}><div className="flex items-center justify-between"><div className="flex items-center gap-3"><Wallet size={20} color={c.primary} /><div><div className="font-bold" style={{ fontSize: 14, color: c.text }}>پرداخت از کیف پول</div><div style={{ fontSize: 12, color: c.dim }}>موجودی: {money(wallet)} تومان</div></div></div><Toggle on={fromWallet} /></div></Card>
-          <Card style={{ padding: 16 }}>{[["مبلغ خدمت", money(base)], disc ? ["تخفیف", `−${money(disc)}`] : null].filter(Boolean).map(([k, v], i) => (<div key={i} className="flex justify-between" style={{ fontSize: 14, color: i === 1 ? c.success : c.dim, marginBottom: 8 }}><span>{k}</span><span>{v} تومان</span></div>))}<div style={{ height: 1, background: c.line, margin: "8px 0" }} /><div className="flex justify-between font-bold" style={{ fontSize: 16, color: c.text }}><span>مبلغ نهایی</span><span style={{ color: c.primary }}>{money(total)} تومان</span></div></Card>
+          <Card style={{ padding: 16 }}>{[["مبلغ خدمت", money(base)], disc ? ["تخفیف", `−${money(disc)}`] : null].filter(Boolean).map(([k, v], i) => (<div key={i} className="flex justify-between" style={{ fontSize: 14, color: k === "تخفیف" ? c.success : c.dim, marginBottom: 8 }}><span>{k}</span><span>{v} تومان</span></div>))}<div style={{ height: 1, background: c.line, margin: "8px 0" }} /><div className="flex justify-between font-bold" style={{ fontSize: 16, color: c.text }}><span>مبلغ نهایی</span><span style={{ color: c.primary }}>{money(total)} تومان</span></div></Card>
+          {fromWallet && total > wallet && <div style={{ fontSize: 12.5, color: c.accent, textAlign: "center", lineHeight: 1.8 }}>موجودی کیف پول کافی نیست. سفارش ثبت می‌شود و می‌توانید از طریق درگاه پرداخت پرداخت کنید.</div>}
         </div>
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 18, background: `linear-gradient(transparent, ${c.bg} 30%)` }}><Btn onClick={placeOrder} disabled={busy || (fromWallet && total > wallet)}>{busy ? "در حال ثبت…" : (fromWallet && total > wallet ? "موجودی کافی نیست" : `پرداخت ${money(total)} تومان`)}</Btn></div>
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 18, background: `linear-gradient(transparent, ${c.bg} 30%)` }}><Btn onClick={placeOrder} disabled={busy}>{busy ? "در حال ثبت…" : "ثبت سفارش"}</Btn></div>
       </div>
     );
   };
 
   const TopUp = () => {
     const [amt, setAmt] = useState(1000000); const [custom, setCustom] = useState(""); const [m, setM] = useState(0);
+    const [waiting, setWaiting] = useState(false); const [busy, setBusy] = useState(false);
     const finalAmt = custom ? +custom.replace(/\D/g, "") || 0 : amt;
+    const startPay = async () => {
+      setBusy(true);
+      try { const r = await api("/wallet/topup", { method: "POST", body: { amount: finalAmt } }); if (r.payment_url) { window.open(r.payment_url, "_blank"); setWaiting(true); } else { flash("خطا در اتصال به درگاه"); } }
+      catch (e) { flash(e.message); } finally { setBusy(false); }
+    };
+    const checkStatus = async () => {
+      setBusy(true);
+      try { const w = await api("/wallet/balance"); setWallet(Number(w.balance)); pop(); flash("موجودی به‌روز شد: " + money(Number(w.balance)) + " تومان"); }
+      catch (e) { flash(e.message); } finally { setBusy(false); }
+    };
+    if (waiting) return (
+      <div className="pb-10"><Header title="در انتظار پرداخت" />
+        <div className="px-5 flex flex-col items-center gap-4 mt-8">
+          <div style={{ width: 76, height: 76, borderRadius: 99, background: `${c.accent}22`, display: "flex", alignItems: "center", justifyContent: "center" }}><Clock size={36} color={c.accent} /></div>
+          <div className="font-bold" style={{ fontSize: 17, color: c.text }}>پرداخت را در درگاه کامل کنید</div>
+          <p style={{ fontSize: 13.5, color: c.dim, textAlign: "center", lineHeight: 2 }}>بعد از پرداخت در صفحه‌ی درگاه (که در مرورگر باز شد)، به اینجا برگردید و دکمه‌ی زیر را بزنید تا موجودی به‌روز شود.</p>
+          <Btn onClick={checkStatus} disabled={busy} style={{ marginTop: 8 }}>{busy ? "در حال بررسی…" : "پرداخت کردم، بررسی کن"}</Btn>
+          <Btn variant="ghost" onClick={() => setWaiting(false)}>بازگشت</Btn>
+        </div>
+      </div>
+    );
     return (
       <div className="pb-32"><Header title="شارژ کیف پول" />
         <div className="px-5">
@@ -559,7 +623,7 @@ function App() {
           <Card style={{ padding: 16, marginTop: 12 }}><div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>یا مبلغ دلخواه (تومان)</div><input value={custom ? money(+custom.replace(/\D/g, "") || 0) : ""} onChange={(e) => setCustom(e.target.value.replace(/\D/g, ""))} placeholder="مثلاً ۷۵۰٬۰۰۰" inputMode="numeric" style={{ width: "100%", background: c.bg2, border: `1px solid ${custom ? c.primary : c.line}`, borderRadius: 12, padding: "13px 16px", color: c.text, fontSize: 16, fontWeight: 700, outline: "none", fontFamily: "inherit", textAlign: "center" }} /></Card>
           <div className="mt-4 flex flex-col gap-2">{[{ i: CreditCard, t: "درگاه زرین‌پال", s: "پرداخت آنلاین امن" }, { i: CreditCard, t: "درگاه بانکی", s: "شتاب / همه کارت‌ها" }].map((o, i) => (<Card key={i} onClick={() => setM(i)} style={{ padding: 15, display: "flex", alignItems: "center", gap: 12 }}><div style={{ width: 42, height: 42, borderRadius: 12, background: c.bg2, display: "flex", alignItems: "center", justifyContent: "center" }}><o.i size={20} color={c.primary} /></div><div className="flex-1"><div className="font-bold" style={{ fontSize: 14, color: c.text }}>{o.t}</div><div style={{ fontSize: 12, color: c.dim }}>{o.s}</div></div><div style={{ width: 20, height: 20, borderRadius: 99, border: `2px solid ${m === i ? c.primary : c.line}` }}>{m === i && <div style={{ width: 10, height: 10, borderRadius: 99, background: c.primary, margin: 3 }} />}</div></Card>))}</div>
         </div>
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 18, background: `linear-gradient(transparent, ${c.bg} 30%)` }}><Btn disabled={finalAmt < 10000} onClick={async () => { try { const r = await api("/wallet/topup", { method: "POST", body: { amount: finalAmt } }); if (r.payment_url) { window.open(r.payment_url, "_blank"); pop(); flash("به درگاه پرداخت هدایت شدید…"); } else { flash("خطا در اتصال به درگاه"); } } catch (e) { flash(e.message); } }}>{finalAmt < 10000 ? "حداقل مبلغ ۱۰٬۰۰۰ تومان" : "پرداخت و شارژ"}</Btn></div>
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 18, background: `linear-gradient(transparent, ${c.bg} 30%)` }}><Btn disabled={finalAmt < 10000 || busy} onClick={startPay}>{finalAmt < 10000 ? "حداقل مبلغ ۱۰٬۰۰۰ تومان" : (busy ? "در حال اتصال…" : "پرداخت و شارژ")}</Btn></div>
       </div>
     );
   };
@@ -589,14 +653,23 @@ function App() {
     </div>
   );
   const OrderDetail = ({ o }) => {
-    const [busy, setBusy] = useState(false); const [status, setStatus] = useState(o.status);
-    const payOrder = async () => { setBusy(true); try { await api("/orders/" + o.id + "/pay", { method: "POST" }); try { const w = await api("/wallet/balance"); setWallet(Number(w.balance)); } catch (e) {} setStatus("processing"); await loadOrders(); flash("✅ سفارش پرداخت شد"); } catch (e) { if (e.message && e.message.includes("کافی نیست")) { flash("موجودی کافی نیست — به شارژ کیف پول هدایت می‌شوید"); push("topup"); } else flash(e.message); } finally { setBusy(false); } };
+    const [busy, setBusy] = useState(false); const [status, setStatus] = useState(o.status); const [waiting, setWaiting] = useState(false);
+    const canWallet = wallet >= o.total;
+    const payWallet = async () => { setBusy(true); try { await api("/orders/" + o.id + "/pay", { method: "POST" }); try { const w = await api("/wallet/balance"); setWallet(Number(w.balance)); } catch (e) {} setStatus("processing"); await loadOrders(); flash("✅ سفارش پرداخت شد"); } catch (e) { flash(e.message); } finally { setBusy(false); } };
+    const payGateway = async () => { setBusy(true); try { const r = await api("/wallet/topup", { method: "POST", body: { amount: o.total } }); if (r.payment_url) { window.open(r.payment_url, "_blank"); setWaiting(true); } } catch (e) { flash(e.message); } finally { setBusy(false); } };
+    const checkAfterPay = async () => { setBusy(true); try { const w = await api("/wallet/balance"); setWallet(Number(w.balance)); if (Number(w.balance) >= o.total) { await api("/orders/" + o.id + "/pay", { method: "POST" }); setStatus("processing"); await loadOrders(); setWaiting(false); flash("✅ سفارش پرداخت شد"); } else { flash("هنوز پرداخت تأیید نشده. اگر پرداخت کردید چند لحظه صبر و دوباره بررسی کنید."); } } catch (e) { flash(e.message); } finally { setBusy(false); } };
     const viewInvoice = async () => { try { const r = await api("/invoices"); const inv = (r.invoices || []).find((x) => x.order_code === o.code) || (r.invoices || [])[0]; if (inv) push("invoice", { id: inv.id }); else flash("برای این سفارش هنوز فاکتوری صادر نشده"); } catch (e) { flash(e.message); } };
     return (
     <div className="pb-10"><Header title={o.code} />
       <div className="px-5"><div className="flex justify-center mb-4"><Badge s={status} /></div>
         <Card style={{ padding: 18 }}>{[["خدمت", o.item], ["مقدار", o.qty], ["تاریخ", o.date], ["مبلغ", `${money(o.total)} تومان`]].map(([k, v], i) => (<div key={i} className="flex justify-between" style={{ fontSize: 14, padding: "11px 0", borderBottom: i < 3 ? `1px solid ${c.line}` : "none" }}><span style={{ color: c.dim }}>{k}</span><span style={{ color: c.text, fontWeight: 700 }}>{v}</span></div>))}</Card>
-        <div className="mt-4 flex flex-col gap-2"><Btn variant="soft" onClick={viewInvoice} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><Receipt size={18} /> مشاهده فاکتور</Btn>{status === "pending" && <Btn onClick={payOrder} disabled={busy}>{busy ? "در حال پرداخت…" : "پرداخت سفارش"}</Btn>}</div>
+        <div className="mt-4 flex flex-col gap-2">
+          <Btn variant="soft" onClick={viewInvoice} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><Receipt size={18} /> مشاهده فاکتور</Btn>
+          {status === "pending" && !waiting && (canWallet
+            ? <Btn onClick={payWallet} disabled={busy}>{busy ? "در حال پرداخت…" : `پرداخت از کیف پول (${money(o.total)})`}</Btn>
+            : <><div style={{ fontSize: 12, color: c.dim, textAlign: "center" }}>موجودی کیف پول کافی نیست</div><Btn onClick={payGateway} disabled={busy} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><CreditCard size={18} /> پرداخت با درگاه</Btn></>)}
+          {waiting && <><div style={{ fontSize: 13, color: c.accent, textAlign: "center", lineHeight: 1.8 }}>پس از تکمیل پرداخت در درگاه، روی دکمه‌ی زیر بزنید.</div><Btn onClick={checkAfterPay} disabled={busy}>{busy ? "در حال بررسی…" : "بررسی وضعیت پرداخت"}</Btn></>}
+        </div>
       </div>
     </div>
     );
@@ -791,19 +864,23 @@ function App() {
     </div>
   );
   const CampaignDetail = ({ cp: cpProp, cpId }) => {
+    const realId = cpId || (cpProp && cpProp.id);
     const [cp, setCp] = useState(cpProp ? {
       id: cpProp.id, name: cpProp.name, status: cpProp.status === "active" ? "active" : cpProp.status === "done" ? "completed" : cpProp.status === "rejected" ? "rejected" : "pending",
-      budget: cpProp.budget, social_network: cpProp.net, impressions: cpProp.imp, clicks: cpProp.clk, conversions: cpProp.conv, is_paid: true,
+      budget: cpProp.budget, social_network: cpProp.net, impressions: cpProp.imp, clicks: cpProp.clk, conversions: cpProp.conv,
+      is_paid: cpProp.is_paid != null ? cpProp.is_paid : (cpProp.status === "active" || cpProp.status === "done"),
     } : null);
     const [busy, setBusy] = useState(false);
-    const load = async () => { try { const r = await api("/campaigns/" + (cpId || cpProp.id)); setCp(r.campaign); } catch (e) {} };
-    useEffect(() => { if (cpId) load(); }, [cpId]);
+    const [waiting, setWaiting] = useState(false);
+    const load = async () => { try { const r = await api("/campaigns/" + realId); setCp(r.campaign); } catch (e) {} };
+    useEffect(() => { if (realId) load(); }, [realId]);
     if (!cp) return <div className="pb-10"><Header title="کمپین" /><div className="flex justify-center py-20"><Loader2 size={28} color={c.primary} style={{ animation: "spin 1s linear infinite" }} /></div></div>;
     const st = mapCampaignStatus(cp.status);
     const needsPay = !cp.is_paid;
     const canWallet = wallet >= cp.budget;
     const payWallet = async () => { setBusy(true); try { await api("/campaigns/" + cp.id + "/pay", { method: "POST" }); try { const w = await api("/wallet/balance"); setWallet(Number(w.balance)); } catch (e) {} await load(); await loadCampaigns(); flash("✅ پرداخت انجام شد"); } catch (e) { flash(e.message); } finally { setBusy(false); } };
-    const payGateway = async () => { setBusy(true); try { const r = await api("/wallet/topup", { method: "POST", body: { amount: cp.budget } }); if (r.payment_url) { window.open(r.payment_url, "_blank"); flash("به درگاه هدایت شدید — بعد از شارژ، از کیف پول پرداخت کنید"); } } catch (e) { flash(e.message); } finally { setBusy(false); } };
+    const payGateway = async () => { setBusy(true); try { const r = await api("/wallet/topup", { method: "POST", body: { amount: cp.budget } }); if (r.payment_url) { window.open(r.payment_url, "_blank"); setWaiting(true); } } catch (e) { flash(e.message); } finally { setBusy(false); } };
+    const checkAfterPay = async () => { setBusy(true); try { const w = await api("/wallet/balance"); setWallet(Number(w.balance)); if (Number(w.balance) >= cp.budget) { await api("/campaigns/" + cp.id + "/pay", { method: "POST" }); await load(); await loadCampaigns(); setWaiting(false); flash("✅ کمپین پرداخت شد"); } else { flash("هنوز پرداخت تأیید نشده. اگر پرداخت کردید چند لحظه صبر و دوباره بررسی کنید."); } } catch (e) { flash(e.message); } finally { setBusy(false); } };
     return (
     <div className="pb-32"><Header title={cp.name} />
       <div className="px-5"><div className="flex items-center justify-between mb-4"><Badge s={st} /><span style={{ fontSize: 13, color: c.dim }}>{NET_NAME[cp.social_network] || cp.social_network || ""}</span></div>
@@ -814,16 +891,22 @@ function App() {
         {st === "rejected" && <Card style={{ padding: 18, marginTop: 16, display: "flex", gap: 12, alignItems: "center" }}><XCircle size={22} color={c.danger} /><div style={{ fontSize: 14, color: c.dim, lineHeight: 1.7 }}>{cp.rejection_reason || "محتوای کمپین با قوانین مغایرت داشت."}</div></Card>}
       </div>
       {needsPay && <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 18, background: `linear-gradient(transparent, ${c.bg} 30%)` }}>
-        <div className="flex items-center justify-between mb-2" style={{ fontSize: 12, color: c.dim }}><span>موجودی کیف پول</span><span style={{ color: canWallet ? c.success : c.danger, fontWeight: 700 }}>{money(wallet)} تومان</span></div>
-        <Btn onClick={payWallet} disabled={busy || !canWallet} style={{ marginBottom: 8 }}>{canWallet ? `پرداخت از کیف پول (${money(cp.budget)})` : "موجودی کیف پول کافی نیست"}</Btn>
-        {!canWallet && <Btn variant="soft" onClick={payGateway} disabled={busy} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><CreditCard size={18} /> شارژ از درگاه پرداخت</Btn>}
+        {waiting ? (<>
+          <div style={{ fontSize: 13, color: c.accent, textAlign: "center", lineHeight: 1.8, marginBottom: 10 }}>پس از تکمیل پرداخت در درگاه، دکمه‌ی زیر را بزنید.</div>
+          <Btn onClick={checkAfterPay} disabled={busy}>{busy ? "در حال بررسی…" : "پرداخت کردم، بررسی کن"}</Btn>
+        </>) : (<>
+          <div className="flex items-center justify-between mb-2" style={{ fontSize: 12, color: c.dim }}><span>موجودی کیف پول</span><span style={{ color: canWallet ? c.success : c.danger, fontWeight: 700 }}>{money(wallet)} تومان</span></div>
+          {canWallet
+            ? <Btn onClick={payWallet} disabled={busy}>{busy ? "در حال پرداخت…" : `پرداخت از کیف پول (${money(cp.budget)})`}</Btn>
+            : <Btn onClick={payGateway} disabled={busy} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><CreditCard size={18} /> پرداخت با درگاه ({money(cp.budget)})</Btn>}
+        </>)}
       </div>}
     </div>
     );
   };
   const Wizard = () => {
     const [step, setStep] = useState(1);
-    const [d, setD] = useState({ name: "", goal: "", budget: 3000000, net: "ig", fmt: "", caption: "" });
+    const [d, setD] = useState({ name: "", goal: "", budget: 3000000, net: "ig", fmt: "", caption: "", image: null });
     const [busy, setBusy] = useState(false);
     const steps = ["هدف و بودجه", "شبکه و فرمت", "محتوا", "بررسی نهایی"];
     const set = (k, v) => setD((s) => ({ ...s, [k]: v }));
@@ -852,7 +935,7 @@ function App() {
             <div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>پلتفرم تبلیغ</div>
             <div className="grid grid-cols-3 gap-3 mb-5">{NETWORKS.map((o) => (<button key={o.k} onClick={() => { set("net", o.k); set("fmt", ""); }} className="flex flex-col items-center gap-2 py-4" style={{ borderRadius: 16, background: d.net === o.k ? `${c.primary}1c` : c.card, border: `1px solid ${d.net === o.k ? c.primary : c.line}` }}><o.ic size={22} color={d.net === o.k ? c.primary : c.dim} /><span style={{ fontSize: 11, color: c.text, fontWeight: 600 }}>{o.t}</span></button>))}</div>
             <div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>فرمت تبلیغ {NET_NAME[d.net] ? `(${NET_NAME[d.net]})` : ""}</div><div className="flex flex-col gap-2">{(NET_FORMATS[d.net] || [{ k: "post", t: "پست" }]).map((o) => (<Card key={o.k} onClick={() => set("fmt", o.k)} style={{ padding: 15, display: "flex", alignItems: "center", gap: 12, border: `1px solid ${d.fmt === o.k ? c.primary : c.line}` }}><Megaphone size={20} color={d.fmt === o.k ? c.primary : c.dim} /><span className="flex-1 font-bold" style={{ fontSize: 14, color: c.text }}>{o.t}</span><div style={{ width: 20, height: 20, borderRadius: 99, border: `2px solid ${d.fmt === o.k ? c.primary : c.line}` }}>{d.fmt === o.k && <div style={{ width: 10, height: 10, borderRadius: 99, background: c.primary, margin: 3 }} />}</div></Card>))}</div></div>)}
-          {step === 3 && (<div style={{ animation: "fadeUp .3s both" }}><div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>تصویر / ویدیوی تبلیغ</div><div className="flex flex-col items-center justify-center gap-2 mb-4" style={{ height: 130, borderRadius: 18, border: `2px dashed ${c.line}`, background: c.bg2 }}><Camera size={28} color={c.dim} /><span style={{ fontSize: 13, color: c.dim }}>برای آپلود ضربه بزنید</span></div><div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>متن تبلیغ (کپشن)</div><textarea value={d.caption} onChange={(e) => set("caption", e.target.value)} placeholder="متن جذاب تبلیغ خود را بنویسید…" rows={4} style={{ width: "100%", background: c.bg2, border: `1px solid ${c.line}`, borderRadius: 14, padding: 14, color: c.text, fontSize: 14, outline: "none", fontFamily: "inherit", resize: "none" }} /><button onClick={() => set("caption", "🍂 حراج پاییزه آغاز شد! تا ۵۰٪ تخفیف روی همه محصولات. فرصت رو از دست نده 👇")} className="flex items-center gap-2 mt-3 font-bold" style={{ fontSize: 13, color: c.primary, background: "none", border: "none" }}><Sparkles size={16} /> پیشنهاد متن با هوش مصنوعی</button></div>)}
+          {step === 3 && (<div style={{ animation: "fadeUp .3s both" }}><div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>تصویر / ویدیوی تبلیغ</div><label className="flex flex-col items-center justify-center gap-2 mb-4" style={{ minHeight: 130, borderRadius: 18, border: `2px dashed ${c.line}`, background: d.image ? `url(${d.image}) center/cover` : c.bg2, cursor: "pointer", overflow: "hidden", position: "relative" }}>{!d.image && <><Camera size={28} color={c.dim} /><span style={{ fontSize: 13, color: c.dim }}>برای آپلود ضربه بزنید</span></>}{d.image && <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,.35)", display: "flex", alignItems: "center", justifyContent: "center" }}><span style={{ color: "#fff", fontSize: 13, fontWeight: 700 }}>تغییر تصویر</span></div>}<input type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => { const file = e.target.files[0]; if (!file) return; const r = new FileReader(); r.onload = (ev) => set("image", ev.target.result); r.readAsDataURL(file); }} /></label><div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>متن تبلیغ (کپشن)</div><textarea value={d.caption} onChange={(e) => set("caption", e.target.value)} placeholder="متن جذاب تبلیغ خود را بنویسید…" rows={4} style={{ width: "100%", background: c.bg2, border: `1px solid ${c.line}`, borderRadius: 14, padding: 14, color: c.text, fontSize: 14, outline: "none", fontFamily: "inherit", resize: "none" }} /></div>)}
           {step === 4 && (<div style={{ animation: "fadeUp .3s both" }}><Card style={{ padding: 18 }}>{[["نام", d.name || "—"], ["هدف", { sale: "فروش", follow: "جذب فالوور", aware: "برندینگ", traffic: "ترافیک" }[d.goal] || "—"], ["پلتفرم", NET_NAME[d.net]], ["فرمت", { post: "پست", story: "استوری", reel: "ریلز", banner: "بنر" }[d.fmt] || "—"], ["بودجه", `${money(d.budget)} تومان`]].map(([k, v], i) => (<div key={i} className="flex justify-between" style={{ fontSize: 14, padding: "10px 0", borderBottom: i < 4 ? `1px solid ${c.line}` : "none" }}><span style={{ color: c.dim }}>{k}</span><span style={{ color: c.text, fontWeight: 700 }}>{v}</span></div>))}</Card><Card style={{ padding: 16, marginTop: 14, display: "flex", alignItems: "center", gap: 12 }}><Wallet size={20} color={c.primary} /><div className="flex-1" style={{ fontSize: 13, color: c.dim }}>پرداخت از کیف پول</div><div className="font-bold" style={{ color: c.primary }}>{money(d.budget)} ت</div></Card></div>)}
         </div>
         <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 18, background: `linear-gradient(transparent, ${c.bg} 30%)`, display: "flex", gap: 10 }}>{step > 1 && <Btn variant="ghost" onClick={() => setStep(step - 1)} style={{ width: "auto", padding: "14px 22px" }}>قبلی</Btn>}{step < 4 ? <Btn onClick={() => setStep(step + 1)} disabled={step === 1 && !d.goal}>ادامه</Btn> : <Btn onClick={submit} disabled={busy}>{busy ? "در حال ثبت…" : "ثبت کمپین"}</Btn>}</div>
@@ -915,7 +998,7 @@ function App() {
           <Row ic={Headphones} t="پشتیبانی" onClick={() => push("tickets")} last />
         </Card>
         <Card style={{ marginTop: 16, padding: "6px 16px" }}><button onClick={() => setDark(!dark)} className="flex items-center gap-3 w-full" style={{ padding: "12px 0", background: "none", border: "none" }}><div style={{ width: 38, height: 38, borderRadius: 11, background: c.bg2, display: "flex", alignItems: "center", justifyContent: "center" }}>{dark ? <Moon size={18} color={c.primary} /> : <Sun size={18} color={c.primary} />}</div><span className="flex-1 text-right font-bold" style={{ fontSize: 14, color: c.text }}>حالت {dark ? "تیره" : "روشن"}</span><Toggle on={dark} /></button></Card>
-        <button onClick={async () => { try { await api("/logout", { method: "POST" }); } catch (e) {} AUTH_TOKEN = null; setApiProducts(null); setApiCategories(null); setScreen("login"); goTab("home"); }} className="flex items-center justify-center gap-2 w-full mt-4 font-bold" style={{ padding: 15, borderRadius: 16, color: c.danger, background: `${c.danger}12`, border: `1px solid ${c.danger}30` }}><LogOut size={18} /> خروج از حساب</button>
+        <button onClick={async () => { try { await api("/logout", { method: "POST" }); } catch (e) {} clearToken(); setApiProducts(null); setApiCategories(null); setScreen("login"); goTab("home"); }} className="flex items-center justify-center gap-2 w-full mt-4 font-bold" style={{ padding: 15, borderRadius: 16, color: c.danger, background: `${c.danger}12`, border: `1px solid ${c.danger}30` }}><LogOut size={18} /> خروج از حساب</button>
         <div className="text-center mt-5" style={{ fontSize: 12, color: c.dim }}>Pacto · نسخه ۱.۰.۰</div>
       </div>
     </div>
@@ -994,8 +1077,11 @@ function App() {
     return { home: <HomeScreen />, shop: <Shop />, campaigns: <Campaigns />, ai: <AI />, account: <Account /> }[tab];
   };
   const NAV = [{ k: "home", i: Home, t: "خانه" }, { k: "shop", i: ShoppingBag, t: "خدمات" }, { k: "campaigns", i: Rocket, t: "تبلیغ", fab: true }, { k: "ai", i: Sparkles, t: "هوش" }, { k: "account", i: User, t: "حساب" }];
+  // صفحاتی که نوار پایین نباید داشته باشند (دکمه‌ی اقدام/پرداخت در پایین دارند یا تمام‌صفحه‌اند)
+  const FULLSCREEN = ["ticket", "newticket", "checkout", "topup", "twofa", "disable2fa", "wizard", "product", "campaign", "order", "invoice"];
+  const isFullscreen = top && FULLSCREEN.includes(top.name);
   const noScroll = (top && top.name === "ticket") || (!top && tab === "ai");
-  const showNav = screen === "app" && !top && tab !== "ai";
+  const showNav = screen === "app" && tab !== "ai" && !isFullscreen;
   const aiNav = screen === "app" && !top && tab === "ai";
 
   return (
