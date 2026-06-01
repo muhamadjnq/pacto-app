@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#070B16">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pacto">
+<title>Pacto | دیجیتال مارکتینگ</title>
+<link rel="manifest" href='data:application/manifest+json,{"name":"Pacto","short_name":"Pacto","start_url":".","display":"standalone","background_color":"%23070B16","theme_color":"%23070B16","icons":[{"src":"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 192 192%27%3E%3Crect width=%27192%27 height=%27192%27 rx=%2742%27 fill=%27%236C63FF%27/%3E%3Cpath d=%27M96 44c24 8 40 32 40 64l-24 24-32 0-24-24c0-32 16-56 40-64Z%27 fill=%27none%27 stroke=%27%23fff%27 stroke-width=%279%27 stroke-linejoin=%27round%27/%3E%3Ccircle cx=%2796%27 cy=%2792%27 r=%2713%27 fill=%27%23fff%27/%3E%3C/svg%3E","sizes":"192x192","type":"image/svg+xml"},{"src":"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 512 512%27%3E%3Crect width=%27512%27 height=%27512%27 rx=%27112%27 fill=%27%236C63FF%27/%3E%3Cpath d=%27M256 120c64 20 106 84 106 170l-64 64-84 0-64-64c0-86 42-150 106-170Z%27 fill=%27none%27 stroke=%27%23fff%27 stroke-width=%2724%27 stroke-linejoin=%27round%27/%3E%3Ccircle cx=%27256%27 cy=%27244%27 r=%2734%27 fill=%27%23fff%27/%3E%3C/svg%3E","sizes":"512x512","type":"image/svg+xml"}]}'>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='42' fill='%236C63FF'/%3E%3Cpath d='M96 44c24 8 40 32 40 64l-24 24-32 0-24-24c0-32 16-56 40-64Z' fill='none' stroke='%23fff' stroke-width='9' stroke-linejoin='round'/%3E%3Ccircle cx='96' cy='92' r='13' fill='%23fff'/%3E%3C/svg%3E">
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.24.7/babel.min.js" crossorigin></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css');
+  html,body{margin:0;padding:0;background:#04060C;min-height:100%;font-family:Vazirmatn,system-ui,sans-serif;overscroll-behavior:none;}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:none;}}
+  @keyframes pop{0%{transform:scale(.5);opacity:0;}100%{transform:scale(1);opacity:1;}}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  @keyframes slideIn{from{opacity:0;transform:translateX(-16px);}to{opacity:1;transform:none;}}
+  ::-webkit-scrollbar{display:none;}
+  input::placeholder,textarea::placeholder{color:#9CA3AF;opacity:.8;}
+  button{cursor:pointer;}
+  #loader{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:#070B16;color:#9CA3AF;z-index:9999;text-align:center;padding:20px;}
+  .spin{width:34px;height:34px;border:3px solid #1a2030;border-top-color:#6C63FF;border-radius:50%;animation:spin 1s linear infinite;}
+  #err{display:none;color:#EF4444;font-size:13px;max-width:340px;line-height:1.9;direction:rtl;}
+</style>
+</head>
+<body>
+<div id="loader"><div class="spin"></div><div>در حال بارگذاری Pacto…</div><div style="font-size:12px;opacity:.6">بار اول به اینترنت نیاز دارد</div><div id="err"></div></div>
+<div id="root"></div>
+<script>
+  window.__failed=[];
+  function showErr(m){var e=document.getElementById('err');if(e){e.style.display='block';e.innerHTML=m;}var s=document.querySelector('.spin');if(s)s.style.display='none';}
+  window.onerror=function(m){showErr('خطا در اجرا: '+m);};
+  document.querySelectorAll('script[src]').forEach(function(sc){sc.onerror=function(){window.__failed.push(sc.src.split('/').slice(-1)[0]);};});
+  setTimeout(function(){var r=document.getElementById('root');if(r&&r.children.length===0){if(window.__failed.length){showErr('بارگذاری این موارد ناموفق بود (اینترنت/فیلتر):<br>'+window.__failed.join('<br>')+'<br><br>با فیلترشکن دوباره امتحان کنید.');}else{showErr('بارگذاری طول کشید. صفحه را دوباره بارگذاری کنید (Ctrl+Shift+R).');}}},14000);
+</script>
+<script type="text/babel" data-presets="react">
+const ICON_PATHS = {"Home": "<path d=\"M3 10.5 12 3l9 7.5\"/><path d=\"M5 9.5V21h14V9.5\"/>", "ShoppingBag": "<path d=\"M6 8h12l-1 13H7L6 8Z\"/><path d=\"M9 8a3 3 0 0 1 6 0\"/>", "Rocket": "<path d=\"M12 3c3 1 5 4 5 8l-3 3-4 0-3-3c0-4 2-7 5-8Z\"/><circle cx=\"12\" cy=\"9\" r=\"1.6\"/><path d=\"M9 16l-2 4 4-2M15 16l2 4-4-2\"/>", "Sparkles": "<path d=\"M12 3l1.6 5L19 9.6 13.6 11 12 16l-1.6-5L5 9.6 10.4 8 12 3Z\"/><path d=\"M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15Z\"/>", "User": "<circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 21c0-4 4-6 8-6s8 2 8 6\"/>", "Wallet": "<path d=\"M3 7h15a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z\"/><path d=\"M3 7l0-1a2 2 0 0 1 2-2h11\"/><circle cx=\"16\" cy=\"13\" r=\"1.4\"/>", "Bell": "<path d=\"M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z\"/><path d=\"M10 20a2 2 0 0 0 4 0\"/>", "ChevronRight": "<path d=\"M9 6l6 6-6 6\"/>", "ChevronLeft": "<path d=\"M15 6l-6 6 6 6\"/>", "ChevronDown": "<path d=\"M6 9l6 6 6-6\"/>", "Plus": "<path d=\"M12 5v14M5 12h14\"/>", "Minus": "<path d=\"M5 12h14\"/>", "Search": "<circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"M21 21l-4-4\"/>", "Check": "<path d=\"M5 12l5 5 9-10\"/>", "Eye": "<path d=\"M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>", "MousePointerClick": "<path d=\"M9 4v3M4 9h3M6 6l2 2M13 13l7 3-3 1-1 3-3-7Z\"/>", "TrendingUp": "<path d=\"M3 17l6-6 4 4 8-8\"/><path d=\"M17 7h4v4\"/>", "Instagram": "<rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"5\"/><circle cx=\"12\" cy=\"12\" r=\"4\"/><circle cx=\"17.5\" cy=\"6.5\" r=\"1\"/>", "Send": "<path d=\"M21 3 10 14\"/><path d=\"M21 3 14 21l-4-7-7-4 18-7Z\"/>", "Hash": "<path d=\"M10 3 8 21M16 3l-2 18M4 8h16M3 16h16\"/>", "Image": "<rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"3\"/><circle cx=\"9\" cy=\"9\" r=\"2\"/><path d=\"m21 16-5-5L5 21\"/>", "Copy": "<rect x=\"9\" y=\"9\" width=\"11\" height=\"11\" rx=\"2\"/><path d=\"M5 15V5a2 2 0 0 1 2-2h10\"/>", "Headphones": "<path d=\"M4 14v-2a8 8 0 0 1 16 0v2\"/><rect x=\"3\" y=\"14\" width=\"4\" height=\"6\" rx=\"1.5\"/><rect x=\"17\" y=\"14\" width=\"4\" height=\"6\" rx=\"1.5\"/>", "Shield": "<path d=\"M12 3 20 6v6c0 5-4 8-8 9-4-1-8-4-8-9V6l8-3Z\"/>", "Users": "<circle cx=\"9\" cy=\"8\" r=\"3.5\"/><path d=\"M3 20c0-3 3-5 6-5s6 2 6 5\"/><path d=\"M16 5a3 3 0 0 1 0 6M18 20c0-2-1-3.5-2.5-4.5\"/>", "Gift": "<rect x=\"4\" y=\"9\" width=\"16\" height=\"11\" rx=\"1.5\"/><path d=\"M4 13h16M12 9v11\"/><path d=\"M12 9C9 9 8 4 12 4s3 5 0 5Z\"/>", "Moon": "<path d=\"M20 14a8 8 0 0 1-10-10 8 8 0 1 0 10 10Z\"/>", "Sun": "<circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19\"/>", "LogOut": "<path d=\"M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3\"/><path d=\"M16 8l4 4-4 4M20 12H9\"/>", "ArrowUpRight": "<path d=\"M7 17 17 7M8 7h9v9\"/>", "ArrowDownLeft": "<path d=\"M17 7 7 17M16 17H7V8\"/>", "Tag": "<path d=\"M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9-9-9Z\"/><circle cx=\"7.5\" cy=\"7.5\" r=\"1.5\"/>", "Zap": "<path d=\"M13 2 4 14h7l-1 8 9-12h-7l1-8Z\"/>", "Target": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><circle cx=\"12\" cy=\"12\" r=\"5\"/><circle cx=\"12\" cy=\"12\" r=\"1.5\"/>", "Clock": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/>", "CheckCircle2": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M8 12l3 3 5-6\"/>", "XCircle": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M9 9l6 6M15 9l-6 6\"/>", "Loader2": "<path d=\"M12 3a9 9 0 1 0 9 9\"/>", "CreditCard": "<rect x=\"2\" y=\"5\" width=\"20\" height=\"14\" rx=\"2.5\"/><path d=\"M2 10h20M6 15h4\"/>", "Megaphone": "<path d=\"M3 11v2a1 1 0 0 0 1 1h2l6 4V6L6 10H4a1 1 0 0 0-1 1Z\"/><path d=\"M16 8a4 4 0 0 1 0 8\"/>", "Film": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4\"/>", "Camera": "<path d=\"M3 8a2 2 0 0 1 2-2h2l1.5-2h7L19 6h0a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8Z\"/><circle cx=\"12\" cy=\"13\" r=\"3.5\"/>", "Star": "<path d=\"M12 3l2.7 5.5 6 .9-4.3 4.2 1 6L12 16.8 6.6 19.6l1-6L3.3 9.4l6-.9L12 3Z\"/>", "Lock": "<rect x=\"5\" y=\"11\" width=\"14\" height=\"9\" rx=\"2\"/><path d=\"M8 11V8a4 4 0 0 1 8 0v3\"/>", "FileText": "<path d=\"M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z\"/><path d=\"M14 3v5h5M9 13h6M9 17h6\"/>", "Receipt": "<path d=\"M5 3h14v18l-2.5-1.5L14 21l-2-1.5L10 21l-2.5-1.5L5 21V3Z\"/><path d=\"M9 8h6M9 12h6\"/>", "Activity": "<path d=\"M3 12h4l3 8 4-16 3 8h4\"/>", "Link2": "<path d=\"M9 12h6\"/><path d=\"M8 8H6a4 4 0 0 0 0 8h2M16 8h2a4 4 0 0 1 0 8h-2\"/>", "Heart": "<path d=\"M12 20S4 14 4 9a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 5-8 11-8 11Z\"/>", "Download": "<path d=\"M12 3v12M7 11l5 5 5-5\"/><path d=\"M4 19h16\"/>", "Share2": "<circle cx=\"6\" cy=\"12\" r=\"2.5\"/><circle cx=\"18\" cy=\"6\" r=\"2.5\"/><circle cx=\"18\" cy=\"18\" r=\"2.5\"/><path d=\"M8 11l8-4M8 13l8 4\"/>", "QrCode": "<rect x=\"3\" y=\"3\" width=\"7\" height=\"7\" rx=\"1\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\" rx=\"1\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\" rx=\"1\"/><path d=\"M14 14h3v3M21 14v7h-7M17 21h.01\"/>", "KeyRound": "<circle cx=\"8\" cy=\"12\" r=\"4\"/><path d=\"M11.5 11H21l-2 2 2 2M11.5 13H15\"/>", "Smartphone": "<rect x=\"6\" y=\"2\" width=\"12\" height=\"20\" rx=\"3\"/><path d=\"M11 18h2\"/>", "Package": "<path d=\"M21 8 12 3 3 8l9 5 9-5Z\"/><path d=\"M3 8v8l9 5 9-5V8M12 13v8\"/>", "BadgeCheck": "<path d=\"M12 2l2.4 2.1 3.2-.3.9 3.1 2.6 1.9-1.3 2.9 1.3 2.9-2.6 1.9-.9 3.1-3.2-.3L12 22l-2.4-2.1-3.2.3-.9-3.1L2.9 15l1.3-2.9L2.9 9.2l2.6-1.9.9-3.1 3.2.3L12 2Z\"/><path d=\"M9 12l2 2 4-4\"/>", "X": "<path d=\"M6 6l12 12M18 6 6 18\"/>", "Youtube": "<rect x=\"3\" y=\"6\" width=\"18\" height=\"12\" rx=\"3\"/><path d=\"M11 9.5l4 2.5-4 2.5v-5Z\"/>", "Twitter": "<path d=\"M22 5.5c-.7.3-1.5.6-2.3.7.8-.5 1.4-1.3 1.7-2.2-.8.5-1.7.8-2.6 1a4 4 0 0 0-6.9 3.6A11.4 11.4 0 0 1 3.6 4.6a4 4 0 0 0 1.2 5.3c-.6 0-1.2-.2-1.8-.5a4 4 0 0 0 3.2 4 4 4 0 0 1-1.8.1 4 4 0 0 0 3.7 2.8A8 8 0 0 1 2 18a11.3 11.3 0 0 0 6.1 1.8c7.4 0 11.4-6.1 11.4-11.4v-.5c.8-.6 1.5-1.3 2-2.1Z\"/>", "Music2": "<circle cx=\"8\" cy=\"18\" r=\"3\"/><path d=\"M11 18V5l9-2v11\"/><circle cx=\"17\" cy=\"15\" r=\"3\"/>", "Globe": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18\"/>", "Save": "<path d=\"M5 3h11l3 3v15H5V3Z\"/><path d=\"M8 3v5h7M8 14h8v7H8z\"/>", "Edit3": "<path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z\"/>", "Mail": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"m3 7 9 6 9-6\"/>", "Phone": "<path d=\"M5 4h4l1.5 5-2 1.5a11 11 0 0 0 5 5l1.5-2 5 1.5v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z\"/>", "MessageSquarePlus": "<path d=\"M21 12a8 8 0 0 1-8 8H7l-4 3V8a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8Z\"/><path d=\"M12 7v6M9 10h6\"/>", "Crown": "<path d=\"M3 7l4 4 5-7 5 7 4-4-1.5 12h-15L3 7Z\"/>"};
+const { useState, useEffect, useRef } = React;
+/* ─── Icon component (inline SVG, no external lib) ─── */
+function Icon({ name, size = 20, color = "currentColor", fill = "none", style }) {
+  const d = ICON_PATHS[name];
+  if (!d) return null;
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke={color}
+      strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={style}
+      dangerouslySetInnerHTML={{ __html: d }} />
+  );
+}
+const mkIcon = (n) => (p = {}) => <Icon name={n} {...p} />;
+const Home=mkIcon("Home"),ShoppingBag=mkIcon("ShoppingBag"),Rocket=mkIcon("Rocket"),Sparkles=mkIcon("Sparkles"),
+User=mkIcon("User"),Wallet=mkIcon("Wallet"),Bell=mkIcon("Bell"),ChevronRight=mkIcon("ChevronRight"),
+ChevronLeft=mkIcon("ChevronLeft"),ChevronDown=mkIcon("ChevronDown"),Plus=mkIcon("Plus"),Minus=mkIcon("Minus"),
+Search=mkIcon("Search"),Check=mkIcon("Check"),Eye=mkIcon("Eye"),MousePointerClick=mkIcon("MousePointerClick"),
+TrendingUp=mkIcon("TrendingUp"),Instagram=mkIcon("Instagram"),Send=mkIcon("Send"),Hash=mkIcon("Hash"),
+ImageIcon=mkIcon("Image"),Copy=mkIcon("Copy"),Headphones=mkIcon("Headphones"),Shield=mkIcon("Shield"),
+Users=mkIcon("Users"),Gift=mkIcon("Gift"),Moon=mkIcon("Moon"),Sun=mkIcon("Sun"),LogOut=mkIcon("LogOut"),
+ArrowUpRight=mkIcon("ArrowUpRight"),ArrowDownLeft=mkIcon("ArrowDownLeft"),Tag=mkIcon("Tag"),Zap=mkIcon("Zap"),
+Target=mkIcon("Target"),Clock=mkIcon("Clock"),CheckCircle2=mkIcon("CheckCircle2"),XCircle=mkIcon("XCircle"),
+Loader2=mkIcon("Loader2"),CreditCard=mkIcon("CreditCard"),Megaphone=mkIcon("Megaphone"),Film=mkIcon("Film"),
+Camera=mkIcon("Camera"),Star=mkIcon("Star"),FileText=mkIcon("FileText"),Receipt=mkIcon("Receipt"),
+Activity=mkIcon("Activity"),Heart=mkIcon("Heart"),Download=mkIcon("Download"),Share2=mkIcon("Share2"),
+QrCode=mkIcon("QrCode"),KeyRound=mkIcon("KeyRound"),Smartphone=mkIcon("Smartphone"),Package=mkIcon("Package"),
+X=mkIcon("X"),Youtube=mkIcon("Youtube"),Twitter=mkIcon("Twitter"),Music2=mkIcon("Music2"),Globe=mkIcon("Globe"),
+Save=mkIcon("Save"),Edit3=mkIcon("Edit3"),Mail=mkIcon("Mail"),Phone=mkIcon("Phone"),
+MessageSquarePlus=mkIcon("MessageSquarePlus");
+
+/* ─── helpers ─── */
+const FA = "۰۱۲۳۴۵۶۷۸۹";
+const fa = (n) => String(n).replace(/\d/g, (d) => FA[+d]);
+const money = (n) => fa(Number(n).toLocaleString("en-US"));
+
+/* ─── data ─── */
+const CATS = [
+  { id: "ig", name: "اینستاگرام", ic: Instagram, g: ["#f59e0b", "#ef4444"] },
+  { id: "tg", name: "تلگرام", ic: Send, g: ["#06b6d4", "#3b82f6"] },
+  { id: "yt", name: "یوتیوب", ic: Youtube, g: ["#ef4444", "#b91c1c"] },
+  { id: "li", name: "لینکدین", ic: Globe, g: ["#0a66c2", "#3b82f6"] },
+  { id: "google", name: "گوگل", ic: Search, g: ["#22c55e", "#10b981"] },
+  { id: "filimo", name: "فیلیمو", ic: Film, g: ["#f43f5e", "#ec4899"] },
+  { id: "aparat", name: "آپارات", ic: Film, g: ["#f59e0b", "#f97316"] },
+  { id: "report", name: "ریپورتاژ", ic: FileText, g: ["#8b5cf6", "#6366f1"] },
+  { id: "env", name: "محیطی", ic: Megaphone, g: ["#14b8a6", "#0d9488"] },
+];
+/* بازدیدی: pricePerK = قیمت هر ۱۰۰۰ بازدید (تومان) · min/max/step بر حسب تعداد بازدید
+   پکیج/ثابت: price = قیمت کل (تومان) — اعداد واقعی از داده‌ی سایت (ریال ÷ ۱۰ = تومان) */
+const PRODUCTS = [
+  // اینستاگرام
+  { id: 1, cat: "ig", name: "تبلیغ پست و استوری در پیج‌های پربازده", type: "بازدیدی", unitName: "بازدید", pricePerK: 50000, min: 500000, max: 10000000, step: 50000, tag: "پرفروش", desc: "حداقل ۵۰۰ هزار بازدید | هر هزار بازدید ۵۰٬۰۰۰ تومان | تخفیف ویژه برای بازدید بالا." },
+  { id: 2, cat: "ig", name: "تبلیغات رسمی شرکت اینستاگرام / متا", type: "بازدیدی", unitName: "بازدید", pricePerK: 4500000, min: 10000, max: 1000000, step: 10000, tag: null, desc: "هر هزار بازدید ۲۵ دلار + ۱۵ درصد هزینه مدیریت | حداقل سفارش ۱۰ هزار بازدید." },
+  { id: 3, cat: "ig", name: "پکیج پیج‌های آشپزی", type: "پکیج", unitName: "پکیج", price: 12000000, tag: null, desc: "تبلیغات در ده تا از بهترین پیج‌های آشپزی اینستاگرام." },
+  { id: 4, cat: "ig", name: "پکیج اینفلوئنسری", type: "پکیج", unitName: "پکیج", price: 30000000, tag: "ویژه", desc: "همکاری تبلیغاتی با اینفلوئنسرهای منتخب در حوزه‌ی شما." },
+  { id: 5, cat: "ig", name: "ساخت پیج میلیونی واقعی", type: "پکیج", unitName: "پروژه", price: 100000000, tag: null, desc: "ساخت و رشد پیج اینستاگرام تا یک میلیون فالوور واقعی." },
+  { id: 6, cat: "ig", name: "تیک آبی اینستاگرام", type: "ثابت", unitName: "عدد", price: 7500000, tag: null, desc: "دریافت تیک آبی تأیید رسمی برای پیج شما." },
+  { id: 7, cat: "ig", name: "پکیج تولید محتوای پیج", type: "پکیج", unitName: "پکیج", price: 4000000, tag: null, desc: "تولید محتوای حرفه‌ای ماهانه برای پیج اینستاگرام." },
+  // تلگرام
+  { id: 8, cat: "tg", name: "پکیج کانال‌های مالی", type: "پکیج", unitName: "پکیج", price: 7000000, tag: null, desc: "تبلیغ در ده تا از بهترین کانال‌های مالی تلگرام." },
+  { id: 9, cat: "tg", name: "پکیج کانال‌های خبری", type: "پکیج", unitName: "پکیج", price: 6000000, tag: null, desc: "تبلیغ در کانال‌های خبری پربازدید تلگرام." },
+  { id: 10, cat: "tg", name: "ساخت کانال میلیونی واقعی", type: "پکیج", unitName: "پروژه", price: 70000000, tag: "ویژه", desc: "ساخت و رشد کانال تلگرام تا یک میلیون عضو واقعی." },
+  { id: 11, cat: "tg", name: "اکانت پریمیوم سالانه", type: "ثابت", unitName: "عدد", price: 300000, tag: null, desc: "اشتراک پریمیوم تلگرام به‌صورت سالانه." },
+  { id: 12, cat: "tg", name: "ممبر واقعی کانال", type: "بازدیدی", unitName: "ممبر", pricePerK: 120000, min: 1000, max: 100000, step: 1000, tag: null, desc: "جذب ممبر هدفمند بر اساس علاقه‌مندی و موقعیت جغرافیایی." },
+  // یوتیوب
+  { id: 13, cat: "yt", name: "بازدید ویدیو یوتیوب", type: "بازدیدی", unitName: "ویو", pricePerK: 38000, min: 10000, max: 1000000, step: 10000, tag: null, desc: "افزایش بازدید واقعی ویدیوهای یوتیوب با حفظ نرخ تعامل." },
+  { id: 14, cat: "yt", name: "تیزر تبلیغاتی با بلاگر", type: "پکیج", unitName: "پروژه", price: 6000000, tag: null, desc: "ساخت تیزر تبلیغاتی با همکاری بلاگرهای یوتیوب." },
+  // فیلیمو
+  { id: 15, cat: "filimo", name: "اسپانسری ۱۵ ثانیه گرید A", type: "ثابت", unitName: "پروژه", price: 120000000, tag: "ویژه", desc: "نمایش در ابتدای سریال‌ها و رئالیتی‌شوهای پرطرفدار با حدود ۴ میلیون بیننده." },
+  // آپارات
+  { id: 16, cat: "aparat", name: "تبلیغ پیش از ویدیو آپارات", type: "بازدیدی", unitName: "نمایش", pricePerK: 15000, min: 50000, max: 5000000, step: 50000, tag: null, desc: "نمایش تبلیغ ویدیویی پیش از پخش ویدیوهای آپارات." },
+  // گوگل
+  { id: 17, cat: "google", name: "تبلیغات گوگل ادز", type: "بازدیدی", unitName: "کلیک", pricePerK: 90000, min: 1000, max: 500000, step: 1000, tag: null, desc: "کمپین تبلیغاتی هدفمند در نتایج جستجوی گوگل (هزینه به‌ازای کلیک)." },
+  // لینکدین
+  { id: 18, cat: "li", name: "تبلیغ هدفمند لینکدین", type: "بازدیدی", unitName: "نمایش", pricePerK: 110000, min: 10000, max: 1000000, step: 10000, tag: null, desc: "تبلیغ B2B هدفمند بر اساس صنعت و سمت شغلی در لینکدین." },
+  // ریپورتاژ
+  { id: 19, cat: "report", name: "رپورتاژ آگهی در سایت‌های معتبر", type: "ثابت", unitName: "عدد", price: 2500000, tag: null, desc: "انتشار رپورتاژ آگهی در رسانه‌های پربازدید با لینک فالو." },
+  // محیطی
+  { id: 20, cat: "env", name: "بیلبورد تبلیغاتی سطح شهر", type: "ثابت", unitName: "ماه", price: 85000000, tag: null, desc: "نمایش تبلیغات شما روی بیلبوردها و فضاهای تبلیغاتی سطح شهر." },
+];
+const NETWORKS = [
+  { k: "ig", t: "اینستاگرام", ic: Instagram }, { k: "tg", t: "تلگرام", ic: Send },
+  { k: "yt", t: "یوتیوب", ic: Youtube }, { k: "li", t: "لینکدین", ic: Globe },
+  { k: "google", t: "گوگل", ic: Search }, { k: "aparat", t: "آپارات", ic: Film },
+  { k: "filimo", t: "فیلیمو", ic: Film }, { k: "report", t: "ریپورتاژ", ic: FileText },
+  { k: "env", t: "محیطی", ic: Megaphone },
+];
+const NET_NAME = Object.fromEntries(NETWORKS.map(n => [n.k, n.t]));
+// فرمت تبلیغ متفاوت برای هر پلتفرم
+const NET_FORMATS = {
+  ig: [{ k: "post", t: "پست" }, { k: "story", t: "استوری" }, { k: "reel", t: "ریلز" }],
+  tg: [{ k: "post", t: "پست کانال" }, { k: "forward", t: "فوروارد" }, { k: "pin", t: "پست پین‌شده" }],
+  yt: [{ k: "preroll", t: "تبلیغ پیش از ویدیو" }, { k: "video", t: "ویدیوی اختصاصی" }, { k: "short", t: "شورتز" }],
+  li: [{ k: "post", t: "پست" }, { k: "article", t: "مقاله" }, { k: "sponsored", t: "اسپانسرد" }],
+  google: [{ k: "search", t: "تبلیغ جستجو" }, { k: "display", t: "بنر نمایشی" }, { k: "video", t: "ویدیو" }],
+  aparat: [{ k: "preroll", t: "پیش از ویدیو" }, { k: "video", t: "ویدیوی اختصاصی" }],
+  filimo: [{ k: "preroll", t: "اسپانسری ابتدای فیلم" }, { k: "banner", t: "بنر" }],
+  report: [{ k: "article", t: "رپورتاژ آگهی" }, { k: "interview", t: "مصاحبه" }],
+  env: [{ k: "billboard", t: "بیلبورد" }, { k: "banner", t: "بنر شهری" }, { k: "led", t: "نمایشگر LED" }],
+};
+const INIT_CAMPAIGNS = [
+  { id: 1, name: "فروش پاییزه پوشاک", status: "active", budget: 4500000, net: "ig", imp: 184320, clk: 9210, conv: 412, prog: 64 },
+  { id: 2, name: "معرفی اپ جدید", status: "review", budget: 8000000, net: "tg", imp: 0, clk: 0, conv: 0, prog: 0 },
+  { id: 3, name: "تخفیف بلک‌فرایدی", status: "done", budget: 3000000, net: "yt", imp: 502100, clk: 31400, conv: 1820, prog: 100 },
+];
+const INIT_ORDERS = [
+  { id: 1, code: "ORD-10482", item: "فالوور واقعی ایرانی", qty: "۳۰۰۰ فالوور", total: 267000, status: "processing", date: "۱۴۰۴/۰۳/۰۸" },
+  { id: 2, code: "ORD-10455", item: "پکیج سئو حرفه‌ای", qty: "۱ ماه", total: 2400000, status: "completed", date: "۱۴۰۴/۰۲/۲۸" },
+  { id: 3, code: "ORD-10401", item: "بازدید ریلز", qty: "۵۰۰۰۰ بازدید", total: 225000, status: "pending", date: "۱۴۰۴/۰۲/۲۰" },
+];
+const INVOICES = [
+  { id: 1, num: "INV-2048", amount: 267000, status: "paid", date: "۱۴۰۴/۰۳/۰۸" },
+  { id: 2, num: "INV-2041", amount: 2400000, status: "paid", date: "۱۴۰۴/۰۲/۲۸" },
+  { id: 3, num: "INV-2033", amount: 225000, status: "unpaid", date: "۱۴۰۴/۰۲/۲۰" },
+];
+const PAYMENTS = [
+  { id: 1, method: "درگاه زرین‌پال", amount: 5000000, status: "success", date: "۱۴۰۴/۰۳/۰۸" },
+  { id: 2, method: "درگاه بانکی", amount: 2400000, status: "success", date: "۱۴۰۴/۰۲/۲۸" },
+  { id: 3, method: "کیف پول", amount: 225000, status: "failed", date: "۱۴۰۴/۰۲/۲۰" },
+];
+const TXNS = [
+  { id: 1, t: "شارژ کیف پول", amt: 5000000, in: true, date: "۱۴۰۴/۰۳/۰۸" },
+  { id: 2, t: "کمپین فروش پاییزه", amt: 4500000, in: false, date: "۱۴۰۴/۰۳/۰۵" },
+  { id: 3, t: "پاداش همکاری در فروش", amt: 320000, in: true, date: "۱۴۰۴/۰۳/۰۲" },
+  { id: 4, t: "خرید فالوور واقعی", amt: 178000, in: false, date: "۱۴۰۴/۰۲/۲۸" },
+];
+const AFF_TXNS = [
+  { id: 1, t: "کمیسیون دعوت کاربر #۲۰۴", amt: 145000, date: "۱۴۰۴/۰۳/۰۶" },
+  { id: 2, t: "کمیسیون دعوت کاربر #۱۹۸", amt: 175000, date: "۱۴۰۴/۰۲/۲۹" },
+];
+const CONTENTS = [
+  { id: 1, type: "کپشن اینستاگرام", title: "معرفی محصول جدید پاییزی", fav: true },
+  { id: 2, type: "ایده پست", title: "۵ ایده برای جذب مخاطب", fav: false },
+  { id: 3, type: "هشتگ", title: "ست هشتگ فروشگاه پوشاک", fav: false },
+];
+const ACTIVITIES = [
+  { id: 1, a: "ورود موفق به حساب", ip: "۲.۱۸۰.xx", date: "امروز ۰۹:۴۱" },
+  { id: 2, a: "ثبت کمپین جدید", ip: "۲.۱۸۰.xx", date: "دیروز ۱۸:۲۰" },
+  { id: 3, a: "شارژ کیف پول", ip: "۵.۱۲۰.xx", date: "۳ روز پیش" },
+];
+const NOTIFS = [
+  { id: 1, t: "کمپین «فروش پاییزه» تأیید شد ✅", time: "۵ دقیقه پیش", unread: true, ic: CheckCircle2 },
+  { id: 2, t: "سفارش فالوور با موفقیت تکمیل شد", time: "۲ ساعت پیش", unread: true, ic: ShoppingBag },
+  { id: 3, t: "پاسخ جدید برای تیکت پشتیبانی", time: "دیروز", unread: false, ic: Headphones },
+  { id: 4, t: "کیف پول شما شارژ شد", time: "۳ روز پیش", unread: false, ic: Wallet },
+];
+
+const theme = (dark) => dark ? {
+  bg: "#070B16", bg2: "#0B1220", card: "#0F1729", line: "rgba(148,163,184,.14)",
+  text: "#E5E7EB", dim: "#9CA3AF", primary: "#6C63FF", primary2: "#8B5CF6",
+  accent: "#F59E0B", success: "#10B981", danger: "#EF4444", glow: "rgba(108,99,255,.45)",
+} : {
+  bg: "#F4F5FB", bg2: "#ECEEF7", card: "#FFFFFF", line: "rgba(17,24,39,.09)",
+  text: "#111827", dim: "#6B7280", primary: "#6C63FF", primary2: "#8B5CF6",
+  accent: "#F59E0B", success: "#10B981", danger: "#EF4444", glow: "rgba(108,99,255,.30)",
+};
+const GRAD = "linear-gradient(135deg,#7367f0,#8b5cf6)";
+
+/* ─── API layer (real backend) ─── */
+const API_BASE = "https://adpacto.com/api/v1";
+let AUTH_TOKEN = null;
+async function api(path, { method = "GET", body, auth = true } = {}) {
+  const headers = { "Accept": "application/json" };
+  if (body) headers["Content-Type"] = "application/json";
+  if (auth && AUTH_TOKEN) headers["Authorization"] = "Bearer " + AUTH_TOKEN;
+  const res = await fetch(API_BASE + path, {
+    method, headers, body: body ? JSON.stringify(body) : undefined,
+  });
+  let data = null;
+  try { data = await res.json(); } catch (e) { data = null; }
+  if (!res.ok) {
+    const msg = (data && (data.message || (data.errors && Object.values(data.errors)[0][0]))) || "خطا در ارتباط با سرور";
+    throw new Error(msg);
+  }
+  return data;
+}
+
+function App() {
+  const [dark, setDark] = useState(false);
+  const c = theme(dark);
+  const [screen, setScreen] = useState("splash");
+  const [tab, setTab] = useState("home");
+  const [stack, setStack] = useState([]);
+  const [wallet, setWallet] = useState(0);
+  const [cart, setCart] = useState(null);
+  const [toast, setToast] = useState(null);
+  const [igAccount, setIgAccount] = useState(null);
+  const [twoFA, setTwoFA] = useState(false);
+  const [profile, setProfile] = useState({ name: "", email: "", phone: "" });
+  const [apiProducts, setApiProducts] = useState(null);
+  const [apiCategories, setApiCategories] = useState(null);
+  const [loadingShop, setLoadingShop] = useState(false);
+  const [orders, setOrders] = useState(INIT_ORDERS);
+  const [campaigns, setCampaigns] = useState(INIT_CAMPAIGNS);
+  const [tickets, setTickets] = useState([
+    { id: 1, sub: "تأخیر در تحویل سفارش", status: "open", last: "پشتیبانی پاسخ داد", time: "۱۰ دقیقه پیش", msgs: [{ me: true, t: "سلام، سفارش من هنوز تحویل داده نشده." }, { me: false, t: "سلام وقت بخیر 🌹 سفارش شما در حال پردازش است و تا ۲ ساعت آینده تکمیل می‌شود." }] },
+    { id: 2, sub: "سؤال درباره صورتحساب", status: "closed", last: "بسته شد", time: "دیروز", msgs: [{ me: true, t: "فاکتور آخرم رو نمی‌تونم دانلود کنم." }, { me: false, t: "بررسی شد و مشکل برطرف گردید ✅" }] },
+  ]);
+
+  const top = stack[stack.length - 1];
+  const push = (name, params = {}) => setStack((s) => [...s, { name, params }]);
+  const pop = () => setStack((s) => s.slice(0, -1));
+  const goTab = (t) => { setStack([]); setTab(t); };
+  const flash = (m) => { setToast(m); setTimeout(() => setToast(null), 2200); };
+  useEffect(() => { const t = setTimeout(() => setScreen("login"), 1700); return () => clearTimeout(t); }, []);
+
+  // اعمال اطلاعات کاربر پس از ورود
+  const applyUser = (u) => {
+    setProfile({ name: u.name || "", email: u.email || "", phone: u.phone || "" });
+    setWallet(Number(u.wallet_balance || 0));
+    setTwoFA(!!u.two_factor_enabled);
+    if (u.instagram_username) setIgAccount({ user: u.instagram_username, followers: 0 });
+  };
+
+  // بارگذاری دسته‌بندی و محصولات از سرور
+  const loadCatalog = async () => {
+    setLoadingShop(true);
+    try {
+      const [cats, prods] = await Promise.all([
+        api("/categories", { auth: false }),
+        api("/products", { auth: false }),
+      ]);
+      setApiCategories(cats.categories || []);
+      setApiProducts((prods.products || []).map(mapProduct));
+    } catch (e) {
+      flash("خطا در دریافت محصولات: " + e.message);
+    } finally {
+      setLoadingShop(false);
+    }
+  };
+
+  // بارگذاری سفارش‌ها از سرور
+  const loadOrders = async () => {
+    try {
+      const r = await api("/orders");
+      setOrders((r.orders || []).map((o) => ({
+        id: o.id, code: o.reference_code, item: o.notes || "سفارش",
+        qty: "", total: Number(o.final_price), status: mapOrderStatus(o.status), date: o.created_at,
+      })));
+    } catch (e) { /* silent */ }
+  };
+  const loadCampaigns = async () => {
+    try { const r = await api("/campaigns"); setCampaigns((r.campaigns || []).map((cp) => ({
+      id: cp.id, name: cp.name, status: mapCampaignStatus(cp.status), budget: Number(cp.budget),
+      net: cp.social_network || "ig", imp: cp.impressions, clk: cp.clicks, conv: cp.conversions,
+      prog: cp.status === "completed" ? 100 : (cp.status === "active" ? 60 : 0),
+    }))); } catch (e) {}
+  };
+  const mapCampaignStatus = (s) => ({ draft: "review", pending: "review", active: "active", paused: "review", completed: "done", rejected: "rejected", cancelled: "rejected" }[s] || "review");
+
+  // تبدیل محصول سرور به ساختار اپ
+  // نکته: برای خدمات بازدیدی، minimumorder و amount بر حسب «هزار بازدید» است.
+  // مبلغ = amount(هزار) × pricePerK ، تعداد واقعی بازدید = amount × ۱۰۰۰
+  const mapProduct = (p) => {
+    const catIds = p.category_ids || [];
+    const catNames = p.category_names || [];
+    const isView = p.type === "view_based";
+    const minK = p.minimumorder > 0 ? p.minimumorder : 1; // حداقل بر حسب هزار
+    return {
+      id: p.id, catIds, catName: catNames[0] || "", name: p.name, desc: p.description || p.title || "",
+      type: isView ? "بازدیدی" : (p.type === "package" ? "پکیج" : "ثابت"),
+      unitName: isView ? "بازدید" : "عدد",
+      pricePerK: isView ? Number(p.price) : null, // قیمت هر هزار بازدید
+      price: isView ? null : Number(p.price),
+      minK, maxK: isView ? Math.max(minK * 50, 1000) : 999, stepK: isView ? Math.max(Math.round(minK / 4), 1) : 1,
+      tag: p.featured ? "ویژه" : null, type_raw: p.type,
+    };
+  };
+  const mapOrderStatus = (s) => ({ pending: "pending", paid: "processing", confirmed: "processing", completed: "completed", cancelled: "rejected", refunded: "rejected" }[s] || "processing");
+
+  const STATUS = {
+    active: { t: "فعال", c: c.success, ic: Zap }, review: { t: "در حال بررسی", c: c.accent, ic: Clock },
+    done: { t: "تمام‌شده", c: c.primary, ic: CheckCircle2 }, rejected: { t: "رد شده", c: c.danger, ic: XCircle },
+    processing: { t: "در حال انجام", c: c.primary, ic: Loader2 }, completed: { t: "تکمیل شده", c: c.success, ic: CheckCircle2 },
+    pending: { t: "در انتظار پرداخت", c: c.accent, ic: Clock }, paid: { t: "پرداخت‌شده", c: c.success, ic: CheckCircle2 },
+    unpaid: { t: "پرداخت‌نشده", c: c.accent, ic: Clock }, success: { t: "موفق", c: c.success, ic: CheckCircle2 }, failed: { t: "ناموفق", c: c.danger, ic: XCircle },
+  };
+
+  /* shared */
+  const Header = ({ title, right }) => (
+    <div className="flex items-center justify-between px-5 pt-3 pb-4" style={{ position: "sticky", top: 0, zIndex: 20, background: `linear-gradient(${c.bg}, ${c.bg}f2 70%, transparent)` }}>
+      <button onClick={pop} className="flex items-center justify-center rounded-full" style={{ width: 40, height: 40, background: c.card, border: `1px solid ${c.line}` }}><ChevronRight size={22} color={c.text} /></button>
+      <div className="font-bold" style={{ fontSize: 17, color: c.text }}>{title}</div>
+      <div style={{ minWidth: 40, display: "flex", justifyContent: "flex-start" }}>{right}</div>
+    </div>
+  );
+  const Card = ({ children, style, onClick, glow }) => (
+    <div onClick={onClick} style={{ background: c.card, border: `1px solid ${c.line}`, borderRadius: 20, boxShadow: glow ? `0 16px 44px -18px ${c.glow}` : dark ? "0 10px 30px -20px #000" : "0 12px 30px -22px rgba(17,24,39,.35)", ...style }}>{children}</div>
+  );
+  const Btn = ({ children, onClick, variant = "solid", style, disabled }) => {
+    const base = { borderRadius: 15, fontWeight: 700, fontSize: 15, padding: "14px 18px", width: "100%", transition: "transform .12s, opacity .2s", opacity: disabled ? 0.45 : 1, border: "none", cursor: "pointer" };
+    const v = variant === "solid" ? { background: GRAD, color: "#fff", boxShadow: `0 10px 26px -10px ${c.glow}` }
+      : variant === "soft" ? { background: dark ? "rgba(108,99,255,.14)" : "rgba(108,99,255,.10)", color: c.primary }
+      : { background: "transparent", color: c.text, border: `1px solid ${c.line}` };
+    return <button disabled={disabled} onClick={onClick} onPointerDown={(e) => !disabled && (e.currentTarget.style.transform = "scale(.97)")} onPointerUp={(e) => (e.currentTarget.style.transform = "scale(1)")} onPointerLeave={(e) => (e.currentTarget.style.transform = "scale(1)")} style={{ ...base, ...v, ...style }}>{children}</button>;
+  };
+  const Field = ({ label, ...p }) => (
+    <label className="block mb-3">
+      {label && <div className="mb-2" style={{ fontSize: 13, color: c.dim, fontWeight: 600 }}>{label}</div>}
+      <input {...p} style={{ width: "100%", background: c.bg2, border: `1px solid ${c.line}`, borderRadius: 14, padding: "14px 16px", color: c.text, fontSize: 15, outline: "none", fontFamily: "inherit" }} />
+    </label>
+  );
+  const Chip = ({ color, bg, ic: I, t }) => (
+    <span className="inline-flex items-center gap-1" style={{ background: bg, color, borderRadius: 999, padding: "5px 11px", fontSize: 12, fontWeight: 700 }}>{I && <I size={13} />}{t}</span>
+  );
+  const Badge = ({ s }) => { const x = STATUS[s]; return <Chip color={x.c} bg={`${x.c}22`} ic={x.ic} t={x.t} />; };
+  const Stat = ({ ic: I, label, val, color }) => (
+    <div className="flex-1 flex flex-col gap-1 items-center py-3 rounded-2xl" style={{ background: c.bg2 }}><I size={18} color={color} /><div className="font-bold" style={{ fontSize: 15, color: c.text }}>{val}</div><div style={{ fontSize: 11, color: c.dim }}>{label}</div></div>
+  );
+  const Toggle = ({ on }) => (<div style={{ width: 46, height: 27, borderRadius: 99, background: on ? c.primary : c.bg2, position: "relative", transition: ".2s", flexShrink: 0 }}><div style={{ position: "absolute", top: 3, right: on ? 3 : 22, width: 21, height: 21, borderRadius: 99, background: "#fff", transition: ".2s" }} /></div>);
+  const Logo = ({ s = 40 }) => (<div style={{ width: s, height: s, borderRadius: s * 0.32, background: GRAD, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 8px 22px -8px ${c.glow}` }}><Rocket size={s * 0.52} color="#fff" /></div>);
+  const Row = ({ ic: I, t, sub, v, onClick, last, color }) => (
+    <button onClick={onClick} className="flex items-center gap-3 w-full" style={{ padding: "15px 16px", borderBottom: last ? "none" : `1px solid ${c.line}` }}>
+      <div style={{ width: 38, height: 38, borderRadius: 11, background: `${color || c.primary}1c`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><I size={18} color={color || c.primary} /></div>
+      <div className="flex-1 text-right"><div className="font-bold" style={{ fontSize: 14, color: c.text }}>{t}</div>{sub && <div style={{ fontSize: 12, color: c.dim, marginTop: 2 }}>{sub}</div>}</div>
+      {v && <span style={{ fontSize: 12, color: c.dim }}>{v}</span>}<ChevronLeft size={18} color={c.dim} />
+    </button>
+  );
+
+  /* AUTH */
+  const Splash = () => (
+    <div className="flex flex-col items-center justify-center h-full gap-5" style={{ background: c.bg }}>
+      <div style={{ animation: "pop .7s cubic-bezier(.2,.8,.2,1)" }}><Logo s={92} /></div>
+      <div className="text-center" style={{ animation: "fadeUp .6s .2s both" }}><div className="font-bold" style={{ fontSize: 30, color: c.text, letterSpacing: -1 }}>Pacto</div><div style={{ fontSize: 13, color: c.dim, marginTop: 4 }}>پلتفرم جامع تبلیغات و دیجیتال مارکتینگ</div></div>
+      <Loader2 size={22} color={c.dim} style={{ animation: "spin 1s linear infinite", marginTop: 8 }} />
+    </div>
+  );
+  const Login = () => {
+    const [mode, setMode] = useState("login"); // login | register
+    const [f, setF] = useState({ name: "", email: "", phone: "", password: "" });
+    const [busy, setBusy] = useState(false);
+    const [err, setErr] = useState("");
+    const submit = async () => {
+      setBusy(true); setErr("");
+      try {
+        const r = mode === "login"
+          ? await api("/login", { method: "POST", auth: false, body: { email: f.email, password: f.password } })
+          : await api("/register", { method: "POST", auth: false, body: { name: f.name, email: f.email, phone: f.phone, password: f.password } });
+        AUTH_TOKEN = r.token;
+        applyUser(r.user);
+        setScreen("app");
+        loadCatalog();
+        loadOrders();
+        loadCampaigns();
+      } catch (e) {
+        setErr(e.message);
+      } finally { setBusy(false); }
+    };
+    return (
+      <div className="flex flex-col h-full" style={{ background: c.bg }}>
+        <div style={{ height: 200, background: `radial-gradient(120% 100% at 70% 0%, ${c.primary}40, transparent 60%), ${c.bg2}`, borderBottomLeftRadius: 40, borderBottomRightRadius: 40, position: "relative", overflow: "hidden" }}>
+          <div style={{ position: "absolute", inset: 0, opacity: .4, background: `repeating-linear-gradient(45deg, transparent, transparent 22px, ${c.line} 22px, ${c.line} 23px)` }} />
+          <div className="flex flex-col items-center justify-center h-full gap-3" style={{ position: "relative" }}><Logo s={58} /><div className="font-bold" style={{ fontSize: 21, color: c.text }}>{mode === "login" ? "به Pacto خوش آمدید 👋" : "ساخت حساب جدید"}</div><div style={{ fontSize: 13, color: c.dim }}>{mode === "login" ? "وارد حساب کاربری خود شوید" : "در چند ثانیه ثبت‌نام کنید"}</div></div>
+        </div>
+        <div className="flex-1 px-6 pt-6 overflow-y-auto" style={{ animation: "fadeUp .5s both" }}>
+          {mode === "register" && <Field label="نام و نام خانوادگی" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} placeholder="مثلاً مهدی رضایی" />}
+          <Field label="ایمیل" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} placeholder="example@mail.com" />
+          {mode === "register" && <Field label="شماره موبایل" value={f.phone} onChange={(e) => setF({ ...f, phone: e.target.value })} placeholder="۰۹۱۲۳۴۵۶۷۸۹" />}
+          <Field label="رمز عبور" type="password" value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} placeholder="••••••••" />
+          {err && <div className="flex items-center gap-2 mb-3" style={{ fontSize: 13, color: c.danger }}><XCircle size={15} /> {err}</div>}
+          <Btn onClick={submit} disabled={busy || !f.email || !f.password || (mode === "register" && !f.name)} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>{busy ? <><Loader2 size={18} style={{ animation: "spin 1s linear infinite" }} /> لطفاً صبر کنید…</> : (mode === "login" ? "ورود به حساب" : "ثبت‌نام")}</Btn>
+          <div className="flex items-center gap-3 my-4"><div style={{ flex: 1, height: 1, background: c.line }} /><span style={{ fontSize: 12, color: c.dim }}>یا</span><div style={{ flex: 1, height: 1, background: c.line }} /></div>
+          <button onClick={() => window.open(API_BASE + "/auth/google/redirect", "_blank")} className="w-full flex items-center justify-center gap-3 font-bold" style={{ padding: 14, borderRadius: 16, background: "#fff", color: "#222", border: "1px solid #e2e2e2" }}><svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.5 29.5 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.3-.3-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.5 29.5 4.5 24 4.5 16.3 4.5 9.7 8.9 6.3 14.7z"/><path fill="#4CAF50" d="M24 43.5c5.4 0 10.3-2 14-5.3l-6.5-5.5c-2 1.5-4.6 2.3-7.5 2.3-5.2 0-9.6-3.3-11.2-8l-6.5 5C9.6 39 16.2 43.5 24 43.5z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4 5.4l6.5 5.5c-.5.4 7-5.1 7-14.9 0-1.2-.1-2.3-.3-3.5z"/></svg> ورود با گوگل</button>
+          <div className="text-center mt-6" style={{ fontSize: 13, color: c.dim }}>
+            {mode === "login" ? "حساب ندارید؟ " : "حساب دارید؟ "}
+            <span onClick={() => { setErr(""); setMode(mode === "login" ? "register" : "login"); }} style={{ color: c.primary, fontWeight: 700 }}>{mode === "login" ? "ثبت‌نام" : "ورود"}</span>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  /* HOME */
+  const HomeScreen = () => (
+    <div className="pb-28">
+      <div className="px-5 pt-4 flex items-center justify-between">
+        <div className="flex items-center gap-3"><Logo s={42} /><div><div style={{ fontSize: 12, color: c.dim }}>سلام، خوش اومدی 👋</div><div className="font-bold" style={{ fontSize: 17, color: c.text }}>{profile.name}</div></div></div>
+        <button onClick={() => push("notifs")} className="relative flex items-center justify-center rounded-full" style={{ width: 44, height: 44, background: c.card, border: `1px solid ${c.line}` }}><Bell size={20} color={c.text} /><span style={{ position: "absolute", top: 9, right: 11, width: 8, height: 8, borderRadius: 99, background: c.danger }} /></button>
+      </div>
+      <div className="px-5 mt-4"><Card glow style={{ padding: 20, background: GRAD, border: "none", overflow: "hidden", position: "relative" }}>
+        <div style={{ position: "absolute", top: -40, left: -30, width: 140, height: 140, borderRadius: 99, background: "rgba(255,255,255,.14)" }} />
+        <div className="flex items-center justify-between" style={{ position: "relative" }}><div><div style={{ fontSize: 13, color: "#ffffffcc", fontWeight: 600 }}>موجودی کیف پول</div><div className="font-bold mt-1" style={{ fontSize: 27, color: "#fff" }}>{money(wallet)} <span style={{ fontSize: 14 }}>تومان</span></div></div><Wallet size={30} color="#fff" /></div>
+        <div className="flex gap-2 mt-4" style={{ position: "relative" }}><button onClick={() => push("topup")} className="flex-1 flex items-center justify-center gap-1.5 font-bold" style={{ background: "#fff", color: c.primary, borderRadius: 13, padding: "11px", fontSize: 14, border: "none" }}><Plus size={17} /> شارژ</button><button onClick={() => push("wallet")} className="flex-1 flex items-center justify-center gap-1.5 font-bold" style={{ background: "rgba(255,255,255,.2)", color: "#fff", borderRadius: 13, padding: "11px", fontSize: 14, border: "none" }}>تراکنش‌ها</button></div>
+      </Card></div>
+      <div className="px-5 mt-5 grid grid-cols-4 gap-3">{[{ i: Rocket, t: "تبلیغ", a: () => { goTab("campaigns"); push("wizard"); } }, { i: ShoppingBag, t: "خدمات", a: () => goTab("shop") }, { i: Sparkles, t: "محتوا", a: () => goTab("ai") }, { i: Headphones, t: "پشتیبانی", a: () => push("tickets") }].map((q, i) => (<button key={i} onClick={q.a} className="flex flex-col items-center gap-2"><div className="flex items-center justify-center" style={{ width: 56, height: 56, borderRadius: 18, background: c.card, border: `1px solid ${c.line}` }}><q.i size={22} color={c.primary} /></div><span style={{ fontSize: 12, color: c.dim, fontWeight: 600 }}>{q.t}</span></button>))}</div>
+      <div className="px-5 mt-5 grid grid-cols-3 gap-3">{[{ i: Package, t: "سفارش‌ها", v: fa(orders.length), a: () => push("orders"), col: c.primary }, { i: Rocket, t: "کمپین فعال", v: fa(campaigns.filter(x => x.status === "active").length), a: () => goTab("campaigns"), col: c.success }, { i: Wallet, t: "کیف پول", v: money(wallet), a: () => push("wallet"), col: c.accent }].map((s, i) => (<Card key={i} onClick={s.a} style={{ padding: 14, display: "flex", flexDirection: "column", gap: 6 }}><s.i size={20} color={s.col} /><div className="font-bold" style={{ fontSize: 15, color: c.text }}>{s.v}</div><div style={{ fontSize: 11, color: c.dim }}>{s.t}</div></Card>))}</div>
+      <div className="px-5 mt-6 flex items-center justify-between"><div className="font-bold" style={{ fontSize: 16, color: c.text }}>کمپین‌های اخیر</div><span onClick={() => goTab("campaigns")} style={{ fontSize: 13, color: c.primary, fontWeight: 600 }}>همه</span></div>
+      <div className="px-5 mt-3 flex flex-col gap-3">{campaigns.length === 0 ? (<Card onClick={() => push("wizard")} style={{ padding: 20, textAlign: "center" }}><Rocket size={30} color={c.primary} style={{ margin: "0 auto 10px" }} /><div className="font-bold" style={{ fontSize: 14, color: c.text }}>هنوز کمپینی نساخته‌اید</div><div style={{ fontSize: 12, color: c.dim, marginTop: 4 }}>برای شروع تبلیغات، اولین کمپین خود را بسازید</div></Card>) : campaigns.slice(0, 5).map((cp) => (<Card key={cp.id} onClick={() => push("campaign", { cp })} style={{ padding: 16 }}>
+        <div className="flex items-center justify-between mb-3"><div className="font-bold" style={{ fontSize: 15, color: c.text }}>{cp.name}</div><Badge s={cp.status} /></div>
+        {cp.status === "active" ? (<><div className="flex items-center justify-between mb-2" style={{ fontSize: 12, color: c.dim }}><span>پیشرفت کمپین</span><span style={{ color: c.text, fontWeight: 700 }}>{fa(cp.prog)}٪</span></div>
+        <div style={{ height: 8, borderRadius: 99, background: c.bg2, overflow: "hidden" }}><div style={{ width: `${cp.prog}%`, height: "100%", borderRadius: 99, background: GRAD }} /></div>
+        <div className="flex gap-2 mt-3"><Stat ic={Eye} label="نمایش" val={money(cp.imp)} color={c.primary2} /><Stat ic={MousePointerClick} label="کلیک" val={money(cp.clk)} color={c.primary} /><Stat ic={Target} label="تبدیل" val={money(cp.conv)} color={c.accent} /></div></>) : (<div className="flex items-center justify-between" style={{ fontSize: 13, color: c.dim }}><span>بودجه: {money(cp.budget)} تومان</span><ChevronLeft size={18} color={c.dim} /></div>)}
+      </Card>))}</div>
+    </div>
+  );
+
+  /* SHOP */
+  const GRADS = [["#f59e0b","#ef4444"],["#06b6d4","#3b82f6"],["#7367f0","#8b5cf6"],["#22c55e","#10b981"],["#f43f5e","#ec4899"],["#0a66c2","#3b82f6"]];
+  const gradFor = (i) => GRADS[i % GRADS.length];
+  const CAT_ICONS = [Instagram, Send, Youtube, Globe, Search, Film, Music2, Megaphone, FileText, Tag];
+  const Shop = () => {
+    const [q, setQ] = useState(""); const [catId, setCatId] = useState(null);
+    const products = apiProducts || [];
+    const cats = apiCategories || [];
+    const list = products.filter((p) => (catId === null || (p.catIds || []).includes(catId)) && p.name.includes(q));
+    return (
+      <div className="pb-28">
+        <div className="px-5 pt-4 flex items-center justify-between"><div className="font-bold" style={{ fontSize: 22, color: c.text }}>خدمات مارکتینگ</div><button onClick={loadCatalog} style={{ fontSize: 12, color: c.primary, fontWeight: 700, background: "none", border: "none" }}>بروزرسانی</button></div>
+        <div className="px-5 mt-4"><div className="flex items-center gap-2 rounded-2xl px-4" style={{ background: c.card, border: `1px solid ${c.line}`, height: 50 }}><Search size={19} color={c.dim} /><input value={q} onChange={(e) => setQ(e.target.value)} placeholder="جستجوی خدمات…" style={{ flex: 1, background: "transparent", border: "none", outline: "none", color: c.text, fontSize: 15, fontFamily: "inherit" }} /></div></div>
+        {cats.length > 0 && <div className="flex gap-3 px-5 mt-4 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
+          <button onClick={() => setCatId(null)} className="flex flex-col items-center gap-2" style={{ flexShrink: 0, width: 72 }}><div style={{ width: 60, height: 60, borderRadius: 18, background: catId === null ? GRAD : c.card, border: `1px solid ${catId === null ? "transparent" : c.line}`, display: "flex", alignItems: "center", justifyContent: "center" }}><ShoppingBag size={24} color={catId === null ? "#fff" : c.primary} /></div><span style={{ fontSize: 11, color: catId === null ? c.primary : c.dim, fontWeight: 700, whiteSpace: "nowrap" }}>همه</span></button>
+          {cats.map((k, i) => { const g = gradFor(i); const active = catId === k.id; const Ic = CAT_ICONS[i % CAT_ICONS.length]; return (<button key={k.id} onClick={() => setCatId(active ? null : k.id)} className="flex flex-col items-center gap-2" style={{ flexShrink: 0, width: 72 }}><div style={{ width: 60, height: 60, borderRadius: 18, background: active ? `linear-gradient(135deg,${g[0]},${g[1]})` : c.card, border: `1px solid ${active ? "transparent" : c.line}`, display: "flex", alignItems: "center", justifyContent: "center" }}><Ic size={24} color={active ? "#fff" : c.primary} /></div><span style={{ fontSize: 10.5, color: active ? c.primary : c.dim, fontWeight: 600, maxWidth: 70, textAlign: "center", lineHeight: 1.3, overflow: "hidden", textOverflow: "ellipsis", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical" }}>{k.name}</span></button>); })}
+        </div>}
+        {loadingShop ? (
+          <div className="flex flex-col items-center justify-center gap-3 py-20"><Loader2 size={28} color={c.primary} style={{ animation: "spin 1s linear infinite" }} /><span style={{ fontSize: 14, color: c.dim }}>در حال دریافت محصولات…</span></div>
+        ) : list.length === 0 ? (
+          <div className="flex flex-col items-center justify-center gap-3 py-20"><ShoppingBag size={36} color={c.dim} /><span style={{ fontSize: 14, color: c.dim }}>محصولی یافت نشد</span></div>
+        ) : (
+        <div className="px-5 mt-5 flex flex-col gap-3">{list.map((p, i) => { const g = gradFor(i); const showPrice = p.type === "بازدیدی" ? money(p.pricePerK) : money(p.price); return (
+          <Card key={p.id} onClick={() => push("product", { p, g })} style={{ padding: 14, display: "flex", gap: 14, alignItems: "center" }}>
+            <div style={{ width: 64, height: 64, borderRadius: 16, flexShrink: 0, background: `linear-gradient(135deg,${g[0]},${g[1]})`, display: "flex", alignItems: "center", justifyContent: "center" }}><Tag size={26} color="#fff" /></div>
+            <div className="flex-1 min-w-0"><div className="flex items-center gap-2"><div className="font-bold truncate" style={{ fontSize: 15, color: c.text }}>{p.name}</div>{p.tag && <span style={{ fontSize: 10, fontWeight: 700, color: c.accent, background: `${c.accent}22`, padding: "2px 7px", borderRadius: 6 }}>{p.tag}</span>}</div>
+              <div style={{ fontSize: 12, color: c.dim, marginTop: 3 }}>{p.type === "بازدیدی" ? `هر ۱۰۰۰ ${p.unitName} · حداقل ${money(p.minK * 1000)}` : p.type}</div>
+              <div className="font-bold mt-1.5" style={{ fontSize: 15, color: c.primary }}>{showPrice} <span style={{ fontSize: 11, color: c.dim }}>تومان{p.type === "بازدیدی" ? ` / ۱۰۰۰ ${p.unitName}` : ""}</span></div></div><ChevronLeft size={20} color={c.dim} />
+          </Card>
+        ); })}</div>
+        )}
+      </div>
+    );
+  };
+  const Product = ({ p, g }) => {
+    const grad = g || ["#7367f0","#8b5cf6"];
+    const isView = p.type === "بازدیدی";
+    // kAmount: میزان بر حسب «هزار بازدید». تعداد واقعی = kAmount × ۱۰۰۰
+    const [kAmount, setKAmount] = useState(isView ? p.minK : 1);
+    const total = isView ? Math.round(kAmount * p.pricePerK) : p.price * kAmount;
+    const realViews = kAmount * 1000;
+    const clampK = (v) => Math.min(p.maxK, Math.max(p.minK, v || p.minK));
+    return (
+      <div className="pb-40"><Header title="جزئیات خدمت" />
+        <div className="px-5">
+          <div style={{ height: 160, borderRadius: 24, background: `linear-gradient(135deg,${grad[0]},${grad[1]})`, display: "flex", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}><div style={{ position: "absolute", inset: 0, opacity: .25, background: `repeating-linear-gradient(135deg, transparent, transparent 18px, #fff3 18px, #fff3 19px)` }} /><Tag size={56} color="#fff" /></div>
+          <div className="mt-5 flex items-start justify-between"><div><div className="font-bold" style={{ fontSize: 21, color: c.text }}>{p.name}</div><div style={{ fontSize: 13, color: c.dim, marginTop: 4 }}>{p.catName || ""} · {p.type}</div></div>{p.tag && <Chip color={c.accent} bg={`${c.accent}22`} t={p.tag} />}</div>
+          <p style={{ fontSize: 14, color: c.dim, lineHeight: 1.9, marginTop: 14 }}>{p.desc}</p>
+
+          {isView ? (
+            <Card style={{ padding: 18, marginTop: 16 }}>
+              <div className="flex items-center justify-between mb-1"><span style={{ fontSize: 14, color: c.text, fontWeight: 700 }}>میزان {p.unitName}</span><span className="font-bold" style={{ fontSize: 18, color: c.primary }}>{money(realViews)}</span></div>
+              <div style={{ fontSize: 11, color: c.dim, marginBottom: 10 }}>حداقل سفارش: {money(p.minK * 1000)} {p.unitName} · هر ۱۰۰۰ بازدید {money(p.pricePerK)} تومان</div>
+              <input type="range" dir="ltr" min={p.minK} max={p.maxK} step={p.stepK} value={kAmount} onChange={(e) => setKAmount(+e.target.value)} style={{ width: "100%", accentColor: c.primary }} />
+              <div dir="ltr" className="flex justify-between mt-1" style={{ fontSize: 11, color: c.dim }}><span>{money(p.minK * 1000)}</span><span>{money(p.maxK * 1000)}</span></div>
+              <div className="flex items-center gap-2 mt-4">
+                <button onClick={() => setKAmount(clampK(kAmount - p.stepK))} style={{ width: 44, height: 44, borderRadius: 12, background: c.bg2, border: `1px solid ${c.line}`, display: "flex", alignItems: "center", justifyContent: "center" }}><Minus size={18} color={c.text} /></button>
+                <input type="number" value={realViews} onChange={(e) => { const views = +e.target.value || 0; setKAmount(clampK(Math.round(views / 1000))); }} style={{ flex: 1, textAlign: "center", background: c.bg2, border: `1px solid ${c.line}`, borderRadius: 12, padding: "12px", color: c.text, fontSize: 15, fontWeight: 700, outline: "none", fontFamily: "inherit" }} />
+                <button onClick={() => setKAmount(clampK(kAmount + p.stepK))} style={{ width: 44, height: 44, borderRadius: 12, background: c.bg2, border: `1px solid ${c.line}`, display: "flex", alignItems: "center", justifyContent: "center" }}><Plus size={18} color={c.text} /></button>
+              </div>
+              <div className="flex gap-2 mt-3">{(() => {
+                const span = p.maxK - p.minK;
+                const raw = [0, 0.25, 0.5, 1].map((r) => p.minK + span * r);
+                const snap = (v) => clampK(Math.round(v / p.stepK) * p.stepK);
+                const vals = [...new Set(raw.map(snap))];
+                return vals.map((val) => (<button key={val} onClick={() => setKAmount(val)} className="flex-1" style={{ padding: "8px 0", borderRadius: 10, fontSize: 11, fontWeight: 700, background: kAmount === val ? `${c.primary}1c` : c.bg2, color: kAmount === val ? c.primary : c.dim, border: `1px solid ${kAmount === val ? c.primary : c.line}` }}>{money(val * 1000)}</button>));
+              })()}</div>
+            </Card>
+          ) : (
+            <Card style={{ padding: 18, marginTop: 16 }}><div className="flex items-center justify-between"><span style={{ fontSize: 14, color: c.text, fontWeight: 700 }}>تعداد</span>
+              <div className="flex items-center gap-3"><button onClick={() => setKAmount(Math.max(1, kAmount - 1))} style={{ width: 40, height: 40, borderRadius: 12, background: c.bg2, border: `1px solid ${c.line}`, display: "flex", alignItems: "center", justifyContent: "center" }}><Minus size={18} color={c.text} /></button><span className="font-bold" style={{ fontSize: 18, color: c.text, minWidth: 28, textAlign: "center" }}>{fa(kAmount)}</span><button onClick={() => setKAmount(kAmount + 1)} style={{ width: 40, height: 40, borderRadius: 12, background: c.bg2, border: `1px solid ${c.line}`, display: "flex", alignItems: "center", justifyContent: "center" }}><Plus size={18} color={c.text} /></button></div>
+            </div></Card>
+          )}
+          <div className="flex flex-col gap-2 mt-4">{["تحویل تدریجی و طبیعی", "ضمانت بازگشت وجه", "پشتیبانی ۲۴ ساعته"].map((f, i) => (<div key={i} className="flex items-center gap-2" style={{ fontSize: 14, color: c.text }}><div style={{ width: 22, height: 22, borderRadius: 99, background: `${c.success}22`, display: "flex", alignItems: "center", justifyContent: "center" }}><Check size={14} color={c.success} /></div>{f}</div>))}</div>
+        </div>
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 18, background: `linear-gradient(transparent, ${c.bg} 30%)` }}><div className="flex items-center gap-3"><div><div style={{ fontSize: 11, color: c.dim }}>مبلغ کل</div><div className="font-bold" style={{ fontSize: 19, color: c.primary }}>{money(total)}</div></div><Btn onClick={() => { setCart({ p, amount: isView ? realViews : kAmount, total, qtyLabel: isView ? `${money(realViews)} ${p.unitName}` : `${fa(kAmount)} ${p.unitName}` }); push("checkout"); }} style={{ flex: 1 }}>افزودن و پرداخت</Btn></div></div>
+      </div>
+    );
+  };
+  const Checkout = () => {
+    const [code, setCode] = useState(""); const [applied, setApplied] = useState(false); const [fromWallet, setFromWallet] = useState(true);
+    const [busy, setBusy] = useState(false);
+    if (!cart) return null; const base = cart.total; const disc = applied ? Math.round(base * 0.2) : 0; const total = base - disc;
+    const placeOrder = async () => {
+      setBusy(true);
+      try {
+        const r = await api("/orders", { method: "POST", body: { product_id: cart.p.id, amount: cart.amount, pay_from_wallet: fromWallet } });
+        if (r.order) {
+          setOrders((o) => [{ id: r.order.id, code: r.order.reference_code, item: cart.p.name, qty: cart.qtyLabel, total: r.order.final_price, status: mapOrderStatus(r.order.status), date: r.order.created_at }, ...o]);
+        }
+        // بروزرسانی موجودی کیف پول از سرور
+        try { const w = await api("/wallet/balance"); setWallet(Number(w.balance)); } catch (e) {}
+        setCart(null); setStack([]); flash("✅ سفارش با موفقیت ثبت شد");
+      } catch (e) {
+        flash(e.message);
+      } finally { setBusy(false); }
+    };
+    return (
+      <div className="pb-32"><Header title="تکمیل سفارش" />
+        <div className="px-5 flex flex-col gap-4">
+          <Card style={{ padding: 16, display: "flex", gap: 12, alignItems: "center" }}><div style={{ width: 52, height: 52, borderRadius: 14, background: GRAD, display: "flex", alignItems: "center", justifyContent: "center" }}><Tag size={22} color="#fff" /></div><div className="flex-1"><div className="font-bold" style={{ fontSize: 14, color: c.text }}>{cart.p.name}</div><div style={{ fontSize: 12, color: c.dim }}>{cart.qtyLabel}</div></div></Card>
+          <Card style={{ padding: 16 }}><div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>کد تخفیف</div><div className="flex gap-2"><input value={code} onChange={(e) => setCode(e.target.value)} placeholder="مثلاً OFF20" style={{ flex: 1, background: c.bg2, border: `1px solid ${c.line}`, borderRadius: 12, padding: "12px 14px", color: c.text, fontSize: 14, outline: "none", fontFamily: "inherit" }} /><button onClick={() => setApplied(!!code)} className="font-bold" style={{ background: applied ? `${c.primary}22` : c.bg2, color: applied ? c.primary : c.text, borderRadius: 12, padding: "0 18px", fontSize: 14, border: `1px solid ${c.line}` }}>{applied ? "اعمال شد ✓" : "اعمال"}</button></div></Card>
+          <Card style={{ padding: 16 }} onClick={() => setFromWallet(!fromWallet)}><div className="flex items-center justify-between"><div className="flex items-center gap-3"><Wallet size={20} color={c.primary} /><div><div className="font-bold" style={{ fontSize: 14, color: c.text }}>پرداخت از کیف پول</div><div style={{ fontSize: 12, color: c.dim }}>موجودی: {money(wallet)} تومان</div></div></div><Toggle on={fromWallet} /></div></Card>
+          <Card style={{ padding: 16 }}>{[["مبلغ خدمت", money(base)], disc ? ["تخفیف", `−${money(disc)}`] : null].filter(Boolean).map(([k, v], i) => (<div key={i} className="flex justify-between" style={{ fontSize: 14, color: i === 1 ? c.success : c.dim, marginBottom: 8 }}><span>{k}</span><span>{v} تومان</span></div>))}<div style={{ height: 1, background: c.line, margin: "8px 0" }} /><div className="flex justify-between font-bold" style={{ fontSize: 16, color: c.text }}><span>مبلغ نهایی</span><span style={{ color: c.primary }}>{money(total)} تومان</span></div></Card>
+        </div>
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 18, background: `linear-gradient(transparent, ${c.bg} 30%)` }}><Btn onClick={placeOrder} disabled={busy || (fromWallet && total > wallet)}>{busy ? "در حال ثبت…" : (fromWallet && total > wallet ? "موجودی کافی نیست" : `پرداخت ${money(total)} تومان`)}</Btn></div>
+      </div>
+    );
+  };
+
+  const TopUp = () => {
+    const [amt, setAmt] = useState(1000000); const [custom, setCustom] = useState(""); const [m, setM] = useState(0);
+    const finalAmt = custom ? +custom.replace(/\D/g, "") || 0 : amt;
+    return (
+      <div className="pb-32"><Header title="شارژ کیف پول" />
+        <div className="px-5">
+          <Card style={{ padding: 22, textAlign: "center" }}><div style={{ fontSize: 13, color: c.dim }}>مبلغ شارژ</div><div className="font-bold mt-1" style={{ fontSize: 30, color: c.primary }}>{money(finalAmt)} <span style={{ fontSize: 15, color: c.dim }}>تومان</span></div></Card>
+          <div className="grid grid-cols-3 gap-3 mt-4">{[500000, 1000000, 2000000, 5000000, 10000000, 20000000].map((v) => (<button key={v} onClick={() => { setAmt(v); setCustom(""); }} className="font-bold" style={{ padding: "16px 0", borderRadius: 16, fontSize: 14, background: (!custom && amt === v) ? GRAD : c.card, color: (!custom && amt === v) ? "#fff" : c.text, border: `1px solid ${(!custom && amt === v) ? "transparent" : c.line}` }}>{money(v / 1000)}هزار</button>))}</div>
+          <Card style={{ padding: 16, marginTop: 12 }}><div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>یا مبلغ دلخواه (تومان)</div><input value={custom ? money(+custom.replace(/\D/g, "") || 0) : ""} onChange={(e) => setCustom(e.target.value.replace(/\D/g, ""))} placeholder="مثلاً ۷۵۰٬۰۰۰" inputMode="numeric" style={{ width: "100%", background: c.bg2, border: `1px solid ${custom ? c.primary : c.line}`, borderRadius: 12, padding: "13px 16px", color: c.text, fontSize: 16, fontWeight: 700, outline: "none", fontFamily: "inherit", textAlign: "center" }} /></Card>
+          <div className="mt-4 flex flex-col gap-2">{[{ i: CreditCard, t: "درگاه زرین‌پال", s: "پرداخت آنلاین امن" }, { i: CreditCard, t: "درگاه بانکی", s: "شتاب / همه کارت‌ها" }].map((o, i) => (<Card key={i} onClick={() => setM(i)} style={{ padding: 15, display: "flex", alignItems: "center", gap: 12 }}><div style={{ width: 42, height: 42, borderRadius: 12, background: c.bg2, display: "flex", alignItems: "center", justifyContent: "center" }}><o.i size={20} color={c.primary} /></div><div className="flex-1"><div className="font-bold" style={{ fontSize: 14, color: c.text }}>{o.t}</div><div style={{ fontSize: 12, color: c.dim }}>{o.s}</div></div><div style={{ width: 20, height: 20, borderRadius: 99, border: `2px solid ${m === i ? c.primary : c.line}` }}>{m === i && <div style={{ width: 10, height: 10, borderRadius: 99, background: c.primary, margin: 3 }} />}</div></Card>))}</div>
+        </div>
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 18, background: `linear-gradient(transparent, ${c.bg} 30%)` }}><Btn disabled={finalAmt < 10000} onClick={async () => { try { const r = await api("/wallet/topup", { method: "POST", body: { amount: finalAmt } }); if (r.payment_url) { window.open(r.payment_url, "_blank"); pop(); flash("به درگاه پرداخت هدایت شدید…"); } else { flash("خطا در اتصال به درگاه"); } } catch (e) { flash(e.message); } }}>{finalAmt < 10000 ? "حداقل مبلغ ۱۰٬۰۰۰ تومان" : "پرداخت و شارژ"}</Btn></div>
+      </div>
+    );
+  };
+  const WalletScreen = () => {
+    const [txns, setTxns] = useState(null);
+    useEffect(() => { (async () => { try { const r = await api("/wallet/transactions"); setTxns(r.transactions || []); } catch (e) { setTxns([]); } })(); }, []);
+    return (
+    <div className="pb-28"><Header title="کیف پول" right={<button onClick={() => push("topup")} className="flex items-center justify-center" style={{ width: 40, height: 40 }}><Plus size={22} color={c.primary} /></button>} />
+      <div className="px-5"><Card glow style={{ padding: 20, background: GRAD, border: "none" }}><div style={{ fontSize: 13, color: "#ffffffcc", fontWeight: 600 }}>موجودی فعلی</div><div className="font-bold mt-1" style={{ fontSize: 30, color: "#fff" }}>{money(wallet)} <span style={{ fontSize: 15 }}>تومان</span></div></Card>
+        <div className="font-bold mt-6 mb-3" style={{ fontSize: 16, color: c.text }}>تراکنش‌های اخیر</div>
+        {txns === null ? (<div className="flex justify-center py-8"><Loader2 size={24} color={c.primary} style={{ animation: "spin 1s linear infinite" }} /></div>) : txns.length === 0 ? (<div style={{ fontSize: 13, color: c.dim, textAlign: "center", padding: 20 }}>تراکنشی نیست</div>) : (
+        <div className="flex flex-col gap-2">{txns.map((t) => { const isIn = t.type === "credit"; return (<Card key={t.id} style={{ padding: 14, display: "flex", alignItems: "center", gap: 12 }}><div style={{ width: 42, height: 42, borderRadius: 12, background: isIn ? `${c.success}22` : `${c.danger}22`, display: "flex", alignItems: "center", justifyContent: "center" }}>{isIn ? <ArrowDownLeft size={20} color={c.success} /> : <ArrowUpRight size={20} color={c.danger} />}</div><div className="flex-1"><div className="font-bold" style={{ fontSize: 14, color: c.text }}>{t.description || (isIn ? "واریز" : "برداشت")}</div><div style={{ fontSize: 12, color: c.dim }}>{t.created_at}</div></div><div className="font-bold" style={{ fontSize: 14, color: isIn ? c.success : c.danger }}>{isIn ? "+" : "−"}{money(t.amount)}</div></Card>); })}</div>
+        )}
+      </div>
+    </div>
+    );
+  };
+
+  /* ORDERS / INVOICES / PAYMENTS */
+  const Orders = () => (
+    <div className="pb-10"><Header title="سفارش‌های من" />
+      <div className="px-5 flex flex-col gap-3">{orders.map((o) => (<Card key={o.id} onClick={() => push("order", { o })} style={{ padding: 16 }}>
+        <div className="flex items-center justify-between mb-2"><span className="font-bold" style={{ fontSize: 14, color: c.text }}>{o.code}</span><Badge s={o.status} /></div>
+        <div style={{ fontSize: 13, color: c.text, marginBottom: 6 }}>{o.item} · {o.qty}</div>
+        <div className="flex items-center justify-between" style={{ fontSize: 12, color: c.dim }}><span>{o.date}</span><span className="font-bold" style={{ color: c.primary, fontSize: 14 }}>{money(o.total)} ت</span></div>
+      </Card>))}</div>
+    </div>
+  );
+  const OrderDetail = ({ o }) => {
+    const [busy, setBusy] = useState(false); const [status, setStatus] = useState(o.status);
+    const payOrder = async () => { setBusy(true); try { await api("/orders/" + o.id + "/pay", { method: "POST" }); try { const w = await api("/wallet/balance"); setWallet(Number(w.balance)); } catch (e) {} setStatus("processing"); await loadOrders(); flash("✅ سفارش پرداخت شد"); } catch (e) { if (e.message && e.message.includes("کافی نیست")) { flash("موجودی کافی نیست — به شارژ کیف پول هدایت می‌شوید"); push("topup"); } else flash(e.message); } finally { setBusy(false); } };
+    const viewInvoice = async () => { try { const r = await api("/invoices"); const inv = (r.invoices || []).find((x) => x.order_code === o.code) || (r.invoices || [])[0]; if (inv) push("invoice", { id: inv.id }); else flash("برای این سفارش هنوز فاکتوری صادر نشده"); } catch (e) { flash(e.message); } };
+    return (
+    <div className="pb-10"><Header title={o.code} />
+      <div className="px-5"><div className="flex justify-center mb-4"><Badge s={status} /></div>
+        <Card style={{ padding: 18 }}>{[["خدمت", o.item], ["مقدار", o.qty], ["تاریخ", o.date], ["مبلغ", `${money(o.total)} تومان`]].map(([k, v], i) => (<div key={i} className="flex justify-between" style={{ fontSize: 14, padding: "11px 0", borderBottom: i < 3 ? `1px solid ${c.line}` : "none" }}><span style={{ color: c.dim }}>{k}</span><span style={{ color: c.text, fontWeight: 700 }}>{v}</span></div>))}</Card>
+        <div className="mt-4 flex flex-col gap-2"><Btn variant="soft" onClick={viewInvoice} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><Receipt size={18} /> مشاهده فاکتور</Btn>{status === "pending" && <Btn onClick={payOrder} disabled={busy}>{busy ? "در حال پرداخت…" : "پرداخت سفارش"}</Btn>}</div>
+      </div>
+    </div>
+    );
+  };
+  const Invoices = () => {
+    const [list, setList] = useState(null);
+    useEffect(() => { (async () => { try { const r = await api("/invoices"); setList(r.invoices || []); } catch (e) { setList([]); } })(); }, []);
+    return (
+    <div className="pb-10"><Header title="فاکتورها" />
+      <div className="px-5 flex flex-col gap-3">{list === null ? (<div className="flex justify-center py-10"><Loader2 size={24} color={c.primary} style={{ animation: "spin 1s linear infinite" }} /></div>) : list.length === 0 ? (<div style={{ textAlign: "center", color: c.dim, fontSize: 14, padding: 30 }}>فاکتوری نیست</div>) : list.map((v) => (<Card key={v.id} onClick={() => push("invoice", { id: v.id })} style={{ padding: 16 }}>
+        <div className="flex items-center justify-between mb-2"><div className="flex items-center gap-2"><FileText size={18} color={c.primary} /><span className="font-bold" style={{ fontSize: 14, color: c.text }}>{v.invoice_number}</span></div><Badge s={v.status} /></div>
+        <div className="flex items-center justify-between mt-3"><span className="font-bold" style={{ color: c.primary, fontSize: 15 }}>{money(v.amount)} ت</span><ChevronLeft size={18} color={c.dim} /></div>
+        <div style={{ fontSize: 12, color: c.dim, marginTop: 8 }}>{v.date}</div>
+      </Card>))}</div>
+    </div>
+    );
+  };
+  const InvoiceDetail = ({ id }) => {
+    const [inv, setInv] = useState(null);
+    useEffect(() => { (async () => { try { const r = await api("/invoices/" + id); setInv(r.invoice); } catch (e) { flash(e.message); } })(); }, [id]);
+    if (!inv) return <div className="pb-10"><Header title="فاکتور" /><div className="flex justify-center py-20"><Loader2 size={28} color={c.primary} style={{ animation: "spin 1s linear infinite" }} /></div></div>;
+    return (
+      <div className="pb-10"><Header title={inv.invoice_number} />
+        <div className="px-5">
+          <div className="flex justify-center mb-4"><Badge s={inv.status} /></div>
+          <Card style={{ padding: 18 }}>{[["شماره فاکتور", inv.invoice_number], ["مشتری", inv.customer], ["کد سفارش", inv.order_code], ["شرح", inv.item], ["تاریخ", inv.date], ["مبلغ", `${money(inv.amount)} تومان`]].map(([k, v], i, arr) => (<div key={i} className="flex justify-between" style={{ fontSize: 14, padding: "11px 0", borderBottom: i < arr.length - 1 ? `1px solid ${c.line}` : "none" }}><span style={{ color: c.dim }}>{k}</span><span style={{ color: c.text, fontWeight: 700 }}>{v || "—"}</span></div>))}</Card>
+          <Btn variant="soft" onClick={() => { if (inv.pdf_url) window.open(inv.pdf_url, "_blank"); }} style={{ marginTop: 16, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><Download size={18} /> دانلود PDF فاکتور</Btn>
+        </div>
+      </div>
+    );
+  };
+  const Payments = () => {
+    const [list, setList] = useState(null);
+    useEffect(() => { (async () => { try { const r = await api("/payments"); setList(r.payments || []); } catch (e) { setList([]); } })(); }, []);
+    return (
+    <div className="pb-10"><Header title="پرداخت‌ها" />
+      <div className="px-5 flex flex-col gap-2">{list === null ? (<div className="flex justify-center py-10"><Loader2 size={24} color={c.primary} style={{ animation: "spin 1s linear infinite" }} /></div>) : list.length === 0 ? (<div style={{ textAlign: "center", color: c.dim, fontSize: 14, padding: 30 }}>پرداختی نیست</div>) : list.map((p) => { const st = STATUS[p.status] || STATUS.success; return (<Card key={p.id} style={{ padding: 14, display: "flex", alignItems: "center", gap: 12 }}><div style={{ width: 42, height: 42, borderRadius: 12, background: `${st.c}1f`, display: "flex", alignItems: "center", justifyContent: "center" }}><CreditCard size={20} color={st.c} /></div><div className="flex-1"><div className="font-bold" style={{ fontSize: 14, color: c.text }}>{p.method}</div><div style={{ fontSize: 12, color: c.dim }}>{p.date}</div></div><div className="text-left"><div className="font-bold" style={{ fontSize: 14, color: c.text }}>{money(p.amount)}</div><div style={{ fontSize: 11, color: st.c, fontWeight: 700 }}>{st.t}</div></div></Card>); })}</div>
+    </div>
+    );
+  };
+
+  /* AFFILIATE — متصل به API */
+  const Affiliate = () => {
+    const [aff, setAff] = useState(null);
+    useEffect(() => { (async () => { try { const r = await api("/affiliate"); setAff(r.affiliate); } catch (e) { setAff(false); } })(); }, []);
+    if (aff === null) return <div className="pb-28"><Header title="همکاری در فروش" /><div className="flex justify-center py-20"><Loader2 size={28} color={c.primary} style={{ animation: "spin 1s linear infinite" }} /></div></div>;
+    const a = aff || { total_commission: 0, referrals_count: 0, clicks: 0, orders: 0, referral_code: "-", referral_link: "" };
+    return (
+    <div className="pb-28"><Header title="همکاری در فروش" />
+      <div className="px-5">
+        <Card glow style={{ padding: 20, background: GRAD, border: "none" }}><div style={{ fontSize: 13, color: "#ffffffcc", fontWeight: 600 }}>درآمد کسب‌شده</div><div className="font-bold mt-1" style={{ fontSize: 28, color: "#fff" }}>{money(a.total_commission)} <span style={{ fontSize: 14 }}>تومان</span></div></Card>
+        <div className="grid grid-cols-3 gap-3 mt-4"><Stat ic={Users} label="دعوت‌شده" val={fa(a.referrals_count)} color={c.primary} /><Stat ic={MousePointerClick} label="کلیک لینک" val={fa(a.clicks)} color={c.accent} /><Stat ic={ShoppingBag} label="سفارش" val={fa(a.orders)} color={c.success} /></div>
+        <Card style={{ padding: 16, marginTop: 16 }}><div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>کد معرف شما</div><div className="flex items-center gap-2"><div className="flex-1 truncate" style={{ background: c.bg2, borderRadius: 12, padding: "12px 14px", fontSize: 13, color: c.text }}>{a.referral_code}</div><button onClick={() => { try { navigator.clipboard.writeText(a.referral_link || a.referral_code); } catch (e) {} flash("🔗 کپی شد"); }} style={{ background: GRAD, borderRadius: 12, padding: 12, border: "none" }}><Copy size={18} color="#fff" /></button></div></Card>
+      </div>
+    </div>
+    );
+  };
+
+  /* INSTAGRAM (functional) */
+  const InstagramScreen = () => {
+    return (
+      <div className="pb-10"><Header title="اتصال اینستاگرام" />
+        <div className="px-5">
+          <Card style={{ padding: 26, textAlign: "center" }}>
+            <div className="flex flex-col items-center"><div style={{ width: 76, height: 76, borderRadius: 22, background: "linear-gradient(135deg,#f59e0b,#ef4444,#8b5cf6)", display: "flex", alignItems: "center", justifyContent: "center" }}><Instagram size={38} color="#fff" /></div>
+              <div className="font-bold mt-4" style={{ fontSize: 17, color: c.text }}>به‌زودی</div>
+              <p style={{ fontSize: 13.5, color: c.dim, lineHeight: 2, marginTop: 10 }}>اتصال مستقیم به اینستاگرام و انتشار خودکار محتوا در حال توسعه است و به‌زودی فعال می‌شود. تا آن زمان می‌توانید از طریق ساخت کمپین، تبلیغ اینستاگرامی سفارش دهید.</p>
+              <Btn variant="soft" style={{ marginTop: 18, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }} onClick={() => { goTab("campaigns"); }}><Megaphone size={17} /> ساخت کمپین اینستاگرام</Btn>
+            </div>
+          </Card>
+        </div>
+      </div>
+    );
+  };
+
+  /* CONTENT LIBRARY */
+  const Contents = () => {
+    const [items, setItems] = useState(CONTENTS);
+    return (
+      <div className="pb-10"><Header title="کتابخانه محتوا" right={<button onClick={() => goTab("ai")} className="flex items-center justify-center" style={{ width: 40, height: 40 }}><Plus size={22} color={c.primary} /></button>} />
+        <div className="px-5 flex flex-col gap-3">{items.map((m) => (<Card key={m.id} style={{ padding: 16 }}><div className="flex items-start justify-between"><div className="flex-1"><Chip color={c.primary} bg={`${c.primary}18`} ic={Sparkles} t={m.type} /><div className="font-bold mt-2" style={{ fontSize: 14, color: c.text }}>{m.title}</div></div><button onClick={() => setItems((x) => x.map((it) => it.id === m.id ? { ...it, fav: !it.fav } : it))}><Heart size={20} color={m.fav ? c.danger : c.dim} fill={m.fav ? c.danger : "none"} /></button></div></Card>))}</div>
+      </div>
+    );
+  };
+
+  /* ACTIVITY — متصل به API */
+  const ActivityLog = () => {
+    const [items, setItems] = useState(null);
+    useEffect(() => { (async () => { try { const r = await api("/activity"); setItems(r.activities || []); } catch (e) { setItems([]); } })(); }, []);
+    return (
+    <div className="pb-10"><Header title="گزارش فعالیت" />
+      <div className="px-5 flex flex-col gap-2">{items === null ? (<div className="flex justify-center py-10"><Loader2 size={24} color={c.primary} style={{ animation: "spin 1s linear infinite" }} /></div>) : items.length === 0 ? (<div style={{ textAlign: "center", color: c.dim, fontSize: 14, padding: 30 }}>فعالیتی ثبت نشده</div>) : items.map((a) => (<Card key={a.id} style={{ padding: 14, display: "flex", alignItems: "center", gap: 12 }}><div style={{ width: 40, height: 40, borderRadius: 11, background: `${c.primary}1c`, display: "flex", alignItems: "center", justifyContent: "center" }}><Activity size={18} color={c.primary} /></div><div className="flex-1"><div className="font-bold" style={{ fontSize: 14, color: c.text }}>{a.action}</div><div style={{ fontSize: 12, color: c.dim }}>{a.date}</div></div></Card>))}</div>
+    </div>
+    );
+  };
+
+  /* PROFILE (functional) */
+  const ProfileEdit = () => {
+    const [f, setF] = useState(profile);
+    const save = async () => { try { const r = await api("/profile", { method: "PUT", body: { name: f.name, phone: f.phone } }); if (r.user) applyUser(r.user); else setProfile(f); pop(); flash("✅ پروفایل ذخیره شد"); } catch (e) { flash(e.message); } };
+    return (
+      <div className="pb-28"><Header title="ویرایش پروفایل" />
+        <div className="px-5">
+          <div className="flex flex-col items-center mb-6"><div style={{ position: "relative" }}><div style={{ width: 86, height: 86, borderRadius: 99, background: f.avatar ? `url(${f.avatar}) center/cover` : GRAD, display: "flex", alignItems: "center", justifyContent: "center" }}>{!f.avatar && <span className="font-bold" style={{ fontSize: 34, color: "#fff" }}>{f.name.charAt(0)}</span>}</div><label style={{ position: "absolute", bottom: 0, left: 0, width: 30, height: 30, borderRadius: 99, background: c.card, border: `1px solid ${c.line}`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}><Camera size={15} color={c.primary} /><input type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = (ev) => { setF({ ...f, avatar: ev.target.result }); flash("عکس انتخاب شد (با ذخیره اعمال می‌شود)"); }; reader.readAsDataURL(file); }} /></label></div></div>
+          <Field label="نام و نام خانوادگی" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} />
+          <div className="block mb-3"><div className="mb-2" style={{ fontSize: 13, color: c.dim, fontWeight: 600 }}>ایمیل</div><div style={{ width: "100%", background: c.bg2, border: `1px solid ${c.line}`, borderRadius: 14, padding: "14px 16px", color: c.dim, fontSize: 15 }}>{f.email || "—"}</div></div>
+          {f.phone ? <div className="block mb-3"><div className="mb-2" style={{ fontSize: 13, color: c.dim, fontWeight: 600 }}>شماره موبایل</div><div style={{ width: "100%", background: c.bg2, border: `1px solid ${c.line}`, borderRadius: 14, padding: "14px 16px", color: c.dim, fontSize: 15 }}>{f.phone}</div></div> : null}
+        </div>
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 18, background: `linear-gradient(transparent, ${c.bg} 30%)` }}><Btn onClick={save} disabled={!f.name.trim()} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><Save size={18} /> ذخیره تغییرات</Btn></div>
+      </div>
+    );
+  };
+
+  /* SECURITY (functional) */
+  const ChangePassword = () => {
+    const [cur, setCur] = useState(""); const [n1, setN1] = useState(""); const [n2, setN2] = useState("");
+    const err = n1 && n1.length < 6 ? "رمز جدید حداقل ۶ کاراکتر" : (n2 && n1 !== n2 ? "تکرار رمز مطابقت ندارد" : "");
+    const ok = cur && n1.length >= 6 && n1 === n2;
+    return (
+      <div className="pb-28"><Header title="تغییر رمز عبور" />
+        <div className="px-5">
+          <Field label="رمز فعلی" type="password" value={cur} onChange={(e) => setCur(e.target.value)} placeholder="••••••••" />
+          <Field label="رمز جدید" type="password" value={n1} onChange={(e) => setN1(e.target.value)} placeholder="حداقل ۶ کاراکتر" />
+          <Field label="تکرار رمز جدید" type="password" value={n2} onChange={(e) => setN2(e.target.value)} placeholder="••••••••" />
+          {err && <div className="flex items-center gap-2" style={{ fontSize: 12, color: c.danger, marginTop: 4 }}><XCircle size={14} /> {err}</div>}
+          {ok && <div className="flex items-center gap-2" style={{ fontSize: 12, color: c.success, marginTop: 4 }}><CheckCircle2 size={14} /> رمز جدید معتبر است</div>}
+        </div>
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 18, background: `linear-gradient(transparent, ${c.bg} 30%)` }}><Btn disabled={!ok} onClick={async () => { try { await api("/change-password", { method: "POST", body: { current_password: cur, new_password: n1 } }); pop(); flash("🔒 رمز عبور تغییر کرد"); } catch (e) { flash(e.message); } }}>ذخیره رمز جدید</Btn></div>
+      </div>
+    );
+  };
+  const TwoFASetup = () => {
+    const [code, setCode] = useState(""); const [qr, setQr] = useState(null); const [busy, setBusy] = useState(false); const [err, setErr] = useState("");
+    useEffect(() => { (async () => { try { const r = await api("/2fa/setup", { method: "POST" }); setQr(r); } catch (e) { setErr(e.message); } })(); }, []);
+    const confirm = async () => { setBusy(true); setErr(""); try { await api("/2fa/confirm", { method: "POST", body: { code } }); setTwoFA(true); pop(); flash("🛡️ ورود دو مرحله‌ای فعال شد"); } catch (e) { setErr(e.message); } finally { setBusy(false); } };
+    return (
+      <div className="pb-28"><Header title="فعال‌سازی ورود دو مرحله‌ای" />
+        <div className="px-5">
+          <Card style={{ padding: 20, textAlign: "center" }}><div style={{ width: 170, height: 170, borderRadius: 16, background: "#fff", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>{qr && qr.qr_url ? <img src={qr.qr_url} alt="QR" style={{ width: 160, height: 160 }} /> : <Loader2 size={40} color="#111" style={{ animation: "spin 1s linear infinite" }} />}</div>{qr && qr.secret && <div style={{ fontSize: 12, color: c.dim, marginTop: 10 }}>کد دستی: <span style={{ fontWeight: 700, color: c.text, letterSpacing: 1 }}>{qr.secret}</span></div>}<p style={{ fontSize: 13, color: c.dim, lineHeight: 1.9, marginTop: 14 }}>این کد QR را با اپ Google Authenticator یا مشابه اسکن کنید، سپس کد ۶ رقمی را وارد نمایید.</p></Card>
+          <div className="mt-4"><div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>کد تأیید ۶ رقمی</div><input value={code} onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))} placeholder="۱۲۳۴۵۶" inputMode="numeric" dir="ltr" style={{ width: "100%", textAlign: "center", letterSpacing: 8, background: c.bg2, border: `1px solid ${code.length === 6 ? c.success : c.line}`, borderRadius: 14, padding: "16px", color: c.text, fontSize: 22, fontWeight: 700, outline: "none", fontFamily: "inherit" }} /></div>
+          {err && <div className="flex items-center gap-2 mt-3" style={{ fontSize: 13, color: c.danger }}><XCircle size={15} /> {err}</div>}
+        </div>
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 18, background: `linear-gradient(transparent, ${c.bg} 30%)` }}><Btn disabled={code.length !== 6 || busy} onClick={confirm}>{busy ? "در حال بررسی…" : "تأیید و فعال‌سازی"}</Btn></div>
+      </div>
+    );
+  };
+  const Disable2FA = () => {
+    const [pw, setPw] = useState(""); const [busy, setBusy] = useState(false); const [err, setErr] = useState("");
+    const disable = async () => { setBusy(true); setErr(""); try { await api("/2fa/disable", { method: "POST", body: { password: pw } }); setTwoFA(false); pop(); flash("ورود دو مرحله‌ای غیرفعال شد"); } catch (e) { setErr(e.message); } finally { setBusy(false); } };
+    return (
+      <div className="pb-28"><Header title="غیرفعال‌سازی ۲FA" />
+        <div className="px-5">
+          <Card style={{ padding: 18, display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 16 }}><Shield size={20} color={c.accent} style={{ flexShrink: 0, marginTop: 2 }} /><div style={{ fontSize: 13, color: c.dim, lineHeight: 1.8 }}>برای غیرفعال‌کردن ورود دو مرحله‌ای، رمز عبور حساب خود را وارد کنید.</div></Card>
+          <Field label="رمز عبور" type="password" value={pw} onChange={(e) => setPw(e.target.value)} placeholder="••••••••" />
+          {err && <div className="flex items-center gap-2" style={{ fontSize: 13, color: c.danger }}><XCircle size={15} /> {err}</div>}
+        </div>
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 18, background: `linear-gradient(transparent, ${c.bg} 30%)` }}><Btn disabled={!pw || busy} onClick={disable} style={{ background: c.danger }}>{busy ? "..." : "غیرفعال کن"}</Btn></div>
+      </div>
+    );
+  };
+  const Security = () => (
+    <div className="pb-10"><Header title="امنیت حساب" />
+      <div className="px-5">
+        <Card style={{ padding: 18 }}><div className="flex items-center justify-between"><div className="flex items-center gap-3"><div style={{ width: 44, height: 44, borderRadius: 13, background: `${(twoFA ? c.success : c.dim)}1c`, display: "flex", alignItems: "center", justifyContent: "center" }}><Shield size={22} color={twoFA ? c.success : c.dim} /></div><div><div className="font-bold" style={{ fontSize: 15, color: c.text }}>ورود دو مرحله‌ای</div><div style={{ fontSize: 12, color: c.dim }}>{twoFA ? "فعال — محافظت دو لایه" : "غیرفعال — توصیه می‌شود فعال کنید"}</div></div></div><button onClick={() => { if (twoFA) { push("disable2fa"); } else { push("twofa"); } }}><Toggle on={twoFA} /></button></div></Card>
+        <Card style={{ marginTop: 16, overflow: "hidden" }}>
+          <Row ic={KeyRound} t="تغییر رمز عبور" sub="آخرین تغییر: ۲ ماه پیش" onClick={() => push("changepw")} />
+          <Row ic={Smartphone} t="دستگاه‌های فعال" sub="۲ دستگاه متصل" onClick={() => push("devices")} />
+          <Row ic={Activity} t="گزارش فعالیت ورود" onClick={() => push("activity")} last />
+        </Card>
+        <Card style={{ marginTop: 16, padding: 16, display: "flex", gap: 12, alignItems: "flex-start" }}><Shield size={20} color={c.primary} style={{ flexShrink: 0, marginTop: 2 }} /><div style={{ fontSize: 13, color: c.dim, lineHeight: 1.8 }}>برای امنیت بیشتر، ورود دو مرحله‌ای را فعال کنید و رمز عبور را به‌صورت دوره‌ای تغییر دهید.</div></Card>
+      </div>
+    </div>
+  );
+  const Devices = () => {
+    const [list, setList] = useState(null);
+    useEffect(() => { (async () => { try { const r = await api("/devices"); setList(r.devices || []); } catch (e) { setList([]); } })(); }, []);
+    return (
+      <div className="pb-10"><Header title="دستگاه‌های فعال" />
+        <div className="px-5 flex flex-col gap-2">{list === null ? (<div className="flex justify-center py-10"><Loader2 size={24} color={c.primary} style={{ animation: "spin 1s linear infinite" }} /></div>) : list.length === 0 ? (<div style={{ textAlign: "center", color: c.dim, fontSize: 14, padding: 30 }}>دستگاهی ثبت نشده</div>) : list.map((d) => (<Card key={d.id} style={{ padding: 15, display: "flex", alignItems: "center", gap: 12 }}><div style={{ width: 42, height: 42, borderRadius: 12, background: c.bg2, display: "flex", alignItems: "center", justifyContent: "center" }}><Smartphone size={20} color={c.primary} /></div><div className="flex-1"><div className="font-bold" style={{ fontSize: 14, color: c.text }}>{d.name} {d.current && <span style={{ fontSize: 11, color: c.success }}>(این دستگاه)</span>}</div><div style={{ fontSize: 12, color: c.dim }}>{d.ip ? d.ip + " · " : ""}{d.last}</div></div></Card>))}</div>
+      </div>
+    );
+  };
+
+  /* CAMPAIGNS + WIZARD (all networks) */
+  const Campaigns = () => (
+    <div className="pb-28"><div className="px-5 pt-4 flex items-center justify-between"><div className="font-bold" style={{ fontSize: 22, color: c.text }}>کمپین‌ها</div><button onClick={() => push("wizard")} className="flex items-center gap-1.5 font-bold" style={{ background: GRAD, color: "#fff", borderRadius: 13, padding: "9px 14px", fontSize: 13, border: "none" }}><Plus size={17} /> جدید</button></div>
+      <div className="px-5 mt-4 flex flex-col gap-3">{campaigns.map((cp) => (<Card key={cp.id} onClick={() => push("campaign", { cp })} style={{ padding: 16 }}>
+        <div className="flex items-center justify-between mb-3"><div className="font-bold" style={{ fontSize: 15, color: c.text }}>{cp.name}</div><Badge s={cp.status} /></div>
+        <div className="flex items-center gap-3" style={{ fontSize: 12, color: c.dim }}><span className="flex items-center gap-1"><Megaphone size={14} /> {NET_NAME[cp.net] || cp.net}</span><span className="flex items-center gap-1"><Wallet size={14} /> {money(cp.budget)} ت</span></div>
+        {cp.status === "active" && <div className="mt-3" style={{ height: 7, borderRadius: 99, background: c.bg2, overflow: "hidden" }}><div style={{ width: `${cp.prog}%`, height: "100%", background: GRAD }} /></div>}
+      </Card>))}</div>
+    </div>
+  );
+  const CampaignDetail = ({ cp: cpProp, cpId }) => {
+    const [cp, setCp] = useState(cpProp ? {
+      id: cpProp.id, name: cpProp.name, status: cpProp.status === "active" ? "active" : cpProp.status === "done" ? "completed" : cpProp.status === "rejected" ? "rejected" : "pending",
+      budget: cpProp.budget, social_network: cpProp.net, impressions: cpProp.imp, clicks: cpProp.clk, conversions: cpProp.conv, is_paid: true,
+    } : null);
+    const [busy, setBusy] = useState(false);
+    const load = async () => { try { const r = await api("/campaigns/" + (cpId || cpProp.id)); setCp(r.campaign); } catch (e) {} };
+    useEffect(() => { if (cpId) load(); }, [cpId]);
+    if (!cp) return <div className="pb-10"><Header title="کمپین" /><div className="flex justify-center py-20"><Loader2 size={28} color={c.primary} style={{ animation: "spin 1s linear infinite" }} /></div></div>;
+    const st = mapCampaignStatus(cp.status);
+    const needsPay = !cp.is_paid;
+    const canWallet = wallet >= cp.budget;
+    const payWallet = async () => { setBusy(true); try { await api("/campaigns/" + cp.id + "/pay", { method: "POST" }); try { const w = await api("/wallet/balance"); setWallet(Number(w.balance)); } catch (e) {} await load(); await loadCampaigns(); flash("✅ پرداخت انجام شد"); } catch (e) { flash(e.message); } finally { setBusy(false); } };
+    const payGateway = async () => { setBusy(true); try { const r = await api("/wallet/topup", { method: "POST", body: { amount: cp.budget } }); if (r.payment_url) { window.open(r.payment_url, "_blank"); flash("به درگاه هدایت شدید — بعد از شارژ، از کیف پول پرداخت کنید"); } } catch (e) { flash(e.message); } finally { setBusy(false); } };
+    return (
+    <div className="pb-32"><Header title={cp.name} />
+      <div className="px-5"><div className="flex items-center justify-between mb-4"><Badge s={st} /><span style={{ fontSize: 13, color: c.dim }}>{NET_NAME[cp.social_network] || cp.social_network || ""}</span></div>
+        <Card style={{ padding: 18 }}><div style={{ fontSize: 13, color: c.dim }}>بودجه کمپین</div><div className="font-bold mt-1" style={{ fontSize: 24, color: c.primary }}>{money(cp.budget)} <span style={{ fontSize: 14, color: c.dim }}>تومان</span></div>{needsPay && <div className="flex items-center gap-1.5 mt-2" style={{ fontSize: 12, color: c.accent }}><Clock size={14} /> پرداخت‌نشده</div>}</Card>
+        {(st === "active" || st === "done") && (<><div className="flex gap-2 mt-4"><Stat ic={Eye} label="نمایش" val={money(cp.impressions)} color={c.primary2} /><Stat ic={MousePointerClick} label="کلیک" val={money(cp.clicks)} color={c.primary} /><Stat ic={Target} label="تبدیل" val={money(cp.conversions)} color={c.accent} /></div>
+          <Card style={{ padding: 18, marginTop: 16 }}><div className="font-bold mb-3" style={{ fontSize: 14, color: c.text }}>روند بازدید (۷ روز)</div><div className="flex items-end justify-between gap-2" style={{ height: 90 }}>{[40, 65, 50, 80, 72, 95, 88].map((h, i) => (<div key={i} className="flex-1" style={{ height: `${h}%`, borderTopLeftRadius: 6, borderTopRightRadius: 6, background: GRAD, opacity: .55 + i * 0.06 }} />))}</div></Card></>)}
+        {st === "review" && !needsPay && <Card style={{ padding: 18, marginTop: 16, display: "flex", gap: 12, alignItems: "center" }}><Clock size={22} color={c.accent} /><div style={{ fontSize: 14, color: c.dim, lineHeight: 1.7 }}>کمپین شما در صف بررسی است و تا حداکثر ۲ ساعت آینده تأیید می‌شود.</div></Card>}
+        {st === "rejected" && <Card style={{ padding: 18, marginTop: 16, display: "flex", gap: 12, alignItems: "center" }}><XCircle size={22} color={c.danger} /><div style={{ fontSize: 14, color: c.dim, lineHeight: 1.7 }}>{cp.rejection_reason || "محتوای کمپین با قوانین مغایرت داشت."}</div></Card>}
+      </div>
+      {needsPay && <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 18, background: `linear-gradient(transparent, ${c.bg} 30%)` }}>
+        <div className="flex items-center justify-between mb-2" style={{ fontSize: 12, color: c.dim }}><span>موجودی کیف پول</span><span style={{ color: canWallet ? c.success : c.danger, fontWeight: 700 }}>{money(wallet)} تومان</span></div>
+        <Btn onClick={payWallet} disabled={busy || !canWallet} style={{ marginBottom: 8 }}>{canWallet ? `پرداخت از کیف پول (${money(cp.budget)})` : "موجودی کیف پول کافی نیست"}</Btn>
+        {!canWallet && <Btn variant="soft" onClick={payGateway} disabled={busy} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><CreditCard size={18} /> شارژ از درگاه پرداخت</Btn>}
+      </div>}
+    </div>
+    );
+  };
+  const Wizard = () => {
+    const [step, setStep] = useState(1);
+    const [d, setD] = useState({ name: "", goal: "", budget: 3000000, net: "ig", fmt: "", caption: "" });
+    const [busy, setBusy] = useState(false);
+    const steps = ["هدف و بودجه", "شبکه و فرمت", "محتوا", "بررسی نهایی"];
+    const set = (k, v) => setD((s) => ({ ...s, [k]: v }));
+    const submit = async () => {
+      setBusy(true);
+      try {
+        const r = await api("/campaigns", { method: "POST", body: { name: d.name || "کمپین جدید", goal: d.goal, social_network: d.net, ad_format: d.fmt, budget: d.budget, caption: d.caption, pay_from_wallet: true } });
+        try { const w = await api("/wallet/balance"); setWallet(Number(w.balance)); } catch (e) {}
+        await loadCampaigns();
+        const cpId = r.campaign && r.campaign.id;
+        setStack([]);
+        if (cpId) push("campaign", { cpId });
+        flash(r.is_paid ? "🚀 کمپین ثبت و پرداخت شد" : "✅ کمپین ثبت شد — حالا پرداخت کنید");
+      } catch (e) { flash(e.message); } finally { setBusy(false); }
+    };
+    return (
+      <div className="pb-32"><Header title="ساخت کمپین تبلیغاتی" />
+        <div className="px-5">
+          <div className="flex items-center gap-2 mb-6">{steps.map((s, i) => (<React.Fragment key={i}><div className="flex items-center justify-center font-bold" style={{ width: 30, height: 30, borderRadius: 99, fontSize: 13, background: step >= i + 1 ? GRAD : c.bg2, color: step >= i + 1 ? "#fff" : c.dim }}>{step > i + 1 ? <Check size={16} color="#fff" /> : fa(i + 1)}</div>{i < 3 && <div style={{ flex: 1, height: 2, background: step > i + 1 ? c.primary : c.line }} />}</React.Fragment>))}</div>
+          <div className="font-bold mb-4" style={{ fontSize: 17, color: c.text }}>{steps[step - 1]}</div>
+          {step === 1 && (<div style={{ animation: "fadeUp .3s both" }}>
+            <Field label="نام کمپین" value={d.name} onChange={(e) => set("name", e.target.value)} placeholder="مثلاً فروش ویژه نوروز" />
+            <div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>هدف کمپین</div><div className="grid grid-cols-2 gap-3 mb-5">{[{ k: "sale", t: "فروش", i: ShoppingBag }, { k: "follow", t: "جذب فالوور", i: Users }, { k: "aware", t: "برندینگ", i: Star }, { k: "traffic", t: "ترافیک سایت", i: TrendingUp }].map((o) => (<button key={o.k} onClick={() => set("goal", o.k)} className="flex flex-col items-center gap-2 py-4" style={{ borderRadius: 16, background: d.goal === o.k ? `${c.primary}1c` : c.card, border: `1px solid ${d.goal === o.k ? c.primary : c.line}` }}><o.i size={24} color={d.goal === o.k ? c.primary : c.dim} /><span style={{ fontSize: 13, color: c.text, fontWeight: 600 }}>{o.t}</span></button>))}</div>
+            <div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>بودجه (تومان)</div><Card style={{ padding: 16 }}><div className="font-bold text-center mb-3" style={{ fontSize: 22, color: c.primary }}>{money(d.budget)}</div><input type="range" dir="ltr" min={500000} max={1000000000} step={500000} value={d.budget} onChange={(e) => set("budget", +e.target.value)} style={{ width: "100%", accentColor: c.primary }} /><div dir="ltr" className="flex justify-between mt-1" style={{ fontSize: 11, color: c.dim }}><span>۵۰۰ هزار</span><span>۱ میلیارد</span></div><div className="grid grid-cols-4 gap-2 mt-3">{[5000000, 20000000, 100000000, 500000000].map((v) => (<button key={v} onClick={() => set("budget", v)} style={{ padding: "8px 0", borderRadius: 10, fontSize: 11, fontWeight: 700, background: d.budget === v ? `${c.primary}1c` : c.bg2, color: d.budget === v ? c.primary : c.dim, border: `1px solid ${d.budget === v ? c.primary : c.line}` }}>{v >= 1000000000 ? "۱ میلیارد" : (v >= 1000000 ? money(v/1000000)+" م" : money(v/1000)+" هزار")}</button>))}</div></Card></div>)}
+          {step === 2 && (<div style={{ animation: "fadeUp .3s both" }}>
+            <div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>پلتفرم تبلیغ</div>
+            <div className="grid grid-cols-3 gap-3 mb-5">{NETWORKS.map((o) => (<button key={o.k} onClick={() => { set("net", o.k); set("fmt", ""); }} className="flex flex-col items-center gap-2 py-4" style={{ borderRadius: 16, background: d.net === o.k ? `${c.primary}1c` : c.card, border: `1px solid ${d.net === o.k ? c.primary : c.line}` }}><o.ic size={22} color={d.net === o.k ? c.primary : c.dim} /><span style={{ fontSize: 11, color: c.text, fontWeight: 600 }}>{o.t}</span></button>))}</div>
+            <div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>فرمت تبلیغ {NET_NAME[d.net] ? `(${NET_NAME[d.net]})` : ""}</div><div className="flex flex-col gap-2">{(NET_FORMATS[d.net] || [{ k: "post", t: "پست" }]).map((o) => (<Card key={o.k} onClick={() => set("fmt", o.k)} style={{ padding: 15, display: "flex", alignItems: "center", gap: 12, border: `1px solid ${d.fmt === o.k ? c.primary : c.line}` }}><Megaphone size={20} color={d.fmt === o.k ? c.primary : c.dim} /><span className="flex-1 font-bold" style={{ fontSize: 14, color: c.text }}>{o.t}</span><div style={{ width: 20, height: 20, borderRadius: 99, border: `2px solid ${d.fmt === o.k ? c.primary : c.line}` }}>{d.fmt === o.k && <div style={{ width: 10, height: 10, borderRadius: 99, background: c.primary, margin: 3 }} />}</div></Card>))}</div></div>)}
+          {step === 3 && (<div style={{ animation: "fadeUp .3s both" }}><div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>تصویر / ویدیوی تبلیغ</div><div className="flex flex-col items-center justify-center gap-2 mb-4" style={{ height: 130, borderRadius: 18, border: `2px dashed ${c.line}`, background: c.bg2 }}><Camera size={28} color={c.dim} /><span style={{ fontSize: 13, color: c.dim }}>برای آپلود ضربه بزنید</span></div><div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>متن تبلیغ (کپشن)</div><textarea value={d.caption} onChange={(e) => set("caption", e.target.value)} placeholder="متن جذاب تبلیغ خود را بنویسید…" rows={4} style={{ width: "100%", background: c.bg2, border: `1px solid ${c.line}`, borderRadius: 14, padding: 14, color: c.text, fontSize: 14, outline: "none", fontFamily: "inherit", resize: "none" }} /><button onClick={() => set("caption", "🍂 حراج پاییزه آغاز شد! تا ۵۰٪ تخفیف روی همه محصولات. فرصت رو از دست نده 👇")} className="flex items-center gap-2 mt-3 font-bold" style={{ fontSize: 13, color: c.primary, background: "none", border: "none" }}><Sparkles size={16} /> پیشنهاد متن با هوش مصنوعی</button></div>)}
+          {step === 4 && (<div style={{ animation: "fadeUp .3s both" }}><Card style={{ padding: 18 }}>{[["نام", d.name || "—"], ["هدف", { sale: "فروش", follow: "جذب فالوور", aware: "برندینگ", traffic: "ترافیک" }[d.goal] || "—"], ["پلتفرم", NET_NAME[d.net]], ["فرمت", { post: "پست", story: "استوری", reel: "ریلز", banner: "بنر" }[d.fmt] || "—"], ["بودجه", `${money(d.budget)} تومان`]].map(([k, v], i) => (<div key={i} className="flex justify-between" style={{ fontSize: 14, padding: "10px 0", borderBottom: i < 4 ? `1px solid ${c.line}` : "none" }}><span style={{ color: c.dim }}>{k}</span><span style={{ color: c.text, fontWeight: 700 }}>{v}</span></div>))}</Card><Card style={{ padding: 16, marginTop: 14, display: "flex", alignItems: "center", gap: 12 }}><Wallet size={20} color={c.primary} /><div className="flex-1" style={{ fontSize: 13, color: c.dim }}>پرداخت از کیف پول</div><div className="font-bold" style={{ color: c.primary }}>{money(d.budget)} ت</div></Card></div>)}
+        </div>
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 18, background: `linear-gradient(transparent, ${c.bg} 30%)`, display: "flex", gap: 10 }}>{step > 1 && <Btn variant="ghost" onClick={() => setStep(step - 1)} style={{ width: "auto", padding: "14px 22px" }}>قبلی</Btn>}{step < 4 ? <Btn onClick={() => setStep(step + 1)} disabled={step === 1 && !d.goal}>ادامه</Btn> : <Btn onClick={submit} disabled={busy}>{busy ? "در حال ثبت…" : "ثبت کمپین"}</Btn>}</div>
+      </div>
+    );
+  };
+
+  /* AI */
+  const AI = () => {
+    const [mode, setMode] = useState("content"); const [topic, setTopic] = useState(""); const [gen, setGen] = useState(null); const [loading, setLoading] = useState(false);
+    const [msgs, setMsgs] = useState([{ me: false, t: "سلام! من دستیار هوشمند Pacto هستم 🤖 چطور می‌تونم کمکت کنم؟" }]); const [input, setInput] = useState(""); const endRef = useRef(null);
+    useEffect(() => { endRef.current && endRef.current.scrollIntoView({ behavior: "smooth" }); }, [msgs]);
+    const generate = () => { setLoading(true); setGen(null); setTimeout(() => { setLoading(false); setGen({ cap: `✨ ${topic || "محصول شما"} رو با کیفیتی متفاوت تجربه کن!\nهمین حالا سفارش بده و از تخفیف ویژه بهره‌مند شو 🛒`, tags: ["#فروش_ویژه", "#تخفیف", "#خرید_آنلاین", "#کیفیت", "#ارسال_رایگان"] }); }, 1300); };
+    const send = async () => { if (!input.trim()) return; const t = input; setInput(""); setMsgs((m) => [...m, { me: true, t }]); setMsgs((m) => [...m, { me: false, t: "…", typing: true }]); try { const r = await api("/ai/chat", { method: "POST", body: { message: t } }); setMsgs((m) => m.filter((x) => !x.typing).concat({ me: false, t: r.reply || "پاسخی دریافت نشد." })); } catch (e) { setMsgs((m) => m.filter((x) => !x.typing).concat({ me: false, t: "خطا: " + e.message })); } };
+    return (
+      <div className="flex flex-col" style={{ height: "100%" }}>
+        <div className="px-5 pt-4 flex items-center justify-between"><div className="font-bold" style={{ fontSize: 22, color: c.text }}>هوش مصنوعی</div><button onClick={() => push("contents")} className="flex items-center gap-1.5 font-bold" style={{ fontSize: 13, color: c.primary, background: "none", border: "none" }}><FileText size={16} /> کتابخانه</button></div>
+        <div className="flex gap-2 px-5 mt-4">{[["content", "تولید محتوا"], ["chat", "دستیار چت"]].map(([k, t]) => (<button key={k} onClick={() => setMode(k)} className="flex-1 font-bold" style={{ padding: "10px", borderRadius: 13, fontSize: 14, background: mode === k ? GRAD : c.card, color: mode === k ? "#fff" : c.dim, border: `1px solid ${mode === k ? "transparent" : c.line}` }}>{t}</button>))}</div>
+        {mode === "content" ? (
+          <div className="px-5 mt-4 overflow-y-auto pb-28" style={{ flex: 1 }}>
+            <Field label="موضوع محتوا" placeholder="مثلاً: فروش کفش ورزشی" value={topic} onChange={(e) => setTopic(e.target.value)} />
+            <Btn onClick={generate} disabled={loading} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>{loading ? <><Loader2 size={18} style={{ animation: "spin 1s linear infinite" }} /> در حال تولید…</> : <><Sparkles size={18} /> تولید محتوا</>}</Btn>
+            {gen && (<div style={{ animation: "fadeUp .4s both" }}><Card style={{ padding: 16, marginTop: 16 }}><div className="flex items-center justify-between mb-2"><span style={{ fontSize: 13, color: c.dim, fontWeight: 600 }}>کپشن پیشنهادی</span><button onClick={() => flash("کپشن کپی شد")} style={{ background: "none", border: "none" }}><Copy size={16} color={c.primary} /></button></div><p style={{ fontSize: 14, color: c.text, lineHeight: 1.9, whiteSpace: "pre-line" }}>{gen.cap}</p></Card><Card style={{ padding: 16, marginTop: 12 }}><div className="flex items-center gap-2 mb-3" style={{ fontSize: 13, color: c.dim, fontWeight: 600 }}><Hash size={15} /> هشتگ‌ها</div><div className="flex flex-wrap gap-2">{gen.tags.map((t, i) => <span key={i} style={{ fontSize: 12, color: c.primary, background: `${c.primary}18`, padding: "5px 11px", borderRadius: 99, fontWeight: 600 }}>{t}</span>)}</div></Card></div>)}
+          </div>
+        ) : (
+          <div className="flex flex-col" style={{ flex: 1, minHeight: 0 }}>
+            <div className="px-5 mt-4 overflow-y-auto flex flex-col gap-3" style={{ flex: 1 }}>{msgs.map((m, i) => (<div key={i} style={{ alignSelf: m.me ? "flex-start" : "flex-end", maxWidth: "82%" }}><div style={{ background: m.me ? GRAD : c.card, color: m.me ? "#fff" : c.text, padding: "11px 15px", borderRadius: 18, fontSize: 14, lineHeight: 1.8, border: m.me ? "none" : `1px solid ${c.line}`, borderBottomRightRadius: m.me ? 18 : 6, borderBottomLeftRadius: m.me ? 6 : 18 }}>{m.t}</div></div>))}<div ref={endRef} /></div>
+            <div className="px-4 py-3 flex gap-2" style={{ borderTop: `1px solid ${c.line}` }}><input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && send()} placeholder="پیامت رو بنویس…" style={{ flex: 1, background: c.bg2, border: `1px solid ${c.line}`, borderRadius: 14, padding: "12px 16px", color: c.text, fontSize: 14, outline: "none", fontFamily: "inherit" }} /><button onClick={send} style={{ width: 48, borderRadius: 14, background: GRAD, display: "flex", alignItems: "center", justifyContent: "center", border: "none" }}><Send size={20} color="#fff" style={{ transform: "scaleX(-1)" }} /></button></div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  /* ACCOUNT */
+  const Account = () => (
+    <div className="pb-28">
+      <div className="px-5 pt-4"><div className="font-bold" style={{ fontSize: 22, color: c.text }}>حساب کاربری</div></div>
+      <div className="px-5 mt-4">
+        <Card onClick={() => push("profile")} style={{ padding: 18, display: "flex", alignItems: "center", gap: 14 }}><div style={{ width: 60, height: 60, borderRadius: 99, background: GRAD, display: "flex", alignItems: "center", justifyContent: "center" }}><span className="font-bold" style={{ fontSize: 24, color: "#fff" }}>{profile.name.charAt(0)}</span></div><div className="flex-1"><div className="font-bold" style={{ fontSize: 17, color: c.text }}>{profile.name}</div><div style={{ fontSize: 13, color: c.dim }}>{profile.email}</div></div><Edit3 size={18} color={c.dim} /></Card>
+        <div style={{ fontSize: 12, color: c.dim, fontWeight: 700, margin: "18px 4px 8px" }}>مالی و سفارش‌ها</div>
+        <Card style={{ overflow: "hidden" }}>
+          <Row ic={Wallet} t="کیف پول" v={`${money(wallet)} ت`} onClick={() => push("wallet")} />
+          <Row ic={Package} t="سفارش‌ها" v={fa(orders.length)} onClick={() => push("orders")} />
+          <Row ic={Receipt} t="فاکتورها" onClick={() => push("invoices")} />
+          <Row ic={CreditCard} t="پرداخت‌ها" onClick={() => push("payments")} last />
+        </Card>
+        <div style={{ fontSize: 12, color: c.dim, fontWeight: 700, margin: "18px 4px 8px" }}>رشد و محتوا</div>
+        <Card style={{ overflow: "hidden" }}>
+          <Row ic={Gift} t="همکاری در فروش" sub="درآمد: ۴۹۵٬۰۰۰ ت" onClick={() => push("affiliate")} color={c.success} />
+          <Row ic={Instagram} t="اتصال اینستاگرام" v={igAccount ? "متصل" : "متصل نیست"} onClick={() => push("instagram")} />
+          <Row ic={FileText} t="کتابخانه محتوا" onClick={() => push("contents")} last />
+        </Card>
+        <div style={{ fontSize: 12, color: c.dim, fontWeight: 700, margin: "18px 4px 8px" }}>حساب و امنیت</div>
+        <Card style={{ overflow: "hidden" }}>
+          <Row ic={User} t="ویرایش پروفایل" onClick={() => push("profile")} />
+          <Row ic={Shield} t="امنیت و ورود دو مرحله‌ای" v={twoFA ? "فعال" : "غیرفعال"} onClick={() => push("security")} />
+          <Row ic={Activity} t="گزارش فعالیت" onClick={() => push("activity")} />
+          <Row ic={Bell} t="اعلان‌ها" onClick={() => push("notifs")} />
+          <Row ic={Headphones} t="پشتیبانی" onClick={() => push("tickets")} last />
+        </Card>
+        <Card style={{ marginTop: 16, padding: "6px 16px" }}><button onClick={() => setDark(!dark)} className="flex items-center gap-3 w-full" style={{ padding: "12px 0", background: "none", border: "none" }}><div style={{ width: 38, height: 38, borderRadius: 11, background: c.bg2, display: "flex", alignItems: "center", justifyContent: "center" }}>{dark ? <Moon size={18} color={c.primary} /> : <Sun size={18} color={c.primary} />}</div><span className="flex-1 text-right font-bold" style={{ fontSize: 14, color: c.text }}>حالت {dark ? "تیره" : "روشن"}</span><Toggle on={dark} /></button></Card>
+        <button onClick={async () => { try { await api("/logout", { method: "POST" }); } catch (e) {} AUTH_TOKEN = null; setApiProducts(null); setApiCategories(null); setScreen("login"); goTab("home"); }} className="flex items-center justify-center gap-2 w-full mt-4 font-bold" style={{ padding: 15, borderRadius: 16, color: c.danger, background: `${c.danger}12`, border: `1px solid ${c.danger}30` }}><LogOut size={18} /> خروج از حساب</button>
+        <div className="text-center mt-5" style={{ fontSize: 12, color: c.dim }}>Pacto · نسخه ۱.۰.۰</div>
+      </div>
+    </div>
+  );
+
+  /* SUPPORT (with new ticket) — متصل به API */
+  const Tickets = () => {
+    const [list, setList] = useState(null);
+    useEffect(() => { (async () => { try { const r = await api("/tickets"); setList(r.tickets || []); } catch (e) { setList([]); } })(); }, []);
+    return (
+    <div className="pb-28"><Header title="پشتیبانی" />
+      <div className="px-5">
+        <Btn onClick={() => push("newticket")} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 16 }}><MessageSquarePlus size={19} /> ارسال پیام جدید</Btn>
+        {list === null ? (<div className="flex justify-center py-10"><Loader2 size={26} color={c.primary} style={{ animation: "spin 1s linear infinite" }} /></div>) : list.length === 0 ? (<div className="flex flex-col items-center gap-3 py-10"><Headphones size={40} color={c.dim} /><span style={{ fontSize: 14, color: c.dim }}>هنوز تیکتی ندارید</span></div>) : (
+          <div className="flex flex-col gap-3">{list.map((t) => { const open = t.status === "open" || t.status === "answered" || t.status === "pending"; return (<Card key={t.id} onClick={() => push("ticket", { id: t.id })} style={{ padding: 16 }}><div className="flex items-center justify-between mb-2"><div className="font-bold" style={{ fontSize: 14, color: c.text }}>{t.title}</div><Chip color={open ? c.success : c.dim} bg={open ? `${c.success}18` : c.bg2} t={t.status_label} /></div><div className="flex items-center justify-between" style={{ fontSize: 12, color: c.dim }}><span>{t.department}</span><span>{t.last_reply_at || t.created_at}</span></div></Card>); })}</div>
+        )}
+      </div>
+    </div>
+    );
+  };
+  const NewTicket = () => {
+    const [sub, setSub] = useState(""); const [dept, setDept] = useState("technical"); const [msg, setMsg] = useState(""); const [busy, setBusy] = useState(false);
+    const depts = [["technical", "پشتیبانی فنی"], ["billing", "مالی و صورتحساب"], ["general", "عمومی"]];
+    const submit = async () => {
+      setBusy(true);
+      try { const r = await api("/tickets", { method: "POST", body: { title: sub, department: dept, message: msg } });
+        setStack((s) => [...s.slice(0, -1), { name: "ticket", params: { id: r.ticket_id } }]); flash("✅ پیام شما ارسال شد");
+      } catch (e) { flash(e.message); } finally { setBusy(false); }
+    };
+    return (
+      <div className="pb-28"><Header title="ارسال پیام جدید" />
+        <div className="px-5">
+          <Field label="موضوع" value={sub} onChange={(e) => setSub(e.target.value)} placeholder="موضوع پیام شما" />
+          <div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>بخش مربوطه</div>
+          <div className="flex gap-2 mb-3">{depts.map(([k, t]) => (<button key={k} onClick={() => setDept(k)} className="flex-1 font-bold" style={{ padding: "11px 6px", borderRadius: 12, fontSize: 12, background: dept === k ? `${c.primary}1c` : c.card, color: dept === k ? c.primary : c.dim, border: `1px solid ${dept === k ? c.primary : c.line}` }}>{t}</button>))}</div>
+          <div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>متن پیام</div>
+          <textarea value={msg} onChange={(e) => setMsg(e.target.value)} rows={6} placeholder="مشکل یا سؤال خود را شرح دهید…" style={{ width: "100%", background: c.bg2, border: `1px solid ${c.line}`, borderRadius: 14, padding: 14, color: c.text, fontSize: 14, outline: "none", fontFamily: "inherit", resize: "none" }} />
+        </div>
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 18, background: `linear-gradient(transparent, ${c.bg} 30%)` }}><Btn disabled={busy || !sub.trim() || !msg.trim()} onClick={submit} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><Send size={18} /> {busy ? "در حال ارسال…" : "ارسال پیام"}</Btn></div>
+      </div>
+    );
+  };
+  const TicketDetail = ({ id }) => {
+    const [t, setT] = useState(null); const [v, setV] = useState(""); const [busy, setBusy] = useState(false);
+    const load = async () => { try { const r = await api("/tickets/" + id); setT(r.ticket); } catch (e) { flash(e.message); } };
+    useEffect(() => { load(); }, [id]);
+    const sendMsg = async () => { if (!v.trim()) return; const text = v; setV(""); setBusy(true); try { await api("/tickets/" + id + "/reply", { method: "POST", body: { message: text } }); await load(); } catch (e) { flash(e.message); } finally { setBusy(false); } };
+    return (
+      <div className="flex flex-col" style={{ height: "100%" }}><Header title={t ? t.title : "تیکت"} />
+        <div className="px-5 overflow-y-auto flex flex-col gap-3" style={{ flex: 1 }}>{t === null ? (<div className="flex justify-center py-10"><Loader2 size={24} color={c.primary} style={{ animation: "spin 1s linear infinite" }} /></div>) : t.messages.map((m, i) => (<div key={i} style={{ alignSelf: m.is_mine ? "flex-start" : "flex-end", maxWidth: "82%" }}><div style={{ background: m.is_mine ? GRAD : c.card, color: m.is_mine ? "#fff" : c.text, padding: "11px 15px", borderRadius: 18, fontSize: 14, lineHeight: 1.8, border: m.is_mine ? "none" : `1px solid ${c.line}` }}>{m.message}<div style={{ fontSize: 10, opacity: .6, marginTop: 4 }}>{m.created_at}</div></div></div>))}</div>
+        <div className="px-4 py-3 flex gap-2" style={{ borderTop: `1px solid ${c.line}` }}><input value={v} onChange={(e) => setV(e.target.value)} onKeyDown={(e) => e.key === "Enter" && sendMsg()} placeholder="پاسخ شما…" style={{ flex: 1, background: c.bg2, border: `1px solid ${c.line}`, borderRadius: 14, padding: "12px 16px", color: c.text, fontSize: 14, outline: "none", fontFamily: "inherit" }} /><button onClick={sendMsg} disabled={busy} style={{ width: 48, borderRadius: 14, background: GRAD, display: "flex", alignItems: "center", justifyContent: "center", border: "none" }}><Send size={20} color="#fff" style={{ transform: "scaleX(-1)" }} /></button></div>
+      </div>
+    );
+  };
+  const Notifs = () => {
+    const [list, setList] = useState(null);
+    useEffect(() => { (async () => { try { const r = await api("/notifications"); setList(r.notifications || []); } catch (e) { setList([]); } })(); }, []);
+    const readAll = async () => { try { await api("/notifications/read-all", { method: "POST" }); setList((l) => (l || []).map((n) => ({ ...n, is_read: true }))); flash("همه خوانده شد"); } catch (e) {} };
+    return (
+    <div className="pb-10"><Header title="اعلان‌ها" right={<button onClick={readAll} style={{ fontSize: 12, color: c.primary, fontWeight: 700, background: "none", border: "none", whiteSpace: "nowrap" }}>خواندن همه</button>} />
+      <div className="px-5 flex flex-col gap-2">{list === null ? (<div className="flex justify-center py-10"><Loader2 size={24} color={c.primary} style={{ animation: "spin 1s linear infinite" }} /></div>) : list.length === 0 ? (<div style={{ textAlign: "center", color: c.dim, fontSize: 14, padding: 30 }}>اعلانی نیست</div>) : list.map((n) => (<Card key={n.id} style={{ padding: 15, display: "flex", gap: 12, alignItems: "center", borderColor: !n.is_read ? `${c.primary}45` : c.line }}><div style={{ width: 42, height: 42, borderRadius: 12, background: `${c.primary}1c`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Bell size={20} color={c.primary} /></div><div className="flex-1"><div className="font-bold" style={{ fontSize: 14, color: c.text }}>{n.title}</div>{n.message && <div style={{ fontSize: 12, color: c.dim, marginTop: 3 }}>{n.message}</div>}<div style={{ fontSize: 11, color: c.dim, marginTop: 3 }}>{n.created_at}</div></div>{!n.is_read && <div style={{ width: 9, height: 9, borderRadius: 99, background: c.primary }} />}</Card>))}</div>
+    </div>
+    );
+  };
+
+  /* routing */
+  const renderBody = () => {
+    if (top) { const P = top.params; const M = {
+      product: <Product p={P.p} g={P.g} />, checkout: <Checkout />, topup: <TopUp />, wallet: <WalletScreen />,
+      orders: <Orders />, order: <OrderDetail o={P.o} />, invoices: <Invoices />, invoice: <InvoiceDetail id={P.id} />, payments: <Payments />,
+      affiliate: <Affiliate />, instagram: <InstagramScreen />, contents: <Contents />, activity: <ActivityLog />,
+      profile: <ProfileEdit />, security: <Security />, changepw: <ChangePassword />, twofa: <TwoFASetup />, disable2fa: <Disable2FA />, devices: <Devices />,
+      campaign: <CampaignDetail cp={P.cp} cpId={P.cpId} />, wizard: <Wizard />, tickets: <Tickets />, newticket: <NewTicket />,
+      ticket: <TicketDetail id={P.id} />, notifs: <Notifs />,
+    }; return M[top.name] || null; }
+    return { home: <HomeScreen />, shop: <Shop />, campaigns: <Campaigns />, ai: <AI />, account: <Account /> }[tab];
+  };
+  const NAV = [{ k: "home", i: Home, t: "خانه" }, { k: "shop", i: ShoppingBag, t: "خدمات" }, { k: "campaigns", i: Rocket, t: "تبلیغ", fab: true }, { k: "ai", i: Sparkles, t: "هوش" }, { k: "account", i: User, t: "حساب" }];
+  const noScroll = (top && top.name === "ticket") || (!top && tab === "ai");
+  const showNav = screen === "app" && !top && tab !== "ai";
+  const aiNav = screen === "app" && !top && tab === "ai";
+
+  return (
+    <div dir="rtl" style={{ minHeight: "100vh", background: dark ? "#04060C" : "#D7DAEA", display: "flex", alignItems: "center", justifyContent: "center", padding: 0, fontFamily: "Vazirmatn, system-ui, sans-serif" }}>
+      <div id="frame" style={{ width: 430, maxWidth: "100%", height: "100vh", maxHeight: "100vh", background: c.bg, overflow: "hidden", position: "relative", boxShadow: "0 0 60px -20px rgba(0,0,0,.5)" }}>
+        <div key={top ? top.name : tab} style={{ position: "absolute", top: "env(safe-area-inset-top, 0px)", bottom: 0, left: 0, right: 0, overflowY: noScroll ? "hidden" : "auto", WebkitOverflowScrolling: "touch", animation: "slideIn .28s both" }}>
+          {screen === "splash" && <Splash />}
+          {screen === "login" && <Login />}
+          {screen === "app" && renderBody()}
+        </div>
+        {(showNav || aiNav) && (
+          <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 76, background: dark ? `${c.bg2}f5` : `${c.card}f8`, borderTop: `1px solid ${c.line}`, backdropFilter: "blur(12px)", display: "flex", alignItems: "center", justifyContent: "space-around", paddingBottom: 8, zIndex: 25 }}>
+            {NAV.map((n) => { const active = tab === n.k;
+              if (n.fab) return (<button key={n.k} onClick={() => goTab(n.k)} style={{ marginTop: -26, background: "none", border: "none" }}><div style={{ width: 54, height: 54, borderRadius: 19, background: GRAD, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 10px 24px -8px ${c.glow}` }}><n.i size={25} color="#fff" /></div></button>);
+              return (<button key={n.k} onClick={() => goTab(n.k)} className="flex flex-col items-center gap-1" style={{ width: 56, background: "none", border: "none" }}><n.i size={22} color={active ? c.primary : c.dim} /><span style={{ fontSize: 10, fontWeight: 700, color: active ? c.primary : c.dim }}>{n.t}</span></button>);
+            })}
+          </div>
+        )}
+        {toast && (<div style={{ position: "absolute", bottom: 96, left: 20, right: 20, background: c.text, color: c.bg, padding: "13px 18px", borderRadius: 16, fontSize: 14, fontWeight: 700, textAlign: "center", zIndex: 50, animation: "fadeUp .3s both", boxShadow: "0 12px 30px -10px rgba(0,0,0,.5)" }}>{toast}</div>)}
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
+
+document.getElementById("loader").style.display="none";
+</script>
+</body>
+</html>

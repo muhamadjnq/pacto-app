@@ -1,0 +1,11 @@
+{
+  "appId": "com.pacto.app",
+  "appName": "Pacto",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": true
+  }
+}
