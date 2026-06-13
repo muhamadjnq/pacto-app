@@ -41,6 +41,9 @@ jobs:
       - name: همگام‌سازی فایل‌ها
         run: npx cap sync android
 
+      - name: ایمن‌سازی اندروید (حذف دسترسی‌های حساس + تنظیم SDK و نسخه)
+        run: node harden-android.js
+
       - name: حذف وابستگی اضافی google-services
         run: |
           if [ -f android/build.gradle ]; then
