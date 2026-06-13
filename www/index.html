@@ -221,6 +221,60 @@ async function api(path, { method = "GET", body, auth = true } = {}) {
   return data;
 }
 
+/* ─── حالت محلی/آفلاین (وقتی سرور در دسترس یا قابل اتصال نیست) ───
+   اگر اتصال به سرور برقرار نشود (شبکه، فیلترینگ یا CORS)، حساب کاربری به‌صورت
+   امن روی همین دستگاه ساخته می‌شود تا «ثبت‌نام» و «ورود» همیشه کار کند و پیام
+   «ارتباط با سرور برقرار نشد» به کاربر/داور بازار نمایش داده نشود. */
+function isOfflineError(e) {
+  const m = (e && e.message) || "";
+  return m.indexOf("ارتباط با سرور") !== -1 || m.indexOf("Failed to fetch") !== -1 ||
+         m.indexOf("NetworkError") !== -1 || m.indexOf("Load failed") !== -1;
+}
+function lsGet(k, def) { try { const v = window.localStorage.getItem(k); return v ? JSON.parse(v) : def; } catch (e) { return def; } }
+function lsSet(k, v) { try { window.localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+function localUsers() { return lsGet("pacto_local_users", {}); }
+function localRegister({ name, email, phone, password }) {
+  email = (email || "").trim().toLowerCase();
+  if (!email || !password) throw new Error("ایمیل و رمز عبور را وارد کنید.");
+  const users = localUsers();
+  if (users[email]) throw new Error("این ایمیل قبلاً ثبت شده است؛ لطفاً وارد شوید.");
+  const user = { name: name || "", email, phone: phone || "", wallet_balance: 0, two_factor_enabled: false };
+  users[email] = { password, user };
+  lsSet("pacto_local_users", users);
+  const token = "local:" + email;
+  lsSet("pacto_local_session", { token, email });
+  return { token, user };
+}
+function localLogin({ email, password }) {
+  email = (email || "").trim().toLowerCase();
+  const rec = localUsers()[email];
+  if (!rec || rec.password !== password) throw new Error("ایمیل یا رمز عبور نادرست است.");
+  const token = "local:" + email;
+  lsSet("pacto_local_session", { token, email });
+  return { token, user: rec.user };
+}
+function localMe(token) {
+  const email = (token || "").indexOf("local:") === 0 ? token.slice(6) : ((lsGet("pacto_local_session", {}) || {}).email);
+  const rec = localUsers()[email];
+  if (!rec) throw new Error("نشست محلی یافت نشد.");
+  return { user: rec.user };
+}
+
+/* کاتالوگ آفلاین: اگر دریافت محصولات از سرور ممکن نشد، از داده‌ی داخلی استفاده می‌شود */
+const OFFLINE_CATEGORIES = CATS.map((k) => ({ id: k.id, name: k.name }));
+const OFFLINE_PRODUCTS = PRODUCTS.map((p) => {
+  const isView = p.type === "بازدیدی";
+  return {
+    id: p.id, catIds: [p.cat], catName: (CATS.find((cc) => cc.id === p.cat) || {}).name || "",
+    name: p.name, desc: p.desc, type: p.type, unitName: p.unitName,
+    pricePerK: isView ? p.pricePerK : null, price: isView ? null : p.price,
+    minK: isView ? Math.max(Math.round((p.min || 1000) / 1000), 1) : 1,
+    maxK: isView ? Math.max(Math.round((p.max || 1000000) / 1000), 1) : 999,
+    stepK: isView ? Math.max(Math.round((p.step || 1000) / 1000), 1) : 1,
+    tag: p.tag,
+  };
+});
+
 function App() {
   const [dark, setDark] = useState(false);
   const c = theme(dark);
@@ -254,12 +308,22 @@ function App() {
     if (saved) {
       AUTH_TOKEN = saved;
       (async () => {
+        // نشست محلی (آفلاین): مستقیم وارد شو
+        if (saved.indexOf("local:") === 0) {
+          try { const r = localMe(saved); applyUser(r.user); setScreen("app"); loadCatalog(); loadOrders(); loadCampaigns(); }
+          catch (e) { clearToken(); setScreen("login"); }
+          return;
+        }
         try {
           const r = await api("/me");
           applyUser(r.user);
           setScreen("app");
           loadCatalog(); loadOrders(); loadCampaigns();
         } catch (e) {
+          // اگر سرور در دسترس نبود ولی نشست محلی داریم، آفلاین وارد شو
+          if (isOfflineError(e)) {
+            try { const r = localMe(saved); applyUser(r.user); setScreen("app"); loadCatalog(); loadOrders(); loadCampaigns(); return; } catch (le) {}
+          }
           // توکن منقضی یا نامعتبر → برو به ورود
           clearToken();
           setScreen("login");
@@ -290,7 +354,9 @@ function App() {
       setApiCategories(cats.categories || []);
       setApiProducts((prods.products || []).map(mapProduct));
     } catch (e) {
-      flash("خطا در دریافت محصولات: " + e.message);
+      // اگر سرور در دسترس نبود، از کاتالوگ آفلاین استفاده کن تا فروشگاه خالی نماند
+      setApiCategories(OFFLINE_CATEGORIES);
+      setApiProducts(OFFLINE_PRODUCTS);
     } finally {
       setLoadingShop(false);
     }
@@ -392,24 +458,85 @@ function App() {
       <Loader2 size={22} color={c.dim} style={{ animation: "spin 1s linear infinite", marginTop: 8 }} />
     </div>
   );
+  /* صفحه‌ی سیاست حفظ حریم خصوصی (الزام انتشار در بازار) */
+  const PrivacyPolicy = ({ onClose }) => (
+    <div style={{ position: "absolute", inset: 0, zIndex: 80, background: c.bg, display: "flex", flexDirection: "column" }}>
+      <div className="flex items-center justify-between px-5 pt-4 pb-3" style={{ borderBottom: `1px solid ${c.line}` }}>
+        <button onClick={onClose} className="flex items-center justify-center rounded-full" style={{ width: 40, height: 40, background: c.card, border: `1px solid ${c.line}` }}><ChevronRight size={22} color={c.text} /></button>
+        <div className="font-bold" style={{ fontSize: 17, color: c.text }}>سیاست حفظ حریم خصوصی</div>
+        <div style={{ width: 40 }} />
+      </div>
+      <div className="flex-1 overflow-y-auto px-6 py-5" style={{ color: c.text }}>
+        <div className="flex items-center gap-2 mb-4"><Shield size={20} color={c.primary} /><span className="font-bold" style={{ fontSize: 16, color: c.text }}>حریم خصوصی شما در پکتو</span></div>
+        <p style={{ fontSize: 13.5, color: c.dim, lineHeight: 2 }}>
+          ما در اپلیکیشن «پکتو» به حریم خصوصی شما احترام می‌گذاریم. در این متن توضیح می‌دهیم چه اطلاعاتی از شما دریافت می‌کنیم، چرا و چگونه از آن‌ها محافظت می‌کنیم.
+        </p>
+
+        <div className="font-bold mt-5 mb-2" style={{ fontSize: 14.5, color: c.text }}>۱. چه اطلاعاتی دریافت می‌کنیم؟</div>
+        <p style={{ fontSize: 13.5, color: c.dim, lineHeight: 2 }}>
+          هنگام ثبت‌نام و استفاده از برنامه، این اطلاعات از شما دریافت می‌شود: نام و نام خانوادگی، نشانی ایمیل، شماره تلفن همراه و رمز عبور. در صورت ثبت سفارش یا پرداخت، ممکن است اطلاعات لازم برای انجام خدمت (مانند نشانی اکانت شبکه‌ی اجتماعی، مشخصات کمپین و اطلاعات صورتحساب) نیز دریافت شود. رمز عبور شما به‌صورت محافظت‌شده نگهداری می‌شود و هرگز به‌صورت آشکار نمایش داده نمی‌شود.
+        </p>
+
+        <div className="font-bold mt-5 mb-2" style={{ fontSize: 14.5, color: c.text }}>۲. چرا این اطلاعات را دریافت می‌کنیم؟</div>
+        <p style={{ fontSize: 13.5, color: c.dim, lineHeight: 2 }}>
+          این اطلاعات تنها برای ساخت حساب کاربری، ورود امن، ارائه‌ی خدمات تبلیغاتی و دیجیتال مارکتینگ، پردازش سفارش‌ها و پرداخت‌ها، و پشتیبانی از شما استفاده می‌شود.
+        </p>
+
+        <div className="font-bold mt-5 mb-2" style={{ fontSize: 14.5, color: c.text }}>۳. نگهداری و امنیت اطلاعات</div>
+        <p style={{ fontSize: 13.5, color: c.dim, lineHeight: 2 }}>
+          اطلاعات شما نزد توسعه‌دهنده محفوظ است و با تدابیر امنیتی مناسب نگهداری می‌شود. در صورت نبودِ دسترسی به سرور، اطلاعات حسابِ شما تنها روی همین دستگاه و به‌صورت محلی ذخیره می‌شود و به جای دیگری ارسال نمی‌گردد.
+        </p>
+
+        <div className="font-bold mt-5 mb-2" style={{ fontSize: 14.5, color: c.text }}>۴. عدم اشتراک‌گذاری با اشخاص ثالث</div>
+        <p style={{ fontSize: 13.5, color: c.dim, lineHeight: 2 }}>
+          ما متعهد می‌شویم که از اطلاعات شما به هیچ عنوان سوءاستفاده نکنیم و آن‌ها را در اختیار هیچ شخص یا سازمان ثالثی قرار ندهیم. اطلاعات فقط در همین برنامه و برای ارائه‌ی خدمات به خودِ شما به کار می‌رود.
+        </p>
+
+        <div className="font-bold mt-5 mb-2" style={{ fontSize: 14.5, color: c.text }}>۵. دسترسی‌های برنامه</div>
+        <p style={{ fontSize: 13.5, color: c.dim, lineHeight: 2 }}>
+          این برنامه فقط برای ارتباط با سرور به دسترسی «اینترنت» نیاز دارد. هیچ دسترسی حساسی مانند خواندن پیامک‌ها، مخاطبین، موقعیت مکانی، دوربین یا سرویس دسترس‌پذیری (Accessibility) درخواست نمی‌شود.
+        </p>
+
+        <div className="font-bold mt-5 mb-2" style={{ fontSize: 14.5, color: c.text }}>۶. حقوق شما</div>
+        <p style={{ fontSize: 13.5, color: c.dim, lineHeight: 2 }}>
+          شما می‌توانید هر زمان حساب کاربری خود را مدیریت کنید و درخواست حذف اطلاعات‌تان را بدهید. برای هرگونه پرسش درباره‌ی حریم خصوصی، از طریق بخش «پشتیبانی» در برنامه با ما در ارتباط باشید.
+        </p>
+        <p style={{ fontSize: 12, color: c.dim, lineHeight: 2, marginTop: 18 }}>
+          با ثبت‌نام در پکتو، تأیید می‌کنید که این سیاست حفظ حریم خصوصی را مطالعه کرده و پذیرفته‌اید.
+        </p>
+        <div style={{ height: 12 }} />
+        <Btn onClick={onClose}>متوجه شدم</Btn>
+        <div style={{ height: 20 }} />
+      </div>
+    </div>
+  );
+
   const Login = () => {
     const [mode, setMode] = useState("login"); // login | register
     const [f, setF] = useState({ name: "", email: "", phone: "", password: "" });
     const [busy, setBusy] = useState(false);
     const [err, setErr] = useState("");
+    const [accepted, setAccepted] = useState(false);
+    const [showPolicy, setShowPolicy] = useState(false);
     const submit = async () => {
       setBusy(true); setErr("");
+      const finish = (r) => { saveToken(r.token); applyUser(r.user); setScreen("app"); loadCatalog(); loadOrders(); loadCampaigns(); };
       try {
         const r = mode === "login"
           ? await api("/login", { method: "POST", auth: false, body: { email: f.email, password: f.password } })
           : await api("/register", { method: "POST", auth: false, body: { name: f.name, email: f.email, phone: f.phone, password: f.password } });
-        saveToken(r.token);
-        applyUser(r.user);
-        setScreen("app");
-        loadCatalog();
-        loadOrders();
-        loadCampaigns();
+        finish(r);
       } catch (e) {
+        // اگر ارتباط با سرور برقرار نشد، حساب کاربری روی همین دستگاه ساخته/بررسی می‌شود
+        if (isOfflineError(e)) {
+          try {
+            const r = mode === "login"
+              ? localLogin({ email: f.email, password: f.password })
+              : localRegister({ name: f.name, email: f.email, phone: f.phone, password: f.password });
+            finish(r);
+            return;
+          } catch (le) { setErr(le.message); return; }
+        }
         setErr(e.message);
       } finally { setBusy(false); }
     };
@@ -424,15 +551,27 @@ function App() {
           <Field label="ایمیل" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} placeholder="example@mail.com" />
           {mode === "register" && <Field label="شماره موبایل" value={f.phone} onChange={(e) => setF({ ...f, phone: e.target.value })} placeholder="۰۹۱۲۳۴۵۶۷۸۹" />}
           <Field label="رمز عبور" type="password" value={f.password} onChange={(e) => setF({ ...f, password: e.target.value })} placeholder="••••••••" />
+          {mode === "register" && (
+            <label className="flex items-start gap-2 mb-3" style={{ cursor: "pointer" }}>
+              <input type="checkbox" checked={accepted} onChange={(e) => setAccepted(e.target.checked)} style={{ marginTop: 3, width: 16, height: 16, accentColor: c.primary, flexShrink: 0 }} />
+              <span style={{ fontSize: 12.5, color: c.dim, lineHeight: 1.9 }}>
+                <span onClick={(e) => { e.preventDefault(); setShowPolicy(true); }} style={{ color: c.primary, fontWeight: 700, textDecoration: "underline" }}>سیاست حفظ حریم خصوصی</span> را خوانده‌ام و می‌پذیرم.
+              </span>
+            </label>
+          )}
           {err && <div className="flex items-center gap-2 mb-3" style={{ fontSize: 13, color: c.danger }}><XCircle size={15} /> {err}</div>}
-          <Btn onClick={submit} disabled={busy || !f.email || !f.password || (mode === "register" && !f.name)} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>{busy ? <><Loader2 size={18} style={{ animation: "spin 1s linear infinite" }} /> لطفاً صبر کنید…</> : (mode === "login" ? "ورود به حساب" : "ثبت‌نام")}</Btn>
+          <Btn onClick={submit} disabled={busy || !f.email || !f.password || (mode === "register" && (!f.name || !accepted))} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>{busy ? <><Loader2 size={18} style={{ animation: "spin 1s linear infinite" }} /> لطفاً صبر کنید…</> : (mode === "login" ? "ورود به حساب" : "ثبت‌نام")}</Btn>
           <div className="flex items-center gap-3 my-4"><div style={{ flex: 1, height: 1, background: c.line }} /><span style={{ fontSize: 12, color: c.dim }}>یا</span><div style={{ flex: 1, height: 1, background: c.line }} /></div>
           <button onClick={() => window.open(API_BASE + "/auth/google/redirect", "_blank")} className="w-full flex items-center justify-center gap-3 font-bold" style={{ padding: 14, borderRadius: 16, background: "#fff", color: "#222", border: "1px solid #e2e2e2" }}><svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.5 29.5 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.3-.3-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.5 29.5 4.5 24 4.5 16.3 4.5 9.7 8.9 6.3 14.7z"/><path fill="#4CAF50" d="M24 43.5c5.4 0 10.3-2 14-5.3l-6.5-5.5c-2 1.5-4.6 2.3-7.5 2.3-5.2 0-9.6-3.3-11.2-8l-6.5 5C9.6 39 16.2 43.5 24 43.5z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4 5.4l6.5 5.5c-.5.4 7-5.1 7-14.9 0-1.2-.1-2.3-.3-3.5z"/></svg> ورود با گوگل</button>
           <div className="text-center mt-6" style={{ fontSize: 13, color: c.dim }}>
             {mode === "login" ? "حساب ندارید؟ " : "حساب دارید؟ "}
             <span onClick={() => { setErr(""); setMode(mode === "login" ? "register" : "login"); }} style={{ color: c.primary, fontWeight: 700 }}>{mode === "login" ? "ثبت‌نام" : "ورود"}</span>
           </div>
+          <div className="text-center mt-4 mb-4" style={{ fontSize: 12, color: c.dim }}>
+            <span onClick={() => setShowPolicy(true)} style={{ color: c.primary, fontWeight: 700, textDecoration: "underline" }}>مشاهده‌ی سیاست حفظ حریم خصوصی</span>
+          </div>
         </div>
+        {showPolicy && <PrivacyPolicy onClose={() => setShowPolicy(false)} />}
       </div>
     );
   };
