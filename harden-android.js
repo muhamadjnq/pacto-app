@@ -79,6 +79,17 @@ if (mf) {
   if (mf.indexOf("android.permission.INTERNET") === -1) {
     mf = mf.replace(/<\/manifest>\s*$/, '    <uses-permission android:name="android.permission.INTERNET" />\n</manifest>\n');
   }
+  // دیپ‌لینک برای بازگشت‌های گوگل/اینستاگرام/اشتراک (pacto://...)
+  if (mf.indexOf('android:scheme="pacto"') === -1) {
+    const deeplink =
+      '\n            <intent-filter>\n' +
+      '                <action android:name="android.intent.action.VIEW" />\n' +
+      '                <category android:name="android.intent.category.DEFAULT" />\n' +
+      '                <category android:name="android.intent.category.BROWSABLE" />\n' +
+      '                <data android:scheme="pacto" />\n' +
+      '            </intent-filter>\n        ';
+    mf = mf.replace(/<\/activity>/, deeplink + '</activity>');
+  }
   write(MANIFEST, mf);
 } else {
   console.log("⚠️  AndroidManifest.xml پیدا نشد (آیا cap sync اجرا شده؟)");
