@@ -34,7 +34,7 @@
 <body>
 <div id="root"></div>
 <script type="text/babel" data-presets="react">
-const ICON_PATHS = {"Home": "<path d=\"M3 10.5 12 3l9 7.5\"/><path d=\"M5 9.5V21h14V9.5\"/>", "ShoppingBag": "<path d=\"M6 8h12l-1 13H7L6 8Z\"/><path d=\"M9 8a3 3 0 0 1 6 0\"/>", "Rocket": "<path d=\"M12 3c3 1 5 4 5 8l-3 3-4 0-3-3c0-4 2-7 5-8Z\"/><circle cx=\"12\" cy=\"9\" r=\"1.6\"/><path d=\"M9 16l-2 4 4-2M15 16l2 4-4-2\"/>", "Sparkles": "<path d=\"M12 3l1.6 5L19 9.6 13.6 11 12 16l-1.6-5L5 9.6 10.4 8 12 3Z\"/><path d=\"M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15Z\"/>", "User": "<circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 21c0-4 4-6 8-6s8 2 8 6\"/>", "Wallet": "<path d=\"M3 7h15a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z\"/><path d=\"M3 7l0-1a2 2 0 0 1 2-2h11\"/><circle cx=\"16\" cy=\"13\" r=\"1.4\"/>", "Bell": "<path d=\"M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z\"/><path d=\"M10 20a2 2 0 0 0 4 0\"/>", "ChevronRight": "<path d=\"M9 6l6 6-6 6\"/>", "ChevronLeft": "<path d=\"M15 6l-6 6 6 6\"/>", "ChevronDown": "<path d=\"M6 9l6 6 6-6\"/>", "Plus": "<path d=\"M12 5v14M5 12h14\"/>", "Minus": "<path d=\"M5 12h14\"/>", "Search": "<circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"M21 21l-4-4\"/>", "Check": "<path d=\"M5 12l5 5 9-10\"/>", "Eye": "<path d=\"M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>", "MousePointerClick": "<path d=\"M9 4v3M4 9h3M6 6l2 2M13 13l7 3-3 1-1 3-3-7Z\"/>", "TrendingUp": "<path d=\"M3 17l6-6 4 4 8-8\"/><path d=\"M17 7h4v4\"/>", "Instagram": "<rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"5\"/><circle cx=\"12\" cy=\"12\" r=\"4\"/><circle cx=\"17.5\" cy=\"6.5\" r=\"1\"/>", "Send": "<path d=\"M21 3 10 14\"/><path d=\"M21 3 14 21l-4-7-7-4 18-7Z\"/>", "Hash": "<path d=\"M10 3 8 21M16 3l-2 18M4 8h16M3 16h16\"/>", "Image": "<rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"3\"/><circle cx=\"9\" cy=\"9\" r=\"2\"/><path d=\"m21 16-5-5L5 21\"/>", "Copy": "<rect x=\"9\" y=\"9\" width=\"11\" height=\"11\" rx=\"2\"/><path d=\"M5 15V5a2 2 0 0 1 2-2h10\"/>", "Headphones": "<path d=\"M4 14v-2a8 8 0 0 1 16 0v2\"/><rect x=\"3\" y=\"14\" width=\"4\" height=\"6\" rx=\"1.5\"/><rect x=\"17\" y=\"14\" width=\"4\" height=\"6\" rx=\"1.5\"/>", "Shield": "<path d=\"M12 3 20 6v6c0 5-4 8-8 9-4-1-8-4-8-9V6l8-3Z\"/>", "Users": "<circle cx=\"9\" cy=\"8\" r=\"3.5\"/><path d=\"M3 20c0-3 3-5 6-5s6 2 6 5\"/><path d=\"M16 5a3 3 0 0 1 0 6M18 20c0-2-1-3.5-2.5-4.5\"/>", "Gift": "<rect x=\"4\" y=\"9\" width=\"16\" height=\"11\" rx=\"1.5\"/><path d=\"M4 13h16M12 9v11\"/><path d=\"M12 9C9 9 8 4 12 4s3 5 0 5Z\"/>", "Moon": "<path d=\"M20 14a8 8 0 0 1-10-10 8 8 0 1 0 10 10Z\"/>", "Sun": "<circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19\"/>", "LogOut": "<path d=\"M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3\"/><path d=\"M16 8l4 4-4 4M20 12H9\"/>", "ArrowUpRight": "<path d=\"M7 17 17 7M8 7h9v9\"/>", "ArrowDownLeft": "<path d=\"M17 7 7 17M16 17H7V8\"/>", "Tag": "<path d=\"M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9-9-9Z\"/><circle cx=\"7.5\" cy=\"7.5\" r=\"1.5\"/>", "Zap": "<path d=\"M13 2 4 14h7l-1 8 9-12h-7l1-8Z\"/>", "Target": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><circle cx=\"12\" cy=\"12\" r=\"5\"/><circle cx=\"12\" cy=\"12\" r=\"1.5\"/>", "Clock": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/>", "CheckCircle2": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M8 12l3 3 5-6\"/>", "XCircle": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M9 9l6 6M15 9l-6 6\"/>", "Loader2": "<path d=\"M12 3a9 9 0 1 0 9 9\"/>", "CreditCard": "<rect x=\"2\" y=\"5\" width=\"20\" height=\"14\" rx=\"2.5\"/><path d=\"M2 10h20M6 15h4\"/>", "Megaphone": "<path d=\"M3 11v2a1 1 0 0 0 1 1h2l6 4V6L6 10H4a1 1 0 0 0-1 1Z\"/><path d=\"M16 8a4 4 0 0 1 0 8\"/>", "Film": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4\"/>", "Camera": "<path d=\"M3 8a2 2 0 0 1 2-2h2l1.5-2h7L19 6h0a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8Z\"/><circle cx=\"12\" cy=\"13\" r=\"3.5\"/>", "Star": "<path d=\"M12 3l2.7 5.5 6 .9-4.3 4.2 1 6L12 16.8 6.6 19.6l1-6L3.3 9.4l6-.9L12 3Z\"/>", "Lock": "<rect x=\"5\" y=\"11\" width=\"14\" height=\"9\" rx=\"2\"/><path d=\"M8 11V8a4 4 0 0 1 8 0v3\"/>", "FileText": "<path d=\"M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z\"/><path d=\"M14 3v5h5M9 13h6M9 17h6\"/>", "Receipt": "<path d=\"M5 3h14v18l-2.5-1.5L14 21l-2-1.5L10 21l-2.5-1.5L5 21V3Z\"/><path d=\"M9 8h6M9 12h6\"/>", "Activity": "<path d=\"M3 12h4l3 8 4-16 3 8h4\"/>", "Link2": "<path d=\"M9 12h6\"/><path d=\"M8 8H6a4 4 0 0 0 0 8h2M16 8h2a4 4 0 0 1 0 8h-2\"/>", "Heart": "<path d=\"M12 20S4 14 4 9a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 5-8 11-8 11Z\"/>", "Download": "<path d=\"M12 3v12M7 11l5 5 5-5\"/><path d=\"M4 19h16\"/>", "Share2": "<circle cx=\"6\" cy=\"12\" r=\"2.5\"/><circle cx=\"18\" cy=\"6\" r=\"2.5\"/><circle cx=\"18\" cy=\"18\" r=\"2.5\"/><path d=\"M8 11l8-4M8 13l8 4\"/>", "QrCode": "<rect x=\"3\" y=\"3\" width=\"7\" height=\"7\" rx=\"1\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\" rx=\"1\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\" rx=\"1\"/><path d=\"M14 14h3v3M21 14v7h-7M17 21h.01\"/>", "KeyRound": "<circle cx=\"8\" cy=\"12\" r=\"4\"/><path d=\"M11.5 11H21l-2 2 2 2M11.5 13H15\"/>", "Smartphone": "<rect x=\"6\" y=\"2\" width=\"12\" height=\"20\" rx=\"3\"/><path d=\"M11 18h2\"/>", "Package": "<path d=\"M21 8 12 3 3 8l9 5 9-5Z\"/><path d=\"M3 8v8l9 5 9-5V8M12 13v8\"/>", "BadgeCheck": "<path d=\"M12 2l2.4 2.1 3.2-.3.9 3.1 2.6 1.9-1.3 2.9 1.3 2.9-2.6 1.9-.9 3.1-3.2-.3L12 22l-2.4-2.1-3.2.3-.9-3.1L2.9 15l1.3-2.9L2.9 9.2l2.6-1.9.9-3.1 3.2.3L12 2Z\"/><path d=\"M9 12l2 2 4-4\"/>", "X": "<path d=\"M6 6l12 12M18 6 6 18\"/>", "Youtube": "<rect x=\"3\" y=\"6\" width=\"18\" height=\"12\" rx=\"3\"/><path d=\"M11 9.5l4 2.5-4 2.5v-5Z\"/>", "Twitter": "<path d=\"M22 5.5c-.7.3-1.5.6-2.3.7.8-.5 1.4-1.3 1.7-2.2-.8.5-1.7.8-2.6 1a4 4 0 0 0-6.9 3.6A11.4 11.4 0 0 1 3.6 4.6a4 4 0 0 0 1.2 5.3c-.6 0-1.2-.2-1.8-.5a4 4 0 0 0 3.2 4 4 4 0 0 1-1.8.1 4 4 0 0 0 3.7 2.8A8 8 0 0 1 2 18a11.3 11.3 0 0 0 6.1 1.8c7.4 0 11.4-6.1 11.4-11.4v-.5c.8-.6 1.5-1.3 2-2.1Z\"/>", "Music2": "<circle cx=\"8\" cy=\"18\" r=\"3\"/><path d=\"M11 18V5l9-2v11\"/><circle cx=\"17\" cy=\"15\" r=\"3\"/>", "Globe": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18\"/>", "Save": "<path d=\"M5 3h11l3 3v15H5V3Z\"/><path d=\"M8 3v5h7M8 14h8v7H8z\"/>", "Edit3": "<path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z\"/>", "Mail": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"m3 7 9 6 9-6\"/>", "Phone": "<path d=\"M5 4h4l1.5 5-2 1.5a11 11 0 0 0 5 5l1.5-2 5 1.5v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z\"/>", "MessageSquarePlus": "<path d=\"M21 12a8 8 0 0 1-8 8H7l-4 3V8a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8Z\"/><path d=\"M12 7v6M9 10h6\"/>", "Crown": "<path d=\"M3 7l4 4 5-7 5 7 4-4-1.5 12h-15L3 7Z\"/>"};
+const ICON_PATHS = {"Home": "<path d=\"M3 10.5 12 3l9 7.5\"/><path d=\"M5 9.5V21h14V9.5\"/>", "ShoppingBag": "<path d=\"M6 8h12l-1 13H7L6 8Z\"/><path d=\"M9 8a3 3 0 0 1 6 0\"/>", "Rocket": "<path d=\"M12 3c3 1 5 4 5 8l-3 3-4 0-3-3c0-4 2-7 5-8Z\"/><circle cx=\"12\" cy=\"9\" r=\"1.6\"/><path d=\"M9 16l-2 4 4-2M15 16l2 4-4-2\"/>", "Sparkles": "<path d=\"M12 3l1.6 5L19 9.6 13.6 11 12 16l-1.6-5L5 9.6 10.4 8 12 3Z\"/><path d=\"M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8L19 15Z\"/>", "User": "<circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 21c0-4 4-6 8-6s8 2 8 6\"/>", "Wallet": "<path d=\"M3 7h15a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z\"/><path d=\"M3 7l0-1a2 2 0 0 1 2-2h11\"/><circle cx=\"16\" cy=\"13\" r=\"1.4\"/>", "Bell": "<path d=\"M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6Z\"/><path d=\"M10 20a2 2 0 0 0 4 0\"/>", "ChevronRight": "<path d=\"M9 6l6 6-6 6\"/>", "ChevronLeft": "<path d=\"M15 6l-6 6 6 6\"/>", "ChevronDown": "<path d=\"M6 9l6 6 6-6\"/>", "Plus": "<path d=\"M12 5v14M5 12h14\"/>", "Minus": "<path d=\"M5 12h14\"/>", "Search": "<circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"M21 21l-4-4\"/>", "Check": "<path d=\"M5 12l5 5 9-10\"/>", "Eye": "<path d=\"M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>", "MousePointerClick": "<path d=\"M9 4v3M4 9h3M6 6l2 2M13 13l7 3-3 1-1 3-3-7Z\"/>", "TrendingUp": "<path d=\"M3 17l6-6 4 4 8-8\"/><path d=\"M17 7h4v4\"/>", "Instagram": "<rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"5\"/><circle cx=\"12\" cy=\"12\" r=\"4\"/><circle cx=\"17.5\" cy=\"6.5\" r=\"1\"/>", "Send": "<path d=\"M21 3 10 14\"/><path d=\"M21 3 14 21l-4-7-7-4 18-7Z\"/>", "Hash": "<path d=\"M10 3 8 21M16 3l-2 18M4 8h16M3 16h16\"/>", "Image": "<rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"3\"/><circle cx=\"9\" cy=\"9\" r=\"2\"/><path d=\"m21 16-5-5L5 21\"/>", "Copy": "<rect x=\"9\" y=\"9\" width=\"11\" height=\"11\" rx=\"2\"/><path d=\"M5 15V5a2 2 0 0 1 2-2h10\"/>", "Headphones": "<path d=\"M4 14v-2a8 8 0 0 1 16 0v2\"/><rect x=\"3\" y=\"14\" width=\"4\" height=\"6\" rx=\"1.5\"/><rect x=\"17\" y=\"14\" width=\"4\" height=\"6\" rx=\"1.5\"/>", "Shield": "<path d=\"M12 3 20 6v6c0 5-4 8-8 9-4-1-8-4-8-9V6l8-3Z\"/>", "Users": "<circle cx=\"9\" cy=\"8\" r=\"3.5\"/><path d=\"M3 20c0-3 3-5 6-5s6 2 6 5\"/><path d=\"M16 5a3 3 0 0 1 0 6M18 20c0-2-1-3.5-2.5-4.5\"/>", "Gift": "<rect x=\"4\" y=\"9\" width=\"16\" height=\"11\" rx=\"1.5\"/><path d=\"M4 13h16M12 9v11\"/><path d=\"M12 9C9 9 8 4 12 4s3 5 0 5Z\"/>", "Moon": "<path d=\"M20 14a8 8 0 0 1-10-10 8 8 0 1 0 10 10Z\"/>", "Sun": "<circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19\"/>", "LogOut": "<path d=\"M9 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h3\"/><path d=\"M16 8l4 4-4 4M20 12H9\"/>", "ArrowUpRight": "<path d=\"M7 17 17 7M8 7h9v9\"/>", "ArrowDownLeft": "<path d=\"M17 7 7 17M16 17H7V8\"/>", "Tag": "<path d=\"M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9-9-9Z\"/><circle cx=\"7.5\" cy=\"7.5\" r=\"1.5\"/>", "Zap": "<path d=\"M13 2 4 14h7l-1 8 9-12h-7l1-8Z\"/>", "Target": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><circle cx=\"12\" cy=\"12\" r=\"5\"/><circle cx=\"12\" cy=\"12\" r=\"1.5\"/>", "Clock": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/>", "CheckCircle2": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M8 12l3 3 5-6\"/>", "XCircle": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M9 9l6 6M15 9l-6 6\"/>", "Loader2": "<path d=\"M12 3a9 9 0 1 0 9 9\"/>", "CreditCard": "<rect x=\"2\" y=\"5\" width=\"20\" height=\"14\" rx=\"2.5\"/><path d=\"M2 10h20M6 15h4\"/>", "Megaphone": "<path d=\"M3 11v2a1 1 0 0 0 1 1h2l6 4V6L6 10H4a1 1 0 0 0-1 1Z\"/><path d=\"M16 8a4 4 0 0 1 0 8\"/>", "Film": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4\"/>", "Camera": "<path d=\"M3 8a2 2 0 0 1 2-2h2l1.5-2h7L19 6h0a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8Z\"/><circle cx=\"12\" cy=\"13\" r=\"3.5\"/>", "Star": "<path d=\"M12 3l2.7 5.5 6 .9-4.3 4.2 1 6L12 16.8 6.6 19.6l1-6L3.3 9.4l6-.9L12 3Z\"/>", "Lock": "<rect x=\"5\" y=\"11\" width=\"14\" height=\"9\" rx=\"2\"/><path d=\"M8 11V8a4 4 0 0 1 8 0v3\"/>", "FileText": "<path d=\"M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5Z\"/><path d=\"M14 3v5h5M9 13h6M9 17h6\"/>", "Receipt": "<path d=\"M5 3h14v18l-2.5-1.5L14 21l-2-1.5L10 21l-2.5-1.5L5 21V3Z\"/><path d=\"M9 8h6M9 12h6\"/>", "Activity": "<path d=\"M3 12h4l3 8 4-16 3 8h4\"/>", "Link2": "<path d=\"M9 12h6\"/><path d=\"M8 8H6a4 4 0 0 0 0 8h2M16 8h2a4 4 0 0 1 0 8h-2\"/>", "Heart": "<path d=\"M12 20S4 14 4 9a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 5-8 11-8 11Z\"/>", "Download": "<path d=\"M12 3v12M7 11l5 5 5-5\"/><path d=\"M4 19h16\"/>", "Share2": "<circle cx=\"6\" cy=\"12\" r=\"2.5\"/><circle cx=\"18\" cy=\"6\" r=\"2.5\"/><circle cx=\"18\" cy=\"18\" r=\"2.5\"/><path d=\"M8 11l8-4M8 13l8 4\"/>", "QrCode": "<rect x=\"3\" y=\"3\" width=\"7\" height=\"7\" rx=\"1\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\" rx=\"1\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\" rx=\"1\"/><path d=\"M14 14h3v3M21 14v7h-7M17 21h.01\"/>", "KeyRound": "<circle cx=\"8\" cy=\"12\" r=\"4\"/><path d=\"M11.5 11H21l-2 2 2 2M11.5 13H15\"/>", "Smartphone": "<rect x=\"6\" y=\"2\" width=\"12\" height=\"20\" rx=\"3\"/><path d=\"M11 18h2\"/>", "Package": "<path d=\"M21 8 12 3 3 8l9 5 9-5Z\"/><path d=\"M3 8v8l9 5 9-5V8M12 13v8\"/>", "BadgeCheck": "<path d=\"M12 2l2.4 2.1 3.2-.3.9 3.1 2.6 1.9-1.3 2.9 1.3 2.9-2.6 1.9-.9 3.1-3.2-.3L12 22l-2.4-2.1-3.2.3-.9-3.1L2.9 15l1.3-2.9L2.9 9.2l2.6-1.9.9-3.1 3.2.3L12 2Z\"/><path d=\"M9 12l2 2 4-4\"/>", "X": "<path d=\"M6 6l12 12M18 6 6 18\"/>", "Youtube": "<rect x=\"3\" y=\"6\" width=\"18\" height=\"12\" rx=\"3\"/><path d=\"M11 9.5l4 2.5-4 2.5v-5Z\"/>", "Twitter": "<path d=\"M22 5.5c-.7.3-1.5.6-2.3.7.8-.5 1.4-1.3 1.7-2.2-.8.5-1.7.8-2.6 1a4 4 0 0 0-6.9 3.6A11.4 11.4 0 0 1 3.6 4.6a4 4 0 0 0 1.2 5.3c-.6 0-1.2-.2-1.8-.5a4 4 0 0 0 3.2 4 4 4 0 0 1-1.8.1 4 4 0 0 0 3.7 2.8A8 8 0 0 1 2 18a11.3 11.3 0 0 0 6.1 1.8c7.4 0 11.4-6.1 11.4-11.4v-.5c.8-.6 1.5-1.3 2-2.1Z\"/>", "Music2": "<circle cx=\"8\" cy=\"18\" r=\"3\"/><path d=\"M11 18V5l9-2v11\"/><circle cx=\"17\" cy=\"15\" r=\"3\"/>", "Globe": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18\"/>", "Save": "<path d=\"M5 3h11l3 3v15H5V3Z\"/><path d=\"M8 3v5h7M8 14h8v7H8z\"/>", "Edit3": "<path d=\"M12 20h9\"/><path d=\"M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z\"/>", "Mail": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"m3 7 9 6 9-6\"/>", "Phone": "<path d=\"M5 4h4l1.5 5-2 1.5a11 11 0 0 0 5 5l1.5-2 5 1.5v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z\"/>", "MessageSquarePlus": "<path d=\"M21 12a8 8 0 0 1-8 8H7l-4 3V8a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8Z\"/><path d=\"M12 7v6M9 10h6\"/>", "Crown": "<path d=\"M3 7l4 4 5-7 5 7 4-4-1.5 12h-15L3 7Z\"/>", "AlertCircle": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 8v5M12 16h.01\"/>"};
 const { useState, useEffect, useRef } = React;
 /* ─── Icon component (inline SVG, no external lib) ─── */
 function Icon({ name, size = 20, color = "currentColor", fill = "none", style }) {
@@ -62,7 +62,7 @@ Activity=mkIcon("Activity"),Heart=mkIcon("Heart"),Download=mkIcon("Download"),Sh
 QrCode=mkIcon("QrCode"),KeyRound=mkIcon("KeyRound"),Smartphone=mkIcon("Smartphone"),Package=mkIcon("Package"),
 X=mkIcon("X"),Youtube=mkIcon("Youtube"),Twitter=mkIcon("Twitter"),Music2=mkIcon("Music2"),Globe=mkIcon("Globe"),
 Save=mkIcon("Save"),Edit3=mkIcon("Edit3"),Mail=mkIcon("Mail"),Phone=mkIcon("Phone"),
-MessageSquarePlus=mkIcon("MessageSquarePlus");
+MessageSquarePlus=mkIcon("MessageSquarePlus"),Crown=mkIcon("Crown"),Info=mkIcon("AlertCircle");
 
 /* ─── helpers ─── */
 const FA = "۰۱۲۳۴۵۶۷۸۹";
@@ -199,6 +199,29 @@ let AUTH_TOKEN = null;
 function saveToken(t) { AUTH_TOKEN = t; try { window.localStorage.setItem("pacto_token", t || ""); } catch (e) {} }
 function clearToken() { AUTH_TOKEN = null; try { window.localStorage.removeItem("pacto_token"); } catch (e) {} }
 function loadToken() { try { return window.localStorage.getItem("pacto_token") || null; } catch (e) { return null; } }
+/* ─── کمک‌کننده‌های Capacitor (مرورگر درون‌برنامه‌ای و دیپ‌لینک) ───
+   برای پرداخت و «ورود با گوگل»، آدرس در مرورگر بومی اندروید (Custom Tab) باز می‌شود؛
+   اگر افزونه در دسترس نبود، به window.open برمی‌گردیم تا چیزی از کار نیفتد. */
+const Cap = (typeof window !== "undefined" && window.Capacitor) ? window.Capacitor : null;
+function capPlugin(name) { return (Cap && Cap.Plugins && Cap.Plugins[name]) ? Cap.Plugins[name] : null; }
+async function openExternal(url, onClose) {
+  const Browser = capPlugin("Browser");
+  if (Browser && Browser.open) {
+    try {
+      if (onClose && Browser.addListener) {
+        const h = await Browser.addListener("browserFinished", () => {
+          try { onClose(); } catch (e) {}
+          try { h && h.remove && h.remove(); } catch (e) {}
+        });
+      }
+      await Browser.open({ url, presentationStyle: "popover" });
+      return true;
+    } catch (e) { /* اگر افزونه خطا داد، پایین‌تر window.open اجرا می‌شود */ }
+  }
+  try { window.open(url, "_blank"); } catch (e) {}
+  return false;
+}
+function closeBrowser() { const B = capPlugin("Browser"); if (B && B.close) { try { B.close(); } catch (e) {} } }
 async function api(path, { method = "GET", body, auth = true } = {}) {
   const headers = { "Accept": "application/json" };
   if (body) headers["Content-Type"] = "application/json";
@@ -221,46 +244,29 @@ async function api(path, { method = "GET", body, auth = true } = {}) {
   return data;
 }
 
-/* ─── حالت محلی/آفلاین (وقتی سرور در دسترس یا قابل اتصال نیست) ───
-   اگر اتصال به سرور برقرار نشود (شبکه، فیلترینگ یا CORS)، حساب کاربری به‌صورت
-   امن روی همین دستگاه ساخته می‌شود تا «ثبت‌نام» و «ورود» همیشه کار کند و پیام
-   «ارتباط با سرور برقرار نشد» به کاربر/داور بازار نمایش داده نشود. */
-function isOfflineError(e) {
-  const m = (e && e.message) || "";
-  return m.indexOf("ارتباط با سرور") !== -1 || m.indexOf("Failed to fetch") !== -1 ||
-         m.indexOf("NetworkError") !== -1 || m.indexOf("Load failed") !== -1;
-}
-function lsGet(k, def) { try { const v = window.localStorage.getItem(k); return v ? JSON.parse(v) : def; } catch (e) { return def; } }
-function lsSet(k, v) { try { window.localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
-function localUsers() { return lsGet("pacto_local_users", {}); }
-function localRegister({ name, email, phone, password }) {
-  email = (email || "").trim().toLowerCase();
-  if (!email || !password) throw new Error("ایمیل و رمز عبور را وارد کنید.");
-  const users = localUsers();
-  if (users[email]) throw new Error("این ایمیل قبلاً ثبت شده است؛ لطفاً وارد شوید.");
-  const user = { name: name || "", email, phone: phone || "", wallet_balance: 0, two_factor_enabled: false };
-  users[email] = { password, user };
-  lsSet("pacto_local_users", users);
-  const token = "local:" + email;
-  lsSet("pacto_local_session", { token, email });
-  return { token, user };
-}
-function localLogin({ email, password }) {
-  email = (email || "").trim().toLowerCase();
-  const rec = localUsers()[email];
-  if (!rec || rec.password !== password) throw new Error("ایمیل یا رمز عبور نادرست است.");
-  const token = "local:" + email;
-  lsSet("pacto_local_session", { token, email });
-  return { token, user: rec.user };
-}
-function localMe(token) {
-  const email = (token || "").indexOf("local:") === 0 ? token.slice(6) : ((lsGet("pacto_local_session", {}) || {}).email);
-  const rec = localUsers()[email];
-  if (!rec) throw new Error("نشست محلی یافت نشد.");
-  return { user: rec.user };
+/* تبدیل فایل عکس به data URL فشرده (برای آپلود مطمئن و سبک عکس پروفایل) */
+function resizeImageFile(file, max, cb) {
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const img = new Image();
+    img.onload = () => {
+      let { width, height } = img;
+      if (width > height) { if (width > max) { height = Math.round(height * max / width); width = max; } }
+      else { if (height > max) { width = Math.round(width * max / height); height = max; } }
+      const canvas = document.createElement("canvas");
+      canvas.width = width; canvas.height = height;
+      canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+      try { cb(canvas.toDataURL("image/jpeg", 0.85)); }
+      catch (e) { cb(ev.target.result); } // اگر canvas شکست خورد، اصل عکس
+    };
+    img.onerror = () => cb(ev.target.result);
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
 }
 
-/* کاتالوگ آفلاین: اگر دریافت محصولات از سرور ممکن نشد، از داده‌ی داخلی استفاده می‌شود */
+/* کاتالوگ نمایشی: فقط اگر دریافت محصولات از سرور ممکن نشد، تا فروشگاه خالی نماند.
+   توجه: این فقط برای «نمایش محصولات» است؛ ثبت‌نام و ورود همیشه روی سرور واقعی انجام می‌شود. */
 const OFFLINE_CATEGORIES = CATS.map((k) => ({ id: k.id, name: k.name }));
 const OFFLINE_PRODUCTS = PRODUCTS.map((p) => {
   const isView = p.type === "بازدیدی";
@@ -286,7 +292,7 @@ function App() {
   const [toast, setToast] = useState(null);
   const [igAccount, setIgAccount] = useState(null);
   const [twoFA, setTwoFA] = useState(false);
-  const [profile, setProfile] = useState({ name: "", email: "", phone: "" });
+  const [profile, setProfile] = useState({ name: "", email: "", phone: "", avatar: "", isAdmin: false });
   const [apiProducts, setApiProducts] = useState(null);
   const [apiCategories, setApiCategories] = useState(null);
   const [loadingShop, setLoadingShop] = useState(false);
@@ -308,23 +314,13 @@ function App() {
     if (saved) {
       AUTH_TOKEN = saved;
       (async () => {
-        // نشست محلی (آفلاین): مستقیم وارد شو
-        if (saved.indexOf("local:") === 0) {
-          try { const r = localMe(saved); applyUser(r.user); setScreen("app"); loadCatalog(); loadOrders(); loadCampaigns(); }
-          catch (e) { clearToken(); setScreen("login"); }
-          return;
-        }
         try {
           const r = await api("/me");
           applyUser(r.user);
           setScreen("app");
           loadCatalog(); loadOrders(); loadCampaigns();
         } catch (e) {
-          // اگر سرور در دسترس نبود ولی نشست محلی داریم، آفلاین وارد شو
-          if (isOfflineError(e)) {
-            try { const r = localMe(saved); applyUser(r.user); setScreen("app"); loadCatalog(); loadOrders(); loadCampaigns(); return; } catch (le) {}
-          }
-          // توکن منقضی یا نامعتبر → برو به ورود
+          // توکن منقضی/نامعتبر یا سرور در دسترس نیست → برو به صفحه‌ی ورود
           clearToken();
           setScreen("login");
         }
@@ -335,9 +331,57 @@ function App() {
     }
   }, []);
 
+  // دیپ‌لینک‌ها: بازگشت «ورود با گوگل» (pacto://auth?token=...)،
+  // «اتصال اینستاگرام» (pacto://instagram?status=ok) و «اشتراک» (pacto://subscribe?status=ok)
+  useEffect(() => {
+    const AppPlugin = capPlugin("App");
+    if (!AppPlugin || !AppPlugin.addListener) return;
+    let handle;
+    (async () => {
+      handle = await AppPlugin.addListener("appUrlOpen", (data) => {
+        try {
+          const url = (data && data.url) || "";
+          closeBrowser();
+          const tok = url.match(/[?&#]token=([^&#]+)/);
+          if (tok && tok[1]) {
+            const token = decodeURIComponent(tok[1]);
+            saveToken(token);
+            (async () => {
+              try { const r = await api("/me"); applyUser(r.user); setScreen("app"); loadCatalog(); loadOrders(); loadCampaigns(); }
+              catch (e) { clearToken(); flash("ورود با گوگل کامل نشد"); }
+            })();
+            return;
+          }
+          const status = (url.match(/[?&#]status=([^&#]+)/) || [])[1];
+          if (url.indexOf("instagram") !== -1) {
+            if (status === "ok") { flash("✅ اینستاگرام متصل شد"); window.dispatchEvent(new Event("pacto-ig-updated")); }
+            else flash("اتصال اینستاگرام ناموفق بود");
+            return;
+          }
+          if (url.indexOf("subscribe") !== -1) {
+            if (status === "ok") { flash("🎉 اشتراک فعال شد"); window.dispatchEvent(new Event("pacto-sub-updated")); }
+            else flash("پرداخت اشتراک کامل نشد");
+            return;
+          }
+          if (url.indexOf("wallet") !== -1) {
+            // بازگشت از درگاه شارژ کیف پول → موجودی را به‌روزرسانی کن
+            (async () => {
+              try { const w = await api("/wallet/balance"); setWallet(Number(w.balance)); } catch (e) {}
+            })();
+            window.dispatchEvent(new Event("pacto-wallet-updated"));
+            if (status === "ok") flash("✅ پرداخت انجام شد و کیف پول شارژ شد");
+            else flash("پرداخت کامل نشد");
+            return;
+          }
+        } catch (e) {}
+      });
+    })();
+    return () => { try { handle && handle.remove && handle.remove(); } catch (e) {} };
+  }, []);
+
   // اعمال اطلاعات کاربر پس از ورود
   const applyUser = (u) => {
-    setProfile({ name: u.name || "", email: u.email || "", phone: u.phone || "" });
+    setProfile({ name: u.name || "", email: u.email || "", phone: u.phone || "", avatar: u.avatar || "", isAdmin: !!u.is_admin });
     setWallet(Number(u.wallet_balance || 0));
     setTwoFA(!!u.two_factor_enabled);
     if (u.instagram_username) setIgAccount({ user: u.instagram_username, followers: 0 });
@@ -527,16 +571,6 @@ function App() {
           : await api("/register", { method: "POST", auth: false, body: { name: f.name, email: f.email, phone: f.phone, password: f.password } });
         finish(r);
       } catch (e) {
-        // اگر ارتباط با سرور برقرار نشد، حساب کاربری روی همین دستگاه ساخته/بررسی می‌شود
-        if (isOfflineError(e)) {
-          try {
-            const r = mode === "login"
-              ? localLogin({ email: f.email, password: f.password })
-              : localRegister({ name: f.name, email: f.email, phone: f.phone, password: f.password });
-            finish(r);
-            return;
-          } catch (le) { setErr(le.message); return; }
-        }
         setErr(e.message);
       } finally { setBusy(false); }
     };
@@ -562,7 +596,7 @@ function App() {
           {err && <div className="flex items-center gap-2 mb-3" style={{ fontSize: 13, color: c.danger }}><XCircle size={15} /> {err}</div>}
           <Btn onClick={submit} disabled={busy || !f.email || !f.password || (mode === "register" && (!f.name || !accepted))} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>{busy ? <><Loader2 size={18} style={{ animation: "spin 1s linear infinite" }} /> لطفاً صبر کنید…</> : (mode === "login" ? "ورود به حساب" : "ثبت‌نام")}</Btn>
           <div className="flex items-center gap-3 my-4"><div style={{ flex: 1, height: 1, background: c.line }} /><span style={{ fontSize: 12, color: c.dim }}>یا</span><div style={{ flex: 1, height: 1, background: c.line }} /></div>
-          <button onClick={() => window.open(API_BASE + "/auth/google/redirect", "_blank")} className="w-full flex items-center justify-center gap-3 font-bold" style={{ padding: 14, borderRadius: 16, background: "#fff", color: "#222", border: "1px solid #e2e2e2" }}><svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.5 29.5 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.3-.3-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.5 29.5 4.5 24 4.5 16.3 4.5 9.7 8.9 6.3 14.7z"/><path fill="#4CAF50" d="M24 43.5c5.4 0 10.3-2 14-5.3l-6.5-5.5c-2 1.5-4.6 2.3-7.5 2.3-5.2 0-9.6-3.3-11.2-8l-6.5 5C9.6 39 16.2 43.5 24 43.5z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4 5.4l6.5 5.5c-.5.4 7-5.1 7-14.9 0-1.2-.1-2.3-.3-3.5z"/></svg> ورود با گوگل</button>
+          <button onClick={() => openExternal(API_BASE + "/auth/google/redirect")} className="w-full flex items-center justify-center gap-3 font-bold" style={{ padding: 14, borderRadius: 16, background: "#fff", color: "#222", border: "1px solid #e2e2e2" }}><svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3c-1.6 4.7-6.1 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.5 29.5 4.5 24 4.5 13.2 4.5 4.5 13.2 4.5 24S13.2 43.5 24 43.5 43.5 34.8 43.5 24c0-1.2-.1-2.3-.3-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.5 29.5 4.5 24 4.5 16.3 4.5 9.7 8.9 6.3 14.7z"/><path fill="#4CAF50" d="M24 43.5c5.4 0 10.3-2 14-5.3l-6.5-5.5c-2 1.5-4.6 2.3-7.5 2.3-5.2 0-9.6-3.3-11.2-8l-6.5 5C9.6 39 16.2 43.5 24 43.5z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.1-4 5.4l6.5 5.5c-.5.4 7-5.1 7-14.9 0-1.2-.1-2.3-.3-3.5z"/></svg> ورود با گوگل</button>
           <div className="text-center mt-6" style={{ fontSize: 13, color: c.dim }}>
             {mode === "login" ? "حساب ندارید؟ " : "حساب دارید؟ "}
             <span onClick={() => { setErr(""); setMode(mode === "login" ? "register" : "login"); }} style={{ color: c.primary, fontWeight: 700 }}>{mode === "login" ? "ثبت‌نام" : "ورود"}</span>
@@ -580,7 +614,7 @@ function App() {
   const HomeScreen = () => (
     <div className="pb-28">
       <div className="px-5 pt-4 flex items-center justify-between">
-        <div className="flex items-center gap-3"><Logo s={42} /><div><div style={{ fontSize: 12, color: c.dim }}>سلام، خوش اومدی 👋</div><div className="font-bold" style={{ fontSize: 17, color: c.text }}>{profile.name}</div></div></div>
+        <div className="flex items-center gap-3">{profile.avatar ? <div style={{ width: 42, height: 42, borderRadius: 99, background: `url(${profile.avatar}) center/cover` }} /> : <Logo s={42} />}<div><div style={{ fontSize: 12, color: c.dim }}>سلام، خوش اومدی 👋</div><div className="font-bold" style={{ fontSize: 17, color: c.text }}>{profile.name}</div></div></div>
         <button onClick={() => push("notifs")} className="relative flex items-center justify-center rounded-full" style={{ width: 44, height: 44, background: c.card, border: `1px solid ${c.line}` }}><Bell size={20} color={c.text} /><span style={{ position: "absolute", top: 9, right: 11, width: 8, height: 8, borderRadius: 99, background: c.danger }} /></button>
       </div>
       <div className="px-5 mt-4"><Card glow style={{ padding: 20, background: GRAD, border: "none", overflow: "hidden", position: "relative" }}>
@@ -727,7 +761,7 @@ function App() {
     const finalAmt = custom ? +custom.replace(/\D/g, "") || 0 : amt;
     const startPay = async () => {
       setBusy(true);
-      try { const r = await api("/wallet/topup", { method: "POST", body: { amount: finalAmt } }); if (r.payment_url) { window.open(r.payment_url, "_blank"); setWaiting(true); } else { flash("خطا در اتصال به درگاه"); } }
+      try { const r = await api("/wallet/topup", { method: "POST", body: { amount: finalAmt } }); if (r.payment_url) { setWaiting(true); openExternal(r.payment_url, () => checkStatus()); } else { flash("خطا در اتصال به درگاه"); } }
       catch (e) { flash(e.message); } finally { setBusy(false); }
     };
     const checkStatus = async () => {
@@ -787,7 +821,7 @@ function App() {
     const [busy, setBusy] = useState(false); const [status, setStatus] = useState(o.status); const [waiting, setWaiting] = useState(false);
     const canWallet = wallet >= o.total;
     const payWallet = async () => { setBusy(true); try { await api("/orders/" + o.id + "/pay", { method: "POST" }); try { const w = await api("/wallet/balance"); setWallet(Number(w.balance)); } catch (e) {} setStatus("processing"); await loadOrders(); flash("✅ سفارش پرداخت شد"); } catch (e) { flash(e.message); } finally { setBusy(false); } };
-    const payGateway = async () => { setBusy(true); try { const r = await api("/wallet/topup", { method: "POST", body: { amount: o.total } }); if (r.payment_url) { window.open(r.payment_url, "_blank"); setWaiting(true); } } catch (e) { flash(e.message); } finally { setBusy(false); } };
+    const payGateway = async () => { setBusy(true); try { const r = await api("/wallet/topup", { method: "POST", body: { amount: o.total } }); if (r.payment_url) { setWaiting(true); openExternal(r.payment_url, () => checkAfterPay()); } } catch (e) { flash(e.message); } finally { setBusy(false); } };
     const checkAfterPay = async () => { setBusy(true); try { const w = await api("/wallet/balance"); setWallet(Number(w.balance)); if (Number(w.balance) >= o.total) { await api("/orders/" + o.id + "/pay", { method: "POST" }); setStatus("processing"); await loadOrders(); setWaiting(false); flash("✅ سفارش پرداخت شد"); } else { flash("هنوز پرداخت تأیید نشده. اگر پرداخت کردید چند لحظه صبر و دوباره بررسی کنید."); } } catch (e) { flash(e.message); } finally { setBusy(false); } };
     const viewInvoice = async () => { try { const r = await api("/invoices"); const inv = (r.invoices || []).find((x) => x.order_code === o.code) || (r.invoices || [])[0]; if (inv) push("invoice", { id: inv.id }); else flash("برای این سفارش هنوز فاکتوری صادر نشده"); } catch (e) { flash(e.message); } };
     return (
@@ -853,7 +887,7 @@ function App() {
       <div className="px-5">
         <Card glow style={{ padding: 20, background: GRAD, border: "none" }}><div style={{ fontSize: 13, color: "#ffffffcc", fontWeight: 600 }}>درآمد کسب‌شده</div><div className="font-bold mt-1" style={{ fontSize: 28, color: "#fff" }}>{money(a.total_commission)} <span style={{ fontSize: 14 }}>تومان</span></div></Card>
         <div className="grid grid-cols-3 gap-3 mt-4"><Stat ic={Users} label="دعوت‌شده" val={fa(a.referrals_count)} color={c.primary} /><Stat ic={MousePointerClick} label="کلیک لینک" val={fa(a.clicks)} color={c.accent} /><Stat ic={ShoppingBag} label="سفارش" val={fa(a.orders)} color={c.success} /></div>
-        <Card style={{ padding: 16, marginTop: 16 }}><div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>کد معرف شما</div><div className="flex items-center gap-2"><div className="flex-1 truncate" style={{ background: c.bg2, borderRadius: 12, padding: "12px 14px", fontSize: 13, color: c.text }}>{a.referral_code}</div><button onClick={() => { try { navigator.clipboard.writeText(a.referral_link || a.referral_code); } catch (e) {} flash("🔗 کپی شد"); }} style={{ background: GRAD, borderRadius: 12, padding: 12, border: "none" }}><Copy size={18} color="#fff" /></button></div></Card>
+        <Card style={{ padding: 16, marginTop: 16 }}><div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>کد معرف شما</div><div className="flex items-center gap-2"><div className="flex-1 truncate" style={{ background: c.bg2, borderRadius: 12, padding: "12px 14px", fontSize: 13, color: c.text }}>{a.referral_code}</div><button onClick={async () => { const link = a.referral_link || a.referral_code; const text = "با کد معرف من در پکتو ثبت‌نام کن: " + a.referral_code; try { if (navigator.share) { await navigator.share({ title: "دعوت به پکتو", text, url: a.referral_link || undefined }); } else { try { await navigator.clipboard.writeText(link); } catch (e) {} flash("🔗 کپی شد"); } } catch (e) {} }} style={{ background: GRAD, borderRadius: 12, padding: 12, border: "none" }}><Share2 size={18} color="#fff" /></button><button onClick={() => { try { navigator.clipboard.writeText(a.referral_link || a.referral_code); } catch (e) {} flash("🔗 کپی شد"); }} style={{ background: c.bg2, border: `1px solid ${c.line}`, borderRadius: 12, padding: 12 }}><Copy size={18} color={c.text} /></button></div></Card>
       </div>
     </div>
     );
@@ -861,16 +895,30 @@ function App() {
 
   /* INSTAGRAM (functional) */
   const InstagramScreen = () => {
+    const [st, setSt] = useState(null); const [busy, setBusy] = useState(false);
+    const load = async () => { try { const r = await api("/instagram/status"); setSt(r); } catch (e) { setSt({ connected: false }); } };
+    useEffect(() => { load(); const h = () => load(); window.addEventListener("pacto-ig-updated", h); return () => window.removeEventListener("pacto-ig-updated", h); }, []);
+    const connect = async () => { setBusy(true); try { const r = await api("/instagram/connect-url"); if (r.url) openExternal(r.url, () => load()); } catch (e) { flash(e.message); } finally { setBusy(false); } };
+    const disconnect = async () => { setBusy(true); try { await api("/instagram/disconnect", { method: "POST" }); await load(); flash("اتصال قطع شد"); } catch (e) { flash(e.message); } finally { setBusy(false); } };
+    const connected = st && st.connected;
     return (
       <div className="pb-10"><Header title="اتصال اینستاگرام" />
         <div className="px-5">
           <Card style={{ padding: 26, textAlign: "center" }}>
             <div className="flex flex-col items-center"><div style={{ width: 76, height: 76, borderRadius: 22, background: "linear-gradient(135deg,#f59e0b,#ef4444,#8b5cf6)", display: "flex", alignItems: "center", justifyContent: "center" }}><Instagram size={38} color="#fff" /></div>
-              <div className="font-bold mt-4" style={{ fontSize: 17, color: c.text }}>به‌زودی</div>
-              <p style={{ fontSize: 13.5, color: c.dim, lineHeight: 2, marginTop: 10 }}>اتصال مستقیم به اینستاگرام و انتشار خودکار محتوا در حال توسعه است و به‌زودی فعال می‌شود. تا آن زمان می‌توانید از طریق ساخت کمپین، تبلیغ اینستاگرامی سفارش دهید.</p>
-              <Btn variant="soft" style={{ marginTop: 18, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }} onClick={() => { goTab("campaigns"); }}><Megaphone size={17} /> ساخت کمپین اینستاگرام</Btn>
+              {st === null ? <Loader2 size={26} color={c.primary} style={{ animation: "spin 1s linear infinite", marginTop: 18 }} /> : connected ? (<>
+                <div className="font-bold mt-4" style={{ fontSize: 17, color: c.text }}>متصل ✅</div>
+                <div style={{ fontSize: 14, color: c.primary, fontWeight: 700, marginTop: 4 }}>@{st.username || "—"}</div>
+                {st.account_type && <div style={{ fontSize: 12, color: c.dim, marginTop: 2 }}>نوع حساب: {st.account_type}</div>}
+                <Btn variant="soft" disabled={busy} style={{ marginTop: 18, color: c.danger }} onClick={disconnect}>قطع اتصال</Btn>
+              </>) : (<>
+                <div className="font-bold mt-4" style={{ fontSize: 17, color: c.text }}>اتصال پیج اینستاگرام</div>
+                <p style={{ fontSize: 13, color: c.dim, lineHeight: 2, marginTop: 10 }}>برای انتشار خودکار محتوا، پیج خود را وصل کنید. حساب باید <b style={{ color: c.text }}>Business یا Creator</b> باشد.</p>
+                <Btn disabled={busy} style={{ marginTop: 18, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }} onClick={connect}>{busy ? "در حال اتصال…" : <><Instagram size={18} /> اتصال پیج</>}</Btn>
+              </>)}
             </div>
           </Card>
+          {connected && <Btn variant="soft" style={{ marginTop: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }} onClick={() => push("autostudio")}><Film size={17} /> تولید و انتشار خودکار ویدئو</Btn>}
         </div>
       </div>
     );
@@ -900,16 +948,27 @@ function App() {
   /* PROFILE (functional) */
   const ProfileEdit = () => {
     const [f, setF] = useState(profile);
-    const save = async () => { try { const r = await api("/profile", { method: "PUT", body: { name: f.name, phone: f.phone } }); if (r.user) applyUser(r.user); else setProfile(f); pop(); flash("✅ پروفایل ذخیره شد"); } catch (e) { flash(e.message); } };
+    const [busy, setBusy] = useState(false);
+    const save = async () => {
+      setBusy(true);
+      try {
+        const body = { name: f.name, phone: f.phone || "" };
+        // عکس فقط وقتی تغییر کرده باشد ارسال می‌شود (data URL جدید یا حذف)
+        if (f.avatar !== profile.avatar) body.avatar = f.avatar || "";
+        const r = await api("/profile", { method: "PUT", body });
+        if (r.user) applyUser(r.user); else setProfile(f);
+        pop(); flash("✅ پروفایل ذخیره شد");
+      } catch (e) { flash(e.message); } finally { setBusy(false); }
+    };
     return (
       <div className="pb-28"><Header title="ویرایش پروفایل" />
         <div className="px-5">
-          <div className="flex flex-col items-center mb-6"><div style={{ position: "relative" }}><div style={{ width: 86, height: 86, borderRadius: 99, background: f.avatar ? `url(${f.avatar}) center/cover` : GRAD, display: "flex", alignItems: "center", justifyContent: "center" }}>{!f.avatar && <span className="font-bold" style={{ fontSize: 34, color: "#fff" }}>{f.name.charAt(0)}</span>}</div><label style={{ position: "absolute", bottom: 0, left: 0, width: 30, height: 30, borderRadius: 99, background: c.card, border: `1px solid ${c.line}`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}><Camera size={15} color={c.primary} /><input type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = (ev) => { setF({ ...f, avatar: ev.target.result }); flash("عکس انتخاب شد (با ذخیره اعمال می‌شود)"); }; reader.readAsDataURL(file); }} /></label></div></div>
+          <div className="flex flex-col items-center mb-6"><div style={{ position: "relative" }}><div style={{ width: 86, height: 86, borderRadius: 99, background: f.avatar ? `url(${f.avatar}) center/cover` : GRAD, display: "flex", alignItems: "center", justifyContent: "center" }}>{!f.avatar && <span className="font-bold" style={{ fontSize: 34, color: "#fff" }}>{f.name.charAt(0)}</span>}</div><label style={{ position: "absolute", bottom: 0, left: 0, width: 30, height: 30, borderRadius: 99, background: c.card, border: `1px solid ${c.line}`, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}><Camera size={15} color={c.primary} /><input type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => { const file = e.target.files[0]; if (!file) return; resizeImageFile(file, 512, (dataUrl) => { setF((prev) => ({ ...prev, avatar: dataUrl })); flash("عکس انتخاب شد (با ذخیره اعمال می‌شود)"); }); e.target.value = ""; }} /></label></div>{f.avatar ? <button onClick={() => setF((prev) => ({ ...prev, avatar: "" }))} style={{ marginTop: 10, fontSize: 12, color: "#ef4444", background: "none", border: "none", cursor: "pointer" }}>حذف عکس</button> : null}</div>
           <Field label="نام و نام خانوادگی" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} />
           <div className="block mb-3"><div className="mb-2" style={{ fontSize: 13, color: c.dim, fontWeight: 600 }}>ایمیل</div><div style={{ width: "100%", background: c.bg2, border: `1px solid ${c.line}`, borderRadius: 14, padding: "14px 16px", color: c.dim, fontSize: 15 }}>{f.email || "—"}</div></div>
           {f.phone ? <div className="block mb-3"><div className="mb-2" style={{ fontSize: 13, color: c.dim, fontWeight: 600 }}>شماره موبایل</div><div style={{ width: "100%", background: c.bg2, border: `1px solid ${c.line}`, borderRadius: 14, padding: "14px 16px", color: c.dim, fontSize: 15 }}>{f.phone}</div></div> : null}
         </div>
-        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 18, background: `linear-gradient(transparent, ${c.bg} 30%)` }}><Btn onClick={save} disabled={!f.name.trim()} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><Save size={18} /> ذخیره تغییرات</Btn></div>
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: 18, background: `linear-gradient(transparent, ${c.bg} 30%)` }}><Btn onClick={save} disabled={busy || !f.name.trim()} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><Save size={18} /> {busy ? "در حال ذخیره…" : "ذخیره تغییرات"}</Btn></div>
       </div>
     );
   };
@@ -1076,20 +1135,54 @@ function App() {
 
   /* AI */
   const AI = () => {
-    const [mode, setMode] = useState("content"); const [topic, setTopic] = useState(""); const [gen, setGen] = useState(null); const [loading, setLoading] = useState(false);
+    const [mode, setMode] = useState("content");
+    const [type, setType] = useState("caption");
+    const [topic, setTopic] = useState("");
+    const [lang, setLang] = useState("fa");
+    const [tone, setTone] = useState("حرفه‌ای");
+    const [len, setLen] = useState("medium");
+    const [out, setOut] = useState("");
+    const [cover, setCover] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [coverBusy, setCoverBusy] = useState(false);
+    const [err, setErr] = useState("");
     const [msgs, setMsgs] = useState([{ me: false, t: "سلام! من دستیار هوشمند Pacto هستم 🤖 چطور می‌تونم کمکت کنم؟" }]); const [input, setInput] = useState(""); const endRef = useRef(null);
     useEffect(() => { endRef.current && endRef.current.scrollIntoView({ behavior: "smooth" }); }, [msgs]);
-    const generate = () => { setLoading(true); setGen(null); setTimeout(() => { setLoading(false); setGen({ cap: `✨ ${topic || "محصول شما"} رو با کیفیتی متفاوت تجربه کن!\nهمین حالا سفارش بده و از تخفیف ویژه بهره‌مند شو 🛒`, tags: ["#فروش_ویژه", "#تخفیف", "#خرید_آنلاین", "#کیفیت", "#ارسال_رایگان"] }); }, 1300); };
+    const TYPES = [["caption", "کپشن"], ["script", "اسکریپت ویدئو"], ["idea", "ایده"], ["hashtags", "هشتگ"], ["title", "عنوان"]];
+    const TONES = ["حرفه‌ای", "خودمانی", "طنز", "انگیزشی", "لوکس"];
+    const generate = async () => {
+      if (!topic.trim()) { setErr("موضوع را وارد کنید"); return; }
+      setLoading(true); setErr(""); setOut("");
+      try { const r = await api("/ai/content", { method: "POST", body: { type, topic, language: lang, tone, length: len } }); setOut(r.text || ""); }
+      catch (e) { setErr(e.message); if (e.message && e.message.indexOf("اشتراک") !== -1) { setTimeout(() => push("plans"), 700); } } finally { setLoading(false); }
+    };
+    const makeCover = async () => {
+      if (!topic.trim()) { setErr("موضوع را وارد کنید"); return; }
+      setCoverBusy(true); setErr("");
+      try { const r = await api("/ai/cover", { method: "POST", body: { prompt: "Instagram cover, vibrant, no text: " + topic, size: "1024x1024" } }); setCover(r.image_url || null); }
+      catch (e) { setErr(e.message); } finally { setCoverBusy(false); }
+    };
+    const saveLib = async () => { try { await api("/ai/library", { method: "POST", body: { type, prompt: topic, caption: out, image_path: cover } }); flash("💾 در کتابخانه ذخیره شد"); } catch (e) { flash(e.message); } };
     const send = async () => { if (!input.trim()) return; const t = input; setInput(""); setMsgs((m) => [...m, { me: true, t }]); setMsgs((m) => [...m, { me: false, t: "…", typing: true }]); try { const r = await api("/ai/chat", { method: "POST", body: { message: t } }); setMsgs((m) => m.filter((x) => !x.typing).concat({ me: false, t: r.reply || "پاسخی دریافت نشد." })); } catch (e) { setMsgs((m) => m.filter((x) => !x.typing).concat({ me: false, t: "خطا: " + e.message })); } };
     return (
       <div className="flex flex-col" style={{ height: "100%" }}>
-        <div className="px-5 pt-4 flex items-center justify-between"><div className="font-bold" style={{ fontSize: 22, color: c.text }}>هوش مصنوعی</div><button onClick={() => push("contents")} className="flex items-center gap-1.5 font-bold" style={{ fontSize: 13, color: c.primary, background: "none", border: "none" }}><FileText size={16} /> کتابخانه</button></div>
+        <div className="px-5 pt-4 flex items-center justify-between"><div className="font-bold" style={{ fontSize: 22, color: c.text }}>استودیوی محتوا</div><button onClick={() => push("contents")} className="flex items-center gap-1.5 font-bold" style={{ fontSize: 13, color: c.primary, background: "none", border: "none" }}><FileText size={16} /> کتابخانه</button></div>
         <div className="flex gap-2 px-5 mt-4">{[["content", "تولید محتوا"], ["chat", "دستیار چت"]].map(([k, t]) => (<button key={k} onClick={() => setMode(k)} className="flex-1 font-bold" style={{ padding: "10px", borderRadius: 13, fontSize: 14, background: mode === k ? GRAD : c.card, color: mode === k ? "#fff" : c.dim, border: `1px solid ${mode === k ? "transparent" : c.line}` }}>{t}</button>))}</div>
         {mode === "content" ? (
           <div className="px-5 mt-4 overflow-y-auto pb-28" style={{ flex: 1 }}>
-            <Field label="موضوع محتوا" placeholder="مثلاً: فروش کفش ورزشی" value={topic} onChange={(e) => setTopic(e.target.value)} />
+            <button onClick={() => push("autostudio")} className="w-full flex items-center gap-3" style={{ padding: 14, borderRadius: 16, background: `linear-gradient(135deg,#7c3aed,#db2777)`, border: "none", marginBottom: 16 }}><div style={{ width: 40, height: 40, borderRadius: 12, background: "#ffffff25", display: "flex", alignItems: "center", justifyContent: "center" }}><Film size={20} color="#fff" /></div><div style={{ flex: 1, textAlign: "right" }}><div className="font-bold" style={{ fontSize: 14, color: "#fff" }}>تولید خودکار ویدئوی وایرال 🔥</div><div style={{ fontSize: 11.5, color: "#ffffffcc" }}>اسکریپت + صدا + ویدئو + انتشار خودکار</div></div><ChevronLeft size={18} color="#fff" /></button>
+            <div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>نوع محتوا</div>
+            <div className="flex flex-wrap gap-2 mb-4">{TYPES.map(([k, t]) => <button key={k} onClick={() => setType(k)} className="font-bold" style={{ fontSize: 12.5, padding: "7px 13px", borderRadius: 99, background: type === k ? c.primary : c.card, color: type === k ? "#fff" : c.dim, border: `1px solid ${type === k ? "transparent" : c.line}` }}>{t}</button>)}</div>
+            <Field label="موضوع" placeholder="مثلاً: فروش کفش ورزشی" value={topic} onChange={(e) => setTopic(e.target.value)} />
+            <div className="flex gap-2 mb-3">{[["fa", "فارسی"], ["en", "English"]].map(([k, t]) => <button key={k} onClick={() => setLang(k)} className="flex-1 font-bold" style={{ padding: 9, borderRadius: 12, fontSize: 13, background: lang === k ? `${c.primary}22` : c.card, color: lang === k ? c.primary : c.dim, border: `1px solid ${lang === k ? c.primary : c.line}` }}>{t}</button>)}</div>
+            <div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>لحن</div>
+            <div className="flex flex-wrap gap-2 mb-3">{TONES.map((t) => <button key={t} onClick={() => setTone(t)} style={{ fontSize: 12.5, padding: "6px 12px", borderRadius: 99, background: tone === t ? c.primary : c.card, color: tone === t ? "#fff" : c.dim, border: `1px solid ${tone === t ? "transparent" : c.line}`, fontWeight: 600 }}>{t}</button>)}</div>
+            <div className="flex gap-2 mb-4">{[["short", "کوتاه"], ["medium", "متوسط"], ["long", "بلند"]].map(([k, t]) => <button key={k} onClick={() => setLen(k)} className="flex-1 font-bold" style={{ padding: 9, borderRadius: 12, fontSize: 13, background: len === k ? `${c.primary}22` : c.card, color: len === k ? c.primary : c.dim, border: `1px solid ${len === k ? c.primary : c.line}` }}>{t}</button>)}</div>
             <Btn onClick={generate} disabled={loading} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>{loading ? <><Loader2 size={18} style={{ animation: "spin 1s linear infinite" }} /> در حال تولید…</> : <><Sparkles size={18} /> تولید محتوا</>}</Btn>
-            {gen && (<div style={{ animation: "fadeUp .4s both" }}><Card style={{ padding: 16, marginTop: 16 }}><div className="flex items-center justify-between mb-2"><span style={{ fontSize: 13, color: c.dim, fontWeight: 600 }}>کپشن پیشنهادی</span><button onClick={() => flash("کپشن کپی شد")} style={{ background: "none", border: "none" }}><Copy size={16} color={c.primary} /></button></div><p style={{ fontSize: 14, color: c.text, lineHeight: 1.9, whiteSpace: "pre-line" }}>{gen.cap}</p></Card><Card style={{ padding: 16, marginTop: 12 }}><div className="flex items-center gap-2 mb-3" style={{ fontSize: 13, color: c.dim, fontWeight: 600 }}><Hash size={15} /> هشتگ‌ها</div><div className="flex flex-wrap gap-2">{gen.tags.map((t, i) => <span key={i} style={{ fontSize: 12, color: c.primary, background: `${c.primary}18`, padding: "5px 11px", borderRadius: 99, fontWeight: 600 }}>{t}</span>)}</div></Card></div>)}
+            {err && <div style={{ fontSize: 12.5, color: c.danger, marginTop: 10 }}>{err}</div>}
+            {out && (<div style={{ animation: "fadeUp .4s both" }}><Card style={{ padding: 16, marginTop: 16 }}><div className="flex items-center justify-between mb-2"><span style={{ fontSize: 13, color: c.dim, fontWeight: 600 }}>خروجی</span><div className="flex gap-3"><button onClick={() => { try { navigator.clipboard.writeText(out); } catch (e) {} flash("کپی شد"); }} style={{ background: "none", border: "none" }}><Copy size={16} color={c.primary} /></button><button onClick={saveLib} style={{ background: "none", border: "none" }}><Save size={16} color={c.primary} /></button></div></div><p style={{ fontSize: 14, color: c.text, lineHeight: 2, whiteSpace: "pre-line" }}>{out}</p></Card></div>)}
+            <Btn variant="soft" onClick={makeCover} disabled={coverBusy} style={{ marginTop: 12, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>{coverBusy ? <><Loader2 size={18} style={{ animation: "spin 1s linear infinite" }} /> ساخت کاور…</> : <><ImageIcon size={18} /> ساخت کاور با AI</>}</Btn>
+            {cover && <img src={cover} alt="cover" style={{ width: "100%", borderRadius: 16, marginTop: 12 }} />}
           </div>
         ) : (
           <div className="flex flex-col" style={{ flex: 1, minHeight: 0 }}>
@@ -1102,11 +1195,42 @@ function App() {
   };
 
   /* ACCOUNT */
-  const Account = () => (
+  const Account = () => {
+    const [affInc, setAffInc] = useState(null); const [subInfo, setSubInfo] = useState(null); const [igOn, setIgOn] = useState(null);
+    const [adminOv, setAdminOv] = useState(null); const [aiBusy, setAiBusy] = useState(false);
+    useEffect(() => { (async () => {
+      try { const r = await api("/affiliate"); setAffInc(r.affiliate ? Number(r.affiliate.total_commission || 0) : 0); } catch (e) { setAffInc(0); }
+      try { const s = await api("/subscription"); setSubInfo(s); } catch (e) {}
+      try { const ig = await api("/instagram/status"); setIgOn(!!ig.connected); } catch (e) { setIgOn(false); }
+      if (profile.isAdmin) { try { const o = await api("/admin/overview"); setAdminOv(o); } catch (e) {} }
+    })(); }, []);
+    const toggleAI = async () => { setAiBusy(true); try { const r = await api("/admin/ai-toggle", { method: "POST", body: { enabled: !(adminOv && adminOv.ai_enabled) } }); setAdminOv((o) => ({ ...(o || {}), ai_enabled: r.enabled })); flash(r.enabled ? "✅ تولید هوش مصنوعی روشن شد" : "⛔️ تولید هوش مصنوعی خاموش شد"); } catch (e) { flash(e.message); } finally { setAiBusy(false); } };
+    return (
     <div className="pb-28">
       <div className="px-5 pt-4"><div className="font-bold" style={{ fontSize: 22, color: c.text }}>حساب کاربری</div></div>
       <div className="px-5 mt-4">
-        <Card onClick={() => push("profile")} style={{ padding: 18, display: "flex", alignItems: "center", gap: 14 }}><div style={{ width: 60, height: 60, borderRadius: 99, background: GRAD, display: "flex", alignItems: "center", justifyContent: "center" }}><span className="font-bold" style={{ fontSize: 24, color: "#fff" }}>{profile.name.charAt(0)}</span></div><div className="flex-1"><div className="font-bold" style={{ fontSize: 17, color: c.text }}>{profile.name}</div><div style={{ fontSize: 13, color: c.dim }}>{profile.email}</div></div><Edit3 size={18} color={c.dim} /></Card>
+        <Card onClick={() => push("profile")} style={{ padding: 18, display: "flex", alignItems: "center", gap: 14 }}><div style={{ width: 60, height: 60, borderRadius: 99, background: profile.avatar ? `url(${profile.avatar}) center/cover` : GRAD, display: "flex", alignItems: "center", justifyContent: "center" }}>{!profile.avatar && <span className="font-bold" style={{ fontSize: 24, color: "#fff" }}>{profile.name.charAt(0)}</span>}</div><div className="flex-1"><div className="font-bold" style={{ fontSize: 17, color: c.text }}>{profile.name}</div><div style={{ fontSize: 13, color: c.dim }}>{profile.email}</div></div><Edit3 size={18} color={c.dim} /></Card>
+        <Card onClick={() => push("plans")} glow style={{ padding: 16, marginTop: 12, background: GRAD, border: "none", display: "flex", alignItems: "center", gap: 12 }}><div style={{ width: 44, height: 44, borderRadius: 13, background: "#ffffff25", display: "flex", alignItems: "center", justifyContent: "center" }}><Crown size={22} color="#fff" /></div><div className="flex-1"><div className="font-bold" style={{ fontSize: 15, color: "#fff" }}>{subInfo && subInfo.is_active ? `اشتراک ${subInfo.subscription.plan_name}` : "اشتراک ویژه"}</div><div style={{ fontSize: 12, color: "#ffffffcc" }}>{subInfo && subInfo.is_active ? `مصرف این ماه: ${fa(subInfo.content_used)} از ${fa(subInfo.content_limit)}` : "تولید خودکار محتوای وایرال"}</div></div><ChevronLeft size={18} color="#fff" /></Card>
+        {profile.isAdmin && (
+          <Card style={{ padding: 16, marginTop: 12, border: `1.5px solid ${c.primary}` }}>
+            <div className="flex items-center gap-2" style={{ marginBottom: 12 }}><Shield size={18} color={c.primary} /><span className="font-bold" style={{ fontSize: 15, color: c.text }}>مدیریت</span></div>
+            <div className="flex items-center justify-between" style={{ padding: "10px 0" }}>
+              <div><div className="font-bold" style={{ fontSize: 14, color: c.text }}>تولید هوش مصنوعی</div><div style={{ fontSize: 11.5, color: c.dim }}>کلید قطع اضطراری (وقتی اعتبار دلاری کم است)</div></div>
+              <button onClick={toggleAI} disabled={aiBusy} style={{ width: 52, height: 30, borderRadius: 99, border: "none", cursor: "pointer", position: "relative", background: (adminOv && adminOv.ai_enabled) ? c.success : c.line, transition: "background .2s" }}>
+                <span style={{ position: "absolute", top: 3, left: (adminOv && adminOv.ai_enabled) ? 25 : 3, width: 24, height: 24, borderRadius: 99, background: "#fff", transition: "left .2s" }} />
+              </button>
+            </div>
+            <div className="flex gap-2" style={{ marginTop: 8 }}>
+              <div style={{ flex: 1, background: c.bg2, borderRadius: 12, padding: "10px 12px" }}><div style={{ fontSize: 11, color: c.dim }}>اشتراک‌های فعال</div><div className="font-bold" style={{ fontSize: 18, color: c.text }}>{fa(adminOv ? adminOv.active_subs : 0)}</div></div>
+              <div style={{ flex: 1, background: c.bg2, borderRadius: 12, padding: "10px 12px" }}><div style={{ fontSize: 11, color: c.dim }}>درآمد امروز</div><div className="font-bold" style={{ fontSize: 18, color: c.text }}>{money(adminOv ? adminOv.today_revenue : 0)} <span style={{ fontSize: 11, color: c.dim }}>ت</span></div></div>
+            </div>
+            {adminOv && adminOv.recent && adminOv.recent.length > 0 && (
+              <div style={{ marginTop: 10 }}>{adminOv.recent.map((r, i) => (
+                <div key={i} className="flex items-center justify-between" style={{ fontSize: 12, color: c.dim, padding: "4px 0" }}><span style={{ color: c.text }}>{r.user || "—"} · {r.plan}</span><span>{money(r.price)} ت</span></div>
+              ))}</div>
+            )}
+          </Card>
+        )}
         <div style={{ fontSize: 12, color: c.dim, fontWeight: 700, margin: "18px 4px 8px" }}>مالی و سفارش‌ها</div>
         <Card style={{ overflow: "hidden" }}>
           <Row ic={Wallet} t="کیف پول" v={`${money(wallet)} ت`} onClick={() => push("wallet")} />
@@ -1116,8 +1240,9 @@ function App() {
         </Card>
         <div style={{ fontSize: 12, color: c.dim, fontWeight: 700, margin: "18px 4px 8px" }}>رشد و محتوا</div>
         <Card style={{ overflow: "hidden" }}>
-          <Row ic={Gift} t="همکاری در فروش" sub="درآمد: ۴۹۵٬۰۰۰ ت" onClick={() => push("affiliate")} color={c.success} />
-          <Row ic={Instagram} t="اتصال اینستاگرام" v={igAccount ? "متصل" : "متصل نیست"} onClick={() => push("instagram")} />
+          <Row ic={Gift} t="همکاری در فروش" sub={affInc === null ? "در حال بارگذاری…" : `درآمد: ${money(affInc)} ت`} onClick={() => push("affiliate")} color={c.success} />
+          <Row ic={Instagram} t="اتصال اینستاگرام" v={igOn === null ? "…" : (igOn ? "متصل" : "متصل نیست")} onClick={() => push("instagram")} />
+          <Row ic={Film} t="تولید خودکار ویدئو" onClick={() => push("autostudio")} />
           <Row ic={FileText} t="کتابخانه محتوا" onClick={() => push("contents")} last />
         </Card>
         <div style={{ fontSize: 12, color: c.dim, fontWeight: 700, margin: "18px 4px 8px" }}>حساب و امنیت</div>
@@ -1130,10 +1255,10 @@ function App() {
         </Card>
         <Card style={{ marginTop: 16, padding: "6px 16px" }}><button onClick={() => setDark(!dark)} className="flex items-center gap-3 w-full" style={{ padding: "12px 0", background: "none", border: "none" }}><div style={{ width: 38, height: 38, borderRadius: 11, background: c.bg2, display: "flex", alignItems: "center", justifyContent: "center" }}>{dark ? <Moon size={18} color={c.primary} /> : <Sun size={18} color={c.primary} />}</div><span className="flex-1 text-right font-bold" style={{ fontSize: 14, color: c.text }}>حالت {dark ? "تیره" : "روشن"}</span><Toggle on={dark} /></button></Card>
         <button onClick={async () => { try { await api("/logout", { method: "POST" }); } catch (e) {} clearToken(); setApiProducts(null); setApiCategories(null); setScreen("login"); goTab("home"); }} className="flex items-center justify-center gap-2 w-full mt-4 font-bold" style={{ padding: 15, borderRadius: 16, color: c.danger, background: `${c.danger}12`, border: `1px solid ${c.danger}30` }}><LogOut size={18} /> خروج از حساب</button>
-        <div className="text-center mt-5" style={{ fontSize: 12, color: c.dim }}>Pacto · نسخه ۱.۰.۰</div>
-      </div>
-    </div>
-  );
+        <div className="text-center mt-5" style={{ fontSize: 12, color: c.dim }}>Pacto · نسخه ۱.۰.۱</div>
+      </div></div>
+    );
+  };
 
   /* SUPPORT (with new ticket) — متصل به API */
   const Tickets = () => {
@@ -1195,21 +1320,165 @@ function App() {
     );
   };
 
+  const UsageBar = ({ label, used, limit, icon: I }) => {
+    const pct = limit > 0 ? Math.min(100, Math.round((used / limit) * 100)) : 0;
+    return (
+      <div style={{ marginTop: 12 }}>
+        <div className="flex items-center justify-between" style={{ marginBottom: 6 }}>
+          <span className="flex items-center gap-1.5" style={{ fontSize: 12.5, color: "#ffffffdd" }}>{I && <I size={14} color="#fff" />}{label}</span>
+          <span style={{ fontSize: 12.5, color: "#fff", fontWeight: 700 }}>{fa(used)} / {fa(limit)}</span>
+        </div>
+        <div style={{ height: 7, borderRadius: 99, background: "#ffffff33", overflow: "hidden" }}>
+          <div style={{ height: "100%", width: pct + "%", borderRadius: 99, background: "#fff", transition: "width .4s" }} />
+        </div>
+      </div>
+    );
+  };
+
+  const Plans = () => {
+    const [plans, setPlans] = useState(null); const [sub, setSub] = useState(null); const [busy, setBusy] = useState(""); const [yearly, setYearly] = useState(false);
+    const load = async () => { try { const [p, s] = await Promise.all([api("/plans"), api("/subscription")]); setPlans(p.plans || []); setSub(s); } catch (e) { setPlans([]); } };
+    useEffect(() => { load(); const h = () => load(); window.addEventListener("pacto-sub-updated", h); return () => window.removeEventListener("pacto-sub-updated", h); }, []);
+    const buy = async (id) => {
+      setBusy(id);
+      try {
+        const r = await api("/subscribe", { method: "POST", body: { plan_id: id, yearly } });
+        if (r.payment_url) { openExternal(r.payment_url, () => load()); }
+        else if (r.free) { flash("🎉 اشتراک فعال شد"); await load(); }
+        else { flash(r.message || "خطا در اتصال به درگاه پرداخت"); }
+      } catch (e) { flash(e.message); } finally { setBusy(""); }
+    };
+    const feats = (p) => [
+      [Film, `${fa(p.video_limit || 0)} ویدئوی وایرال در ماه`],
+      [Sparkles, `${fa(p.script_limit || 0)} اسکریپت و متن در ماه`],
+      [Instagram, "انتشار خودکار در پیج شما"],
+      [ImageIcon, "کاور و کپشن اختصاصی با AI"],
+    ];
+    return (
+      <div className="pb-28"><Header title="اشتراک ویژه" />
+        <div className="px-5">
+          <div style={{ borderRadius: 22, padding: 22, background: GRAD, position: "relative", overflow: "hidden", marginBottom: 16 }}>
+            <div style={{ position: "absolute", top: -30, left: -20, width: 120, height: 120, borderRadius: 99, background: "#ffffff22" }} />
+            <div className="flex items-center gap-2" style={{ position: "relative" }}><Crown size={22} color="#fff" /><span className="font-bold" style={{ fontSize: 18, color: "#fff" }}>تولید محتوای وایرال خودکار</span></div>
+            <div style={{ fontSize: 13, color: "#ffffffe6", marginTop: 8, lineHeight: 1.9, position: "relative" }}>پیجت را وصل کن، موضوع بده؛ هوش مصنوعی اسکریپت، صدا، ویدئو، کاور و کپشن می‌سازد و خودکار منتشر می‌کند.</div>
+            <div className="flex flex-wrap gap-2" style={{ marginTop: 12, position: "relative" }}>{["۵+ زبان", "انتشار خودکار", "بدون دخالت تو"].map((t) => <span key={t} style={{ fontSize: 11.5, color: "#fff", background: "#ffffff2e", padding: "5px 10px", borderRadius: 99 }}>{t}</span>)}</div>
+          </div>
+
+          {sub && sub.is_active && (
+            <Card glow style={{ padding: 18, background: GRAD, border: "none", marginBottom: 16 }}>
+              <div className="flex items-center justify-between"><div><div style={{ fontSize: 12.5, color: "#ffffffcc" }}>اشتراک فعال</div><div className="font-bold" style={{ fontSize: 19, color: "#fff" }}>{sub.subscription.plan_name}</div></div><Chip color="#fff" bg="#ffffff2e" t={`${fa(sub.subscription.days_left || 0)} روز مانده`} /></div>
+              <UsageBar label="ویدئو" used={sub.video_used} limit={sub.video_limit} icon={Film} />
+              <UsageBar label="اسکریپت و متن" used={sub.script_used} limit={sub.script_limit} icon={Sparkles} />
+            </Card>
+          )}
+
+          {sub && !sub.is_active && sub.pending && (
+            <Card style={{ padding: 16, border: `1.5px solid ${"#f59e0b"}`, marginBottom: 16, background: `${"#f59e0b"}10` }}>
+              <div className="flex items-center gap-2"><Loader2 size={18} color={"#f59e0b"} style={{ animation: "spin 1s linear infinite" }} /><span className="font-bold" style={{ fontSize: 14, color: c.text }}>در حال تکمیل پرداخت</span></div>
+              <div style={{ fontSize: 12.5, color: c.dim, marginTop: 6, lineHeight: 1.9 }}>اگر پرداخت را انجام داده‌اید، چند لحظه صبر کنید؛ اشتراک پس از تأیید درگاه فعال می‌شود. در غیر این صورت می‌توانید دوباره خرید کنید.</div>
+            </Card>
+          )}
+
+          {plans === null ? <div className="flex justify-center py-10"><Loader2 size={26} color={c.primary} style={{ animation: "spin 1s linear infinite" }} /></div> : plans.length === 0 ? (
+            <div className="flex flex-col items-center text-center py-10" style={{ gap: 8 }}><Crown size={34} color={c.dim} /><div style={{ fontSize: 14, color: c.text, fontWeight: 700 }}>پلن‌های اشتراک به‌زودی اضافه می‌شوند</div><div style={{ fontSize: 12.5, color: c.dim, lineHeight: 1.9, maxWidth: 280 }}>در حال حاضر پلن فعالی برای خرید موجود نیست. کمی بعد دوباره سر بزنید.</div></div>
+          ) : (
+            <>
+            <div className="flex items-center justify-center mb-4"><div className="flex" style={{ background: c.bg2, border: `1px solid ${c.line}`, borderRadius: 99, padding: 4, gap: 4 }}>
+              <button onClick={() => setYearly(false)} style={{ padding: "7px 18px", borderRadius: 99, border: "none", cursor: "pointer", fontSize: 13, fontWeight: 700, background: !yearly ? c.primary : "transparent", color: !yearly ? "#fff" : c.dim }}>ماهانه</button>
+              <button onClick={() => setYearly(true)} style={{ padding: "7px 18px", borderRadius: 99, border: "none", cursor: "pointer", fontSize: 13, fontWeight: 700, background: yearly ? c.primary : "transparent", color: yearly ? "#fff" : c.dim }}>سالانه <span style={{ fontSize: 10.5, opacity: .9 }}>(۲ ماه رایگان)</span></button>
+            </div></div>
+            <div className="flex flex-col gap-3">{plans.map((p) => { const active = sub && sub.is_active && sub.subscription.plan_name === p.name; return (
+              <Card key={p.id} style={{ padding: 18, border: `1.5px solid ${active ? c.primary : c.line}` }}>
+                <div className="flex items-center justify-between"><div className="flex items-center gap-2"><Crown size={18} color={c.primary} /><div className="font-bold" style={{ fontSize: 17, color: c.text }}>{p.name}</div></div>{active && <Chip color={c.success} bg={`${c.success}18`} t="فعال" />}</div>
+                {p.description && <div style={{ fontSize: 12.5, color: c.dim, marginTop: 4 }}>{p.description}</div>}
+                <div className="font-bold" style={{ fontSize: 26, color: c.primary, marginTop: 12 }}>{money(yearly ? p.yearly_price : p.monthly_price)} <span style={{ fontSize: 13, color: c.dim }}>تومان / {yearly ? "سال" : "ماه"}</span></div>
+                <div className="flex flex-col gap-2" style={{ marginTop: 14 }}>{feats(p).map(([I, t], i) => <div key={i} className="flex items-center gap-2"><div style={{ width: 22, height: 22, borderRadius: 7, background: `${c.success}18`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}><Check size={13} color={c.success} /></div><span style={{ fontSize: 13, color: c.text }}>{t}</span></div>)}</div>
+                <Btn onClick={() => buy(p.id)} disabled={busy === p.id || active} style={{ marginTop: 16 }}>{active ? "اشتراک فعلی شما" : (busy === p.id ? "در حال انتقال به درگاه…" : "خرید و فعال‌سازی")}</Btn>
+                {!active && <div style={{ fontSize: 11, color: c.dim, marginTop: 8, textAlign: "center" }}>پرداخت امن از طریق درگاه؛ اشتراک بلافاصله پس از پرداخت فعال می‌شود</div>}
+              </Card>); })}</div>
+            </>
+          )}
+        </div>
+      </div>
+    );
+  };
+  const AutoStudio = () => {
+    const [inputMode, setInputMode] = useState("topic"); const [topic, setTopic] = useState(""); const [script, setScript] = useState("");
+    const [lang, setLang] = useState("fa"); const [voice, setVoice] = useState(""); const [voices, setVoices] = useState([]);
+    const [autoPub, setAutoPub] = useState(false); const [job, setJob] = useState(null); const [busy, setBusy] = useState(false); const [err, setErr] = useState("");
+    const pollRef = useRef(null);
+    useEffect(() => { (async () => { try { const r = await api("/auto-content/voices"); setVoices(r.voices || []); } catch (e) {} })(); return () => pollRef.current && clearInterval(pollRef.current); }, []);
+    const langVoices = voices.filter((v) => v.lang === lang);
+    const poll = (id) => { pollRef.current && clearInterval(pollRef.current); pollRef.current = setInterval(async () => { try { const r = await api("/auto-content/" + id); setJob(r.job); if (r.job.status === "done" || r.job.status === "failed") clearInterval(pollRef.current); } catch (e) {} }, 4000); };
+    const start = async () => {
+      setErr(""); setBusy(true);
+      try {
+        const body = { mode: inputMode, language: lang, voice: voice || undefined, platform: "instagram", auto_publish: autoPub };
+        if (inputMode === "topic") body.topic = topic; else body.script = script;
+        const r = await api("/auto-content", { method: "POST", body });
+        setJob({ id: r.job_id, status: "queued", progress: 0 }); poll(r.job_id);
+      } catch (e) { setErr(e.message); if (e.message && e.message.indexOf("اشتراک") !== -1) { setTimeout(() => push("plans"), 600); } } finally { setBusy(false); }
+    };
+    const STEPS = { queued: "در صف", scripting: "نوشتن اسکریپت", voicing: "صداگذاری", rendering: "ساخت ویدئو", covering: "ساخت کاور", publishing: "انتشار", done: "آماده شد", failed: "خطا" };
+    const publish = async () => { setBusy(true); try { const r = await api("/auto-content/" + job.id + "/publish", { method: "POST" }); flash(r.message || "منتشر شد"); } catch (e) { flash(e.message); } finally { setBusy(false); } };
+    const running = job && ["queued", "scripting", "voicing", "rendering", "covering", "publishing"].includes(job.status);
+    return (
+      <div className="pb-28"><Header title="تولید خودکار ویدئو" />
+        <div className="px-5">
+          {!job && (<>
+            <div className="flex gap-2 mb-4">{[["topic", "موضوع بده، AI بسازد"], ["script", "اسکریپت خودم"]].map(([k, t]) => <button key={k} onClick={() => setInputMode(k)} className="flex-1 font-bold" style={{ padding: 10, borderRadius: 13, fontSize: 12.5, background: inputMode === k ? GRAD : c.card, color: inputMode === k ? "#fff" : c.dim, border: `1px solid ${inputMode === k ? "transparent" : c.line}` }}>{t}</button>)}</div>
+            {inputMode === "topic"
+              ? <Field label="موضوع ویدئو" placeholder="مثلاً: ۵ ترفند رشد پیج اینستاگرام" value={topic} onChange={(e) => setTopic(e.target.value)} />
+              : <div className="mb-3"><div className="mb-2" style={{ fontSize: 13, color: c.dim, fontWeight: 600 }}>اسکریپت شما</div><textarea value={script} onChange={(e) => setScript(e.target.value)} rows={5} placeholder="متن گفتار ویدئو را اینجا بنویسید…" style={{ width: "100%", background: c.bg2, border: `1px solid ${c.line}`, borderRadius: 14, padding: "13px 15px", color: c.text, fontSize: 14, outline: "none", fontFamily: "inherit", lineHeight: 1.9 }} /></div>}
+            <div className="flex gap-2 mb-3">{[["fa", "فارسی"], ["en", "English"]].map(([k, t]) => <button key={k} onClick={() => { setLang(k); setVoice(""); }} className="flex-1 font-bold" style={{ padding: 9, borderRadius: 12, fontSize: 13, background: lang === k ? `${c.primary}22` : c.card, color: lang === k ? c.primary : c.dim, border: `1px solid ${lang === k ? c.primary : c.line}` }}>{t}</button>)}</div>
+            <div style={{ fontSize: 13, color: c.dim, fontWeight: 600, marginBottom: 8 }}>صدای گوینده</div>
+            <div className="flex flex-col gap-2 mb-4">{langVoices.map((v) => <button key={v.id} onClick={() => setVoice(v.id)} className="flex items-center justify-between" style={{ padding: "12px 14px", borderRadius: 12, background: voice === v.id ? `${c.primary}18` : c.card, border: `1px solid ${voice === v.id ? c.primary : c.line}` }}><span style={{ fontSize: 13.5, color: c.text }}>{v.label}</span>{voice === v.id && <Check size={16} color={c.primary} />}</button>)}</div>
+            <Card style={{ padding: 14, marginBottom: 4 }}><label className="flex items-center justify-between" style={{ cursor: "pointer" }}><div><div className="font-bold" style={{ fontSize: 14, color: c.text }}>انتشار خودکار در اینستاگرام</div><div style={{ fontSize: 11.5, color: c.dim, marginTop: 2 }}>پیج باید از قبل متصل باشد</div></div><input type="checkbox" checked={autoPub} onChange={(e) => setAutoPub(e.target.checked)} style={{ width: 18, height: 18, accentColor: c.primary }} /></label></Card>
+            {err && <div style={{ fontSize: 12.5, color: c.danger, marginTop: 10 }}>{err}</div>}
+            <Btn onClick={start} disabled={busy || (inputMode === "topic" ? !topic.trim() : !script.trim())} style={{ marginTop: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>{busy ? "در حال شروع…" : <><Sparkles size={18} /> شروع تولید</>}</Btn>
+            <p style={{ fontSize: 11.5, color: c.dim, lineHeight: 1.9, marginTop: 12 }}>ساخت ویدئو ممکن است چند دقیقه طول بکشد. می‌توانید این صفحه را باز نگه دارید.</p>
+          </>)}
+          {job && (<div style={{ animation: "fadeUp .4s both" }}>
+            {running && (<Card style={{ padding: 20, textAlign: "center" }}><Loader2 size={36} color={c.primary} style={{ animation: "spin 1s linear infinite", margin: "0 auto 12px" }} /><div className="font-bold" style={{ fontSize: 15, color: c.text }}>{STEPS[job.status] || job.status}…</div><div style={{ height: 8, background: c.bg2, borderRadius: 99, marginTop: 14, overflow: "hidden" }}><div style={{ height: "100%", width: (job.progress || 0) + "%", background: GRAD, transition: "width .5s" }} /></div><div style={{ fontSize: 12, color: c.dim, marginTop: 8 }}>{fa(job.progress || 0)}٪</div></Card>)}
+            {job.status === "failed" && (<Card style={{ padding: 18 }}><div className="flex items-center gap-2" style={{ color: c.danger, fontWeight: 700, fontSize: 14 }}><XCircle size={18} /> خطا در تولید</div><div style={{ fontSize: 12.5, color: c.dim, marginTop: 8, lineHeight: 1.9 }}>{job.error || "—"}</div><Btn variant="soft" style={{ marginTop: 14 }} onClick={() => setJob(null)}>تلاش دوباره</Btn></Card>)}
+            {job.status === "done" && (<>
+              {job.video_url && <video src={job.video_url} controls style={{ width: "100%", borderRadius: 16, background: "#000" }} />}
+              {job.caption && <Card style={{ padding: 16, marginTop: 12 }}><div className="flex items-center justify-between mb-2"><span style={{ fontSize: 13, color: c.dim, fontWeight: 600 }}>کپشن</span><button onClick={() => { try { navigator.clipboard.writeText((job.caption || "") + "\n\n" + (job.hashtags || "")); } catch (e) {} flash("کپی شد"); }} style={{ background: "none", border: "none" }}><Copy size={16} color={c.primary} /></button></div><p style={{ fontSize: 13.5, color: c.text, lineHeight: 2, whiteSpace: "pre-line" }}>{job.caption}</p>{job.hashtags && <div style={{ fontSize: 12.5, color: c.primary, marginTop: 8 }}>{job.hashtags}</div>}</Card>}
+              {job.published ? <div style={{ textAlign: "center", color: c.success, fontWeight: 700, fontSize: 14, marginTop: 14 }}>✅ در اینستاگرام منتشر شد</div>
+                : <Btn onClick={publish} disabled={busy} style={{ marginTop: 14, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><Instagram size={18} /> {busy ? "در حال انتشار…" : "انتشار در اینستاگرام"}</Btn>}
+              <Btn variant="ghost" style={{ marginTop: 8 }} onClick={() => { setJob(null); setTopic(""); setScript(""); }}>ساخت ویدئوی جدید</Btn>
+            </>)}
+          </div>)}
+        </div>
+      </div>
+    );
+  };
+
   /* routing */
   const renderBody = () => {
     if (top) { const P = top.params; const M = {
-      product: <Product p={P.p} g={P.g} />, checkout: <Checkout />, topup: <TopUp />, wallet: <WalletScreen />,
       orders: <Orders />, order: <OrderDetail o={P.o} />, invoices: <Invoices />, invoice: <InvoiceDetail id={P.id} />, payments: <Payments />,
       affiliate: <Affiliate />, instagram: <InstagramScreen />, contents: <Contents />, activity: <ActivityLog />,
       profile: <ProfileEdit />, security: <Security />, changepw: <ChangePassword />, twofa: <TwoFASetup />, disable2fa: <Disable2FA />, devices: <Devices />,
       campaign: <CampaignDetail cp={P.cp} cpId={P.cpId} />, wizard: <Wizard />, tickets: <Tickets />, newticket: <NewTicket />,
       ticket: <TicketDetail id={P.id} />, notifs: <Notifs />,
-    }; return M[top.name] || null; }
+      plans: <Plans />, autostudio: <AutoStudio />,
+      product: <Product p={P.p} g={P.g} />, checkout: <Checkout />, topup: <TopUp />, wallet: <WalletScreen />,
+    }; return M[top.name] || (
+      <div className="pb-10"><Header title="صفحه" />
+        <div className="px-5 flex flex-col items-center justify-center" style={{ paddingTop: 60, textAlign: "center" }}>
+          <div style={{ width: 76, height: 76, borderRadius: 22, background: c.bg2, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 16 }}><Info size={36} color={c.dim} /></div>
+          <div className="font-bold" style={{ fontSize: 16, color: c.text }}>این صفحه در دسترس نیست</div>
+          <p style={{ fontSize: 13, color: c.dim, lineHeight: 2, marginTop: 8 }}>صفحه‌ی موردنظر یافت نشد یا هنوز فعال نشده است.</p>
+          <Btn variant="soft" style={{ marginTop: 18 }} onClick={pop}>بازگشت</Btn>
+        </div>
+      </div>
+    ); }
     return { home: <HomeScreen />, shop: <Shop />, campaigns: <Campaigns />, ai: <AI />, account: <Account /> }[tab];
   };
   const NAV = [{ k: "home", i: Home, t: "خانه" }, { k: "shop", i: ShoppingBag, t: "خدمات" }, { k: "campaigns", i: Rocket, t: "تبلیغ", fab: true }, { k: "ai", i: Sparkles, t: "هوش" }, { k: "account", i: User, t: "حساب" }];
   // صفحاتی که نوار پایین نباید داشته باشند (دکمه‌ی اقدام/پرداخت در پایین دارند یا تمام‌صفحه‌اند)
-  const FULLSCREEN = ["ticket", "newticket", "checkout", "topup", "twofa", "disable2fa", "wizard", "product", "campaign", "order", "invoice"];
+  const FULLSCREEN = ["ticket", "newticket", "checkout", "topup", "twofa", "disable2fa", "wizard", "product", "campaign", "order", "invoice", "autostudio"];
   const isFullscreen = top && FULLSCREEN.includes(top.name);
   const noScroll = (top && top.name === "ticket") || (!top && tab === "ai");
   const showNav = screen === "app" && tab !== "ai" && !isFullscreen;
