@@ -107,15 +107,41 @@ if (vg) {
   console.log("⚠️  variables.gradle پیدا نشد");
 }
 
-/* ۴) بالا بردن versionCode / versionName در app/build.gradle */
+/* ۴) versionCode / versionName از package.json خوانده می‌شود (۲.۰.۰ → کد ۲۰۰۰۰) تا روی نسخه‌ی قبلی به‌روز شود */
 const APPG = "android/app/build.gradle";
 let ag = read(APPG);
 if (ag) {
-  ag = ag.replace(/versionCode\s+\d+/, "versionCode 2")
-         .replace(/versionName\s+"[^"]*"/, 'versionName "1.0.1"');
+  const ver = String(JSON.parse(fs.readFileSync("package.json", "utf8")).version || "2.0.0");
+  const [ma, mi, pa] = ver.split(".").map((n) => parseInt(n, 10) || 0);
+  const code = Math.max(3, ma * 10000 + mi * 100 + pa);
+  ag = ag.replace(/versionCode\s+\d+/, "versionCode " + code)
+         .replace(/versionName\s+"[^"]*"/, 'versionName "' + ver + '"');
   write(APPG, ag);
+  console.log("نسخه:", ver, "کد:", code);
 } else {
   console.log("⚠️  app/build.gradle پیدا نشد");
+}
+
+/* ۵) پشتیبان‌گیری خودکار خاموش: توکن ورود و رمز قفل از راه بکاپ دستگاه بیرون نمی‌رود */
+mf = read(MANIFEST);
+if (mf) {
+  if (/android:allowBackup="[^"]*"/.test(mf)) mf = mf.replace(/android:allowBackup="[^"]*"/, 'android:allowBackup="false"');
+  else mf = mf.replace(/<application\b/, '<application\n        android:allowBackup="false"');
+  if (mf.indexOf("android:fullBackupContent") === -1 && mf.indexOf("android:dataExtractionRules") === -1) {
+    mf = mf.replace(/<application\b/, '<application\n        android:fullBackupContent="false"');
+  }
+  write(MANIFEST, mf);
+}
+
+/* ۶) اندروید ۱۵ (targetSdk 35) صفحه را زیر نوار وضعیت و نوار پایین می‌برد؛
+      با این گزینه اپ بین دو نوار می‌ماند و چیزی زیر ساعت یا دکمه‌های پایین نمی‌رود */
+const STYLES = "android/app/src/main/res/values/styles.xml";
+let st = read(STYLES);
+if (st && st.indexOf("windowOptOutEdgeToEdgeEnforcement") === -1) {
+  if (st.indexOf("xmlns:tools") === -1) st = st.replace(/<resources\b/, '<resources xmlns:tools="http://schemas.android.com/tools"');
+  st = st.replace(/(<style\s+name="AppTheme\.NoActionBar(?:Launch)?"[^>]*>)/g,
+    '$1\n        <item name="android:windowOptOutEdgeToEdgeEnforcement" tools:targetApi="35">true</item>');
+  write(STYLES, st);
 }
 
 console.log("✅ ایمن‌سازی اندروید کامل شد.");

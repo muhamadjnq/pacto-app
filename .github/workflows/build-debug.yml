@@ -1,0 +1,72 @@
+name: ۳) ساخت APK آزمایشی (بدون امضا)
+
+# با هر تغییر روی شاخه‌ی v2 خودکار اجرا می‌شود: کد را بررسی می‌کند و یک APK آزمایشی می‌سازد.
+# این فایل برای نصب و تست روی گوشی خودتان است؛ برای انتشار از «۲) ساخت APK نهایی» استفاده کنید.
+
+on:
+  push:
+    branches: [v2]
+  workflow_dispatch:
+
+concurrency:
+  group: debug-apk-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: دریافت کد پروژه
+        uses: actions/checkout@v4
+
+      - name: نصب Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: نصب Java (JDK 17)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: نصب ابزار اندروید (SDK)
+        uses: android-actions/setup-android@v3
+
+      - name: نصب وابستگی‌های پروژه
+        run: npm ci
+
+      - name: بررسی کد و ساخت نسخه‌ی وب اپ
+        run: npm run build
+
+      - name: افزودن پلتفرم اندروید
+        run: npx cap add android
+
+      - name: ساخت آیکون و صفحه‌ی شروع
+        continue-on-error: true
+        run: npx capacitor-assets generate --android
+
+      - name: همگام‌سازی فایل‌ها
+        run: npx cap sync android
+
+      - name: ایمن‌سازی اندروید
+        run: node harden-android.cjs
+
+      - name: ساخت APK آزمایشی
+        run: |
+          cd android
+          chmod +x ./gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - name: آپلود APK آزمایشی
+        uses: actions/upload-artifact@v4
+        with:
+          name: pacto-app-debug-apk
+          path: android/app/build/outputs/apk/debug/*.apk
+          retention-days: 14

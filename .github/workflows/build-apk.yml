@@ -18,6 +18,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
       - name: نصب Java (JDK 17)
         uses: actions/setup-java@v4
@@ -29,20 +30,23 @@ jobs:
         uses: android-actions/setup-android@v3
 
       - name: نصب وابستگی‌های پروژه
-        run: npm install
+        run: npm ci
 
-      - name: آفلاین‌کردن اپ (جاسازی کتابخانه‌ها)
-        continue-on-error: true
-        run: node make-offline.js
+      - name: بررسی کد و ساخت نسخه‌ی وب اپ
+        run: npm run build
 
       - name: افزودن پلتفرم اندروید
         run: npx cap add android
+
+      - name: ساخت آیکون و صفحه‌ی شروع
+        continue-on-error: true
+        run: npx capacitor-assets generate --android
 
       - name: همگام‌سازی فایل‌ها
         run: npx cap sync android
 
       - name: ایمن‌سازی اندروید (حذف دسترسی‌های حساس + تنظیم SDK و نسخه)
-        run: node harden-android.js
+        run: node harden-android.cjs
 
       - name: حذف وابستگی اضافی google-services
         run: |
