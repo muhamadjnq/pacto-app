@@ -36,8 +36,13 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: نصب ابزار اندروید (SDK)
-        uses: android-actions/setup-android@v3
+      # ابزار اندروید روی سرورهای گیت‌هاب از قبل نصب است؛ فقط مجوزها تأیید و نسخه‌ی لازم اضافه می‌شود
+      - name: آماده‌سازی ابزار اندروید (SDK)
+        run: |
+          SDKM="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          yes | "$SDKM" --licenses > /dev/null 2>&1 || true
+          "$SDKM" "platforms;android-35" "platform-tools" > /dev/null 2>&1 || true
+          ls "$ANDROID_HOME/platforms"
 
       - name: نصب وابستگی‌های پروژه
         run: npm ci
